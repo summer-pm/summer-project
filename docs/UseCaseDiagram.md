@@ -7,13 +7,14 @@
 - отправка писем на почту;
 - профиль пользователя + редактирование профиля;
 - поиск задачи;
-- лента пользователя ("ретвиты" решения задачи в свой профиль);
+- блог ("ретвиты" решения задачи в свой профиль);
 - редактор кода + отправка решения задачи;
 - рейтинг сложности задач;
 - чат;
 - отметка о статусе решения задачи.
   
-![use](https://www.plantuml.com/plantuml/svg/fPRDJjj04CVlUOeL5qx90_I0a118bQXI4UZTIeR4gh4ZhqrxXD2MLY0XSUa9saSmWPGq9E4LTj-e_rqxZjSVoQ67sEkTcT_CpiwCiiq3om_24uU5d6gRLZlmV5xJBxOXxiH8F8j8dk7zACRoN0wm7kCt5qCHYPcOoIlnbubNRBp8QoXhWHp00DyRpEBioFMfQ_E0VEeSSV9J-i__9H-Ot4qSeMrnuhLa0H-_556UYocUyC342-ndM5vfmXvHvuDDdp8MAwB2rpNsRhHfo-wwH_sCuQty2hKd9eOC3hKnC5DveTNtlUvRTrLWhthZYnZZUB475TXxtpks7SeO_WRq2HcQ09_DrrYCoY2x7JieGWhUSSkAAY_5EFLzQF6F6PjxE5Jy20x7AXLCvKb-LmcDlSz4b8G0bH7Ua-JmBN8x1yGzvvIQnpdiBUxv1HP_Ag13yrJNvS13h-IGeE8QnAHul3tRxPJ4yG0tPqpUY6TyJ4IaTNTwdiTfttAxeTMbKWjKQQGpCqNiWpW1SUbg_mceHGwr0zljjiZosxrcFx0zTrMnwX9ILNU1pSZ8JAP4MfuJAj9Ep_BHMkIZ9-msPsOcG1Z97sbQvQMyGChdAFDvLUqrWnxvwsl7G5N4g56BGFCi96WEsZJkJBFTblHHhZBYk_5EJiWDgl3tybiIodhKxgdbX5P0rQm1wlbCNYKi5PysRFP9vJx8wDwX55xrtIU7E8VNkNXONa1QnU-8SrLMwV1Ytd5nPEOtwlMjT7ILo9BPP49pqzByPFMmNzzAfbHUb75M51bZAZDjMCCGiJUCFWSuSBdZj24h76ZPOg7GYuYMN4EQu9RIykQhqirD5zO8-urb84MV49fZWa77TjjEsA7QgYQDmKM7rR6aauurLbjMPDBewa9lQcXURSaiwpVJ9DrDRKeRQvtHegdMn9Ff8AsPcgKQstZWxyq_ "use")
+![use](https://www.plantuml.com/plantuml/svg/fPRDJjj04CVlUOeL5qx90_I0a118bQXI4UZTIeR4gh4ZhqrxXD2MLY0XSUa9saSmWPGq9E4LTj-e_rqxZjSVoQ67sEkTcT_CpiwCiiq3om_24uU5d6gRLZlmV5xJBxOXxiH8F8j8dk7zACRoN0wm7kCt5qCHYPcOoIlnbubNRBp8QoXhWHp00DyRpEBioFMfQ_E0VEeSSV9J-i__9H-Ot4qSeMrnuhLa0H-_556UYocUyC342-ndM5vfmXvHvuDDdp8MAwB2rpNsRhHfo-wwH_sCuQty2hKd9eOC3hKnC5DveTNtlUvRTrLWhthZYnZZUB475TXxtpks7SeO_WRq2HcQ09_DrrYCoY2x7JieGWhUSSkAAY_5EFLzQF6F6PjxE5Jy20x7AXLCvKb-LmcDlSz4b8G0bH7Ua-JmBN8x1yGzvvIQnpdiBUxv1HP_Ag13yrJNvS13h-IGeE8QnAHul3tRxPJ4yG0tPqpUY6TyJ4IaTNTwdiTfttAxeTMbKWjKQQGpCqNiWpW1SUbg_mceHGwr0zljjiZosxrcFx0zTrMnwX9ILNU1pSZ8JAP4MfuJAj9Ep_BHMkIZ9-msPsOcG1Z97sbQvQMyGChdAFDvLUqrWnxvwsl7G5N4g56BGFCi96WEsZJkJBFTblHHhZBYk_5EJiWDgl3tybiIodhKxgdbX5P0rQm1wlbCNYKi5PysRFP9vJx8wDwX55xrtIU7E8VNkNXONa1QnU-8SrLMwV1Ytd5nPEOtwlMjT7ILo9BPP49pqzByPFMmNzzAfbHUb75M51bZAZDjMCCGiJUCFWSuSBdZj24tApneuMAXs8kGbc13cl2MqlBkgzBDZHVM2FkDPI15dn2QSu91ntRRJjYXsgekZS55XzMnfAEEDLPRLcJIQEj2SsfeNgqynqNRfLvPOvheT3UrAUt0TKQBxbiJTwRLj6Pgbcfiuu7_GVy0 "use")
+
 
 
 ### ВИ Зарегистрироваться
@@ -27,7 +28,7 @@
 | Действия актора | Отклик системы |
 | ------------- | ------------- |
 | 1. Нажатие кнопки "Зарегистрироваться" |   |
-|   |  2. Открытие формы регистрации. Поля:<br/>- логин;<br/>- почта;<br/>- пароль;<br/>- повтор пароля.<br/>Кнопка "Зарегистрироваться"|
+|   |  2. Открытие формы регистрации. Поля:<br/>- поле логина или почты;<br/>- поле ввода пароля;<br/>- повтор пароля.<br/>Кнопка "Зарегистрироваться"|
 | 3. Заполнение полей. Нажатие кнопки "Зарегистрироваться" |   |
 |  | 4. Проверка корректности данных и наличия пользоватля в БД. Если пользователь в базе есть, то выполняется Исключение 1  |
 |  | 5. Проверка корректности данных и наличия пользоватля в БД. Если пользователь ввёл некорректные данные, то выполняется Исключение 2  |
@@ -75,7 +76,7 @@
 | Основные лица | Зарегистрированный пользователь |
 | Цель | Отсортировать задачи по параметрам |
 | Триггер | Решение пользователя о сортировке задач |
-| Предусловние | Открыт поиск задач |
+| Предусловие | Открыт поиск задач |
 | Результат | Найдены задачи, удовлетворяющие условиям поиска |
 
 | Действия актора | Отклик системы |
@@ -91,3 +92,19 @@
 | ------------- | ------------- |
 |  | 1. Если задач по искомому параметру нет, то вывод пользователю сообщения об этом  |
 | 2. Поиск задач по другим параметрам |   |
+
+
+### ВИ Просмотр задачи
+| ВИ | Просмотр задачи |
+| ------------- | ------------- |
+| Основные лица | Зарегистрированный пользователь |
+| Цель | Посмотреть данные о задаче |
+| Триггер | Решение пользователя о просмотре задачи |
+| Предусловие | Переход из ленты задач, чужого решения или поисковика задач |
+| Результат | Пользователю предоставлена необходимая информация |
+
+| Действия актора | Отклик системы |
+| ------------- | ------------- |
+| 1. Выбор задачи (клик по элементу) |   |
+|  | 2. Предоставление пользователю информации по задаче. Информация: <br/>- название;<br/>- описание;<br/>- 3 тест кейса(номер, входные и выходные данные).<br/>Пользователю представлены так же: редактор кода, опция выбора языка, кнопка "Отправить на проверку" |
+| 3. Просмотр предоставленной информации |   |
