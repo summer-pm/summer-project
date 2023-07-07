@@ -1,5 +1,7 @@
 package ru.tinkoff.summer.taskservice.domain;
 
+import ru.tinkoff.summer.taskservice.domain.exceptions.JavaCompileException;
+
 import java.io.*;
 
 public class JavaExecutor implements LanguageExecutor {
@@ -19,19 +21,24 @@ public class JavaExecutor implements LanguageExecutor {
     public ExecutionResult execute(Attempt attempt) {
         var code = driverProcessor.getPreparedCode(attempt);
         var file = writeTempCode(code);
-        var launcher = new ProgramLauncher();
-        launcher.compileProgram("javac", file.getParent() + "/" + PATH_TO_DRIVER);
-        var result =
-                launcher.testProgram(
-                        attempt.getTask().getTaskTestCases(),
-                        "java",
-                        "-cp",
-                        file.getParent(),
-                        "Driver");
+        try {
 
-       deleteFolder( file.getParentFile());
+            var launcher = new ProgramLauncher();
 
-        return result;
+            launcher.compileProgram("javac", file.getParent() + "/" + PATH_TO_DRIVER);
+
+            return launcher.testProgram(
+                    attempt.getTask().getTaskTestCases(),
+                    "java",
+                    "-cp",
+                    file.getParent(),
+                    "Driver");
+
+        } catch (RuntimeException e) { //TODO: Может CompileException, + добавить TestExecutionException
+            throw new JavaCompileException(e.getMessage());
+        } finally {
+            deleteFolder(file.getParentFile());
+        }
     }
 
     public static void deleteFolder(File folder) {
@@ -47,6 +54,7 @@ public class JavaExecutor implements LanguageExecutor {
             folder.delete();
         }
     }
+
     private File writeTempCode(String preparedDriver) {
         String path = PATH_TO_TMP + "/" + System.currentTimeMillis() + "/" + PATH_TO_DRIVER;
 
