@@ -15,4 +15,5 @@ public class Task {
     private String methodName;
     private TaskParams params;
     private Set<TaskTestCase> taskTestCases;
+    private long timeLimitMs;
 }
