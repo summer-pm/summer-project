@@ -1,18 +1,18 @@
 package ru.tinkoff.summer.taskservice.domain;
 
+import ru.tinkoff.summer.taskservice.domain.exceptions.JavaCompileException;
+import ru.tinkoff.summer.taskservice.domain.exceptions.TimeExceedException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ProgramLauncher {
-
+    private static final double TIME_LIMIT_MULTIPLY = 3;
     public void compileProgram(String... commands) {
-      try{
+        try {
             ProcessBuilder compileProcessBuilder = new ProcessBuilder(commands);
             Process compileProcess = compileProcessBuilder.start();
 
@@ -21,7 +21,7 @@ public class ProgramLauncher {
             int exitCode = compileProcess.waitFor();
 
             if (exitCode != 0) {
-                throw new RuntimeException(errors.toString());
+                throw new JavaCompileException(errors.toString());
             }
         } catch (IOException | InterruptedException e) {
             System.err.println(e.getMessage());
@@ -39,14 +39,23 @@ public class ProgramLauncher {
         return errors;
     }
 
-    public ExecutionResult testProgram(Set<TaskTestCase> testCases, String... commands) {
+    public ExecutionResult testProgram(Task task, String... commands) {
         ProcessBuilder builder = new ProcessBuilder(commands);
         List<ExecutionResult> results = new LinkedList<>();
 
         try {
-            for (TaskTestCase testCase : testCases) {
-                Process process = builder.start();
+            for (TaskTestCase testCase : task.getTaskTestCases()) {
 
+                Process process = builder.start();
+                long timeoutInMillis = (long) (task.getTimeLimitMs() * TIME_LIMIT_MULTIPLY); // 5 секунд
+                Timer timer = new Timer(true);
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        process.destroy();
+                        cancel();
+                    }
+                }, timeoutInMillis);
                 inputTestData(testCase, process);
 
                 var errorOutput = readErrors(process);
@@ -55,13 +64,14 @@ public class ProgramLauncher {
 
                 int exitCode = process.waitFor();
                 if (exitCode != 0) {
-                    throw new RuntimeException(errorOutput.toString());
+                    throw new TimeExceedException();
                 } else {
                     var testCaseResult = new ExecutionResult(output, testCase);
                     results.add(testCaseResult);
                     if (!testCaseResult.isSuccess())
                         return testCaseResult; // TODO: Возможно исключениями
                 }
+                timer.cancel();
             }
 
         } catch (IOException | InterruptedException e) {

@@ -28,14 +28,14 @@ public class JavaExecutor implements LanguageExecutor {
             launcher.compileProgram("javac", file.getParent() + "/" + PATH_TO_DRIVER);
 
             return launcher.testProgram(
-                    attempt.getTask().getTaskTestCases(),
+                    attempt.getTask(),
                     "java",
                     "-cp",
                     file.getParent(),
                     "Driver");
 
-        } catch (RuntimeException e) { //TODO: Может CompileException, + добавить TestExecutionException
-            throw new JavaCompileException(e.getMessage());
+        } catch (JavaCompileException e) { //TODO: Может CompileException, + добавить TestExecutionException
+            throw e;
         } finally {
             deleteFolder(file.getParentFile());
         }

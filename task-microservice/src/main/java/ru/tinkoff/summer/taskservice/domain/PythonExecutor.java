@@ -23,7 +23,7 @@ public class PythonExecutor implements LanguageExecutor {
         var tester = new ProgramLauncher();
 
         var result =
-                tester.testProgram(attempt.getTask().getTaskTestCases(), "python3", file.getPath());
+                tester.testProgram(attempt.getTask(), "python3", file.getPath());
 
         file.delete();
         file.getParentFile().delete();
