@@ -12,7 +12,7 @@ import java.util.Set;
 public class ProgramLauncher {
 
     public void compileProgram(String... commands) {
-        try {
+      try{
             ProcessBuilder compileProcessBuilder = new ProcessBuilder(commands);
             Process compileProcess = compileProcessBuilder.start();
 
@@ -23,7 +23,7 @@ public class ProgramLauncher {
             if (exitCode != 0) {
                 throw new RuntimeException(errors.toString());
             }
-        } catch (Exception e) {
+        } catch (IOException | InterruptedException e) {
             System.err.println(e.getMessage());
         }
     }
