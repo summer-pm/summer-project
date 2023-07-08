@@ -28,14 +28,18 @@ public class PythonExecutor implements LanguageExecutor {
         var file = writeTempCode(code);
 
         var tester = new ProgramLauncher();
+        try {
+            var result =
+                    tester.testProgram(attempt.getTask(), "python3", file.getPath());
+            return result;
 
-        var result =
-                tester.testProgram(attempt.getTask(), "python3", file.getPath());
+        } catch (RuntimeException e) {
+            throw e;
+        } finally {
+            file.delete();
+            file.getParentFile().delete();
+        }
 
-        file.delete();
-        file.getParentFile().delete();
-
-        return result;
     }
 
     private File writeTempCode(String preparedDriver) {
