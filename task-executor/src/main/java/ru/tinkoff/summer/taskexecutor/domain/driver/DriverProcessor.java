@@ -1,8 +1,9 @@
 package ru.tinkoff.summer.taskexecutor.domain.driver;
 
 import ru.tinkoff.summer.taskexecutor.domain.Attempt;
-import ru.tinkoff.summer.taskexecutor.domain.Language;
-import ru.tinkoff.summer.taskexecutor.domain.task.TaskParams;
+import ru.tinkoff.summer.taskshareddomain.Language;
+import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
+
 
 import java.io.*;
 

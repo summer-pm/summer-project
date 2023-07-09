@@ -1,9 +1,11 @@
-package ru.tinkoff.summer.taskexecutor.domain;
+package ru.tinkoff.summer.taskshareddomain;
 
-import java.util.List;
 import lombok.Getter;
 import lombok.ToString;
-import ru.tinkoff.summer.taskexecutor.domain.task.TaskTestCase;
+import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
+
+
+import java.util.List;
 
 @Getter
 @ToString

@@ -1,8 +1,10 @@
 rootProject.name = "spring-micro-demo"
 
-includeBuild("eureka-server")
-includeBuild("message-microservice")
-includeBuild("api-gateway")
-includeBuild("user-microservice")
-includeBuild("task-executor")
-includeBuild("task-microservice")
+
+include(":eureka-server")
+include(":message-microservice")
+include(":api-gateway")
+include(":user-microservice")
+include(":task-executor")
+include(":task-microservice")
+include(":task-shared-domain")

@@ -2,8 +2,9 @@ package ru.tinkoff.summer.taskexecutor.domain.driver;
 
 import ru.tinkoff.summer.taskexecutor.domain.Attempt;
 import ru.tinkoff.summer.taskexecutor.domain.task.Task;
-import ru.tinkoff.summer.taskexecutor.domain.task.TaskParams;
-import ru.tinkoff.summer.taskexecutor.domain.Type;
+import ru.tinkoff.summer.taskshareddomain.Type;
+import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
+
 
 import java.util.List;
 
