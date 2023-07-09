@@ -1,9 +1,9 @@
 package ru.tinkoff.summer.taskexecutor.domain;
 
 import ru.tinkoff.summer.taskexecutor.domain.exceptions.JavaCompileException;
-import ru.tinkoff.summer.taskexecutor.domain.exceptions.TimeExceedException;
 import ru.tinkoff.summer.taskexecutor.domain.task.Task;
-import ru.tinkoff.summer.taskexecutor.domain.task.TaskTestCase;
+import ru.tinkoff.summer.taskshareddomain.ExecutionResult;
+import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
 
 
 import java.io.BufferedReader;

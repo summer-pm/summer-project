@@ -1,10 +1,13 @@
 package ru.tinkoff.summer.taskexecutor.domain.task;
 
-import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
+import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
+
+import java.util.Set;
 
 @Getter
 @Setter

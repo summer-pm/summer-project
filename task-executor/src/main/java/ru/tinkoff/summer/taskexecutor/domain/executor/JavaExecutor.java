@@ -1,7 +1,7 @@
 package ru.tinkoff.summer.taskexecutor.domain.executor;
 
 import ru.tinkoff.summer.taskexecutor.domain.Attempt;
-import ru.tinkoff.summer.taskexecutor.domain.ExecutionResult;
+import ru.tinkoff.summer.taskshareddomain.ExecutionResult;
 import ru.tinkoff.summer.taskexecutor.domain.Language;
 import ru.tinkoff.summer.taskexecutor.domain.ProgramLauncher;
 import ru.tinkoff.summer.taskexecutor.domain.driver.DriverProcessor;

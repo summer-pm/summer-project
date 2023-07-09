@@ -1,10 +1,11 @@
-package ru.tinkoff.summer.taskexecutor.domain.task;
+package ru.tinkoff.summer.taskshareddomain.task;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @Setter
