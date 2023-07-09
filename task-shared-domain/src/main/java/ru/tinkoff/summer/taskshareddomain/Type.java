@@ -1,4 +1,4 @@
-package ru.tinkoff.summer.taskexecutor.domain;
+package ru.tinkoff.summer.taskshareddomain;
 
 public enum Type {
     INTEGER("READ_INTEGER"),

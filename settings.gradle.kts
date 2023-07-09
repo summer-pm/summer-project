@@ -1,5 +1,6 @@
 rootProject.name = "spring-micro-demo"
 
+
 includeBuild("eureka-server")
 includeBuild("message-microservice")
 includeBuild("api-gateway")

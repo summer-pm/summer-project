@@ -2,14 +2,13 @@ package ru.tinkoff.summer.taskexecutor;
 
 
 import ru.tinkoff.summer.taskexecutor.domain.Attempt;
-import ru.tinkoff.summer.taskexecutor.domain.Language;
-import ru.tinkoff.summer.taskexecutor.domain.Type;
+
 import ru.tinkoff.summer.taskexecutor.domain.executor.JavaExecutor;
 import ru.tinkoff.summer.taskexecutor.domain.executor.LanguageExecutor;
 import ru.tinkoff.summer.taskexecutor.domain.executor.PythonExecutor;
 import ru.tinkoff.summer.taskexecutor.domain.task.Task;
-import ru.tinkoff.summer.taskexecutor.domain.task.TaskParams;
-import ru.tinkoff.summer.taskexecutor.domain.task.TaskTestCase;
+
+
 
 import java.io.IOException;
 import java.util.List;

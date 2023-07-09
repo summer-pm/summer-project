@@ -1,3 +1,4 @@
+
 plugins {
     id("java")
 }
@@ -17,7 +18,7 @@ java {
 dependencies {
     compileOnly("org.projectlombok:lombok:1.18.28")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
-
+    implementation (project(":task-shared-domain"))
     testImplementation("org.assertj:assertj-core:3.24.2")
     testCompileOnly("org.projectlombok:lombok:1.18.28")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.28")
