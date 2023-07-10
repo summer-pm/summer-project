@@ -37,8 +37,13 @@ tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
-tasks.withType<Jar> {
+
+tasks.jar {
+     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes["Main-Class"] = "ru.tinkoff.summer.taskexecutor.Main"
     }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    archiveFileName.set("task-executor.jar")
+    destinationDirectory.set(file("/build/libs"))
 }

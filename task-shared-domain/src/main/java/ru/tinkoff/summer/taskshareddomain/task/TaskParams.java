@@ -1,16 +1,15 @@
 package ru.tinkoff.summer.taskshareddomain.task;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import ru.tinkoff.summer.taskshareddomain.Type;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class TaskParams {
+@NoArgsConstructor
+public class TaskParams implements Serializable {
     private List<Type> inputTypes;
     private Type outputType;
 
