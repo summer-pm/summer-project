@@ -11,7 +11,7 @@ import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 
 import java.io.IOException;
 import java.util.Map;
-
+//TODO: Generic
 public class AttemptMapper implements Serializer<AttemptDTO>, Deserializer<AttemptDTO> {
     private final ObjectMapper objectMapper;
 
@@ -31,7 +31,6 @@ public class AttemptMapper implements Serializer<AttemptDTO>, Deserializer<Attem
         try {
             return objectMapper.writeValueAsBytes(data);
         } catch (JsonProcessingException e) {
-            // Обработка ошибок
             e.printStackTrace();
         }
         return null;
@@ -48,7 +47,6 @@ public class AttemptMapper implements Serializer<AttemptDTO>, Deserializer<Attem
         try {
             return objectMapper.readValue(data, AttemptDTO.class);
         } catch (JsonProcessingException e) {
-            // Обработка ошибок
             e.printStackTrace();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -1,16 +1,18 @@
 package ru.tinkoff.summer.taskmicroservice.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.Type;
 
 import java.util.List;
-import java.util.UUID;
+
 
 
 @Getter
+@Setter
 public class Attempt {
-    private String id;
+    private long id;
     private String code;
     private Language language;
     private Task task;
@@ -86,7 +88,6 @@ public class Attempt {
     }
 
     private Attempt(String code, Language language, Task task) {
-        this.id = UUID.randomUUID().toString();
         this.code = code;
         this.language = language;
         this.task = task;

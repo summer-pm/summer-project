@@ -1,5 +1,8 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("java")
+    kotlin("jvm") version "1.9.0"
 }
 
 group = "ru.tinkoff.summer"
@@ -31,14 +34,28 @@ dependencies {
     testAnnotationProcessor("org.projectlombok:lombok:1.18.28")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.getByName<Test>("test") {
     useJUnitPlatform()
 }
 
-tasks.withType<Jar> {
+
+tasks.jar {
+     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes["Main-Class"] = "ru.tinkoff.summer.taskexecutor.Main"
     }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    archiveFileName.set("task-executor.jar")
+    destinationDirectory.set(file("/build/libs"))
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }

@@ -2,10 +2,12 @@ package ru.tinkoff.summer.taskshareddomain.task;
 
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class TaskTestCase {
+@NoArgsConstructor
+public class TaskTestCase implements Serializable {
     private List<String> inputValues;
     private String outputValues;
 

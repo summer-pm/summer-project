@@ -9,6 +9,7 @@ import ru.tinkoff.summer.taskexecutor.domain.driver.PythonDriverProcessor;
 import ru.tinkoff.summer.taskshareddomain.Language;
 
 import java.io.*;
+import java.util.List;
 
 public class PythonExecutor implements LanguageExecutor {
     private final String PATH_TO_DRIVER = "Driver.py";
@@ -24,7 +25,7 @@ public class PythonExecutor implements LanguageExecutor {
     }
 
     @Override
-    public ExecutionResult execute(AttemptDTO attempt) {
+    public List<ExecutionResult> execute(AttemptDTO attempt) {
         var code = driverProcessor.getPreparedCode(attempt);
         var file = writeTempCode(code);
 

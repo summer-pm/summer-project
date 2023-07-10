@@ -44,7 +44,7 @@ public class ProgramLauncher {
         return errors;
     }
 
-    public ExecutionResult testProgram(AttemptDTO attempt, String... commands) {
+    public List<ExecutionResult> testProgram(AttemptDTO attempt, String... commands) {
         ProcessBuilder builder = new ProcessBuilder(commands);
         List<ExecutionResult> results = new LinkedList<>();
 
@@ -74,7 +74,7 @@ public class ProgramLauncher {
                     var testCaseResult = new ExecutionResult(output, testCase);
                     results.add(testCaseResult);
                     if (!testCaseResult.isSuccess())
-                        return testCaseResult; // TODO: Возможно исключениями
+                        return results; // TODO: Возможно исключениями
                 }
 //                timer.cancel();
             }
@@ -82,7 +82,7 @@ public class ProgramLauncher {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return results.get(results.size() - 1); // TODO: Возможно среднее время и память
+        return results; // TODO: Возможно среднее время и память
     }
 
     private static ArrayList<String> readOutputData(Process process) throws IOException {

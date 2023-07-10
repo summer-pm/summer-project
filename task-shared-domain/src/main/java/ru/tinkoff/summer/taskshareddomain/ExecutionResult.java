@@ -10,6 +10,7 @@ import java.util.List;
 @Getter
 @ToString
 public class ExecutionResult {
+
     boolean success;
     double executionTimeNs;
     String actualResult;
@@ -17,6 +18,7 @@ public class ExecutionResult {
     TaskTestCase testCase;
 
     public ExecutionResult(List<String> testOutput, TaskTestCase testCase) {
+
         this.actualResult= testOutput.get(testOutput.size()-3);
         success = testCase.getOutputValues().replace(" ","")
                 .equals(actualResult.replace(" ",""));
