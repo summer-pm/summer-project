@@ -1,4 +1,3 @@
-
 plugins {
     id("java")
 }
@@ -18,12 +17,20 @@ java {
 dependencies {
     compileOnly("org.projectlombok:lombok:1.18.28")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
-    implementation (project(":task-shared-domain"))
+    implementation(project(":task-shared-domain"))
+
+    implementation("org.apache.kafka:kafka-clients:3.2.3")
+
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
+    implementation("org.slf4j:slf4j-api:1.7.32")
+
+
+    implementation("org.slf4j:slf4j-simple:1.7.32")
     testImplementation("org.assertj:assertj-core:3.24.2")
     testCompileOnly("org.projectlombok:lombok:1.18.28")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.28")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
 
 tasks.getByName<Test>("test") {

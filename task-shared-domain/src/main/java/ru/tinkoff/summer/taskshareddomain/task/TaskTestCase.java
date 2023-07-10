@@ -1,17 +1,16 @@
 package ru.tinkoff.summer.taskshareddomain.task;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@ToString
+@Data
 public class TaskTestCase {
     private List<String> inputValues;
     private String outputValues;
+
+    public TaskTestCase(List<String> inputValues, String outputValues) {
+        this.inputValues = inputValues;
+        this.outputValues = outputValues;
+    }
 }

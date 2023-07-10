@@ -6,24 +6,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 
+
+import static ru.tinkoff.summer.taskshareddomain.ConnectionConstants.*;
+
 @Configuration
 public class KafkaTopicConfig {
 
-    @Value("${topic.outcoming.name}")
-    private String outcomingTopic;
-    @Value("${topic.outcoming.partitions}")
-    private int outcomingPartitions;
 
-     @Value("${topic.incoming.name}")
-    private String incomingTopic;
-    @Value("${topic.incoming.partitions}")
-    private int incomingPartitions;
     @Bean
     public NewTopic attemptTopic(){
-        return TopicBuilder.name(outcomingTopic).partitions(outcomingPartitions).build();
+        return TopicBuilder.name(ATTEMPT_TOPIC_NAME).partitions(ATTEMPT_TOPIC_PARTITIONS).build();
     }
     @Bean
     public NewTopic resultTopic(){
-        return TopicBuilder.name(incomingTopic).partitions(incomingPartitions).build();
+        return TopicBuilder.name(RESULT_TOPIC_NAME).partitions(RESULT_TOPIC_PARTITIONS).build();
     }
 }
