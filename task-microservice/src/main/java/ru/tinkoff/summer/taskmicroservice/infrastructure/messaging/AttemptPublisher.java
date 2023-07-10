@@ -18,6 +18,6 @@ public class AttemptPublisher implements ExecutionPort {
 
     @Override
     public void publishForExecute(AttemptDTO dto) {
-        kafkaTemplate.send(ConnectionConstants.ATTEMPT_TOPIC_NAME, dto.getId(),dto );
+        kafkaTemplate.send(ConnectionConstants.ATTEMPT_TOPIC_NAME, dto.getId().toString(),dto );
     }
 }

@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 public class AttemptDTO implements Serializable {
-     private String id;
+     private Long id;
      private String code;
     private Language language;
      private String methodName;

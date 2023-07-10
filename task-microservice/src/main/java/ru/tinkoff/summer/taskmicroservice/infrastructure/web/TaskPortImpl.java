@@ -1,7 +1,7 @@
 package ru.tinkoff.summer.taskmicroservice.infrastructure.web;
 
 import org.springframework.stereotype.Repository;
-import ru.tinkoff.summer.taskmicroservice.application.port.jpa.TaskPort;
+import ru.tinkoff.summer.taskmicroservice.application.port.data.TaskPort;
 import ru.tinkoff.summer.taskmicroservice.domain.Task;
 import ru.tinkoff.summer.taskshareddomain.Type;
 import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
