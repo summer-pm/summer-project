@@ -1,7 +1,8 @@
 package ru.tinkoff.summer.taskexecutor.domain;
 
 import ru.tinkoff.summer.taskexecutor.domain.exceptions.JavaCompileException;
-import ru.tinkoff.summer.taskexecutor.domain.task.Task;
+
+import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.ExecutionResult;
 import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
 
@@ -39,18 +40,19 @@ public class ProgramLauncher {
         while ((line = errorReader.readLine()) != null) {
             errors.append(line).append("\n");
         }
+
         return errors;
     }
 
-    public ExecutionResult testProgram(Task task, String... commands) {
+    public ExecutionResult testProgram(AttemptDTO attempt, String... commands) {
         ProcessBuilder builder = new ProcessBuilder(commands);
         List<ExecutionResult> results = new LinkedList<>();
 
         try {
-            for (TaskTestCase testCase : task.getTaskTestCases()) {
+            for (TaskTestCase testCase : attempt.getTaskTestCases()) {
 
                 Process process = builder.start();
-                long timeoutInMillis = (long) (task.getTimeLimitMs() * TIME_LIMIT_MULTIPLY);
+                long timeoutInMillis = (long) (attempt.getTimeLimitMs() * TIME_LIMIT_MULTIPLY);
 //                Timer timer = new Timer(true);
 //                timer.schedule(new TimerTask() {
 //                    @Override

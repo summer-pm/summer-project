@@ -1,6 +1,7 @@
 package ru.tinkoff.summer.taskexecutor.domain.executor;
 
-import ru.tinkoff.summer.taskexecutor.domain.Attempt;
+
+import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.ExecutionResult;
 import ru.tinkoff.summer.taskexecutor.domain.ProgramLauncher;
 import ru.tinkoff.summer.taskexecutor.domain.driver.DriverProcessor;
@@ -23,14 +24,14 @@ public class PythonExecutor implements LanguageExecutor {
     }
 
     @Override
-    public ExecutionResult execute(Attempt attempt) {
+    public ExecutionResult execute(AttemptDTO attempt) {
         var code = driverProcessor.getPreparedCode(attempt);
         var file = writeTempCode(code);
 
         var tester = new ProgramLauncher();
         try {
             var result =
-                    tester.testProgram(attempt.getTask(), "python3", file.getPath());
+                    tester.testProgram(attempt, "python3", file.getPath());
             return result;
 
         } catch (RuntimeException e) {

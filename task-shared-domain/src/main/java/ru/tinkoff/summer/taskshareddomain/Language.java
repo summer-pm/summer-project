@@ -1,5 +1,7 @@
 package ru.tinkoff.summer.taskshareddomain;
 
+import lombok.Getter;
+
 public enum Language {
     JAVA("java"),
     PYTHON("py");
@@ -31,3 +33,4 @@ public enum Language {
         }
     }
 }
+
