@@ -11,6 +11,7 @@ import ru.tinkoff.summer.taskshareddomain.Language;
 
 
 import java.io.*;
+import java.util.List;
 
 public class JavaExecutor implements LanguageExecutor {
     private final DriverProcessor driverProcessor;
@@ -26,7 +27,7 @@ public class JavaExecutor implements LanguageExecutor {
     }
 
     @Override
-    public ExecutionResult execute(AttemptDTO attempt) {
+    public List<ExecutionResult> execute(AttemptDTO attempt) {
         var code = driverProcessor.getPreparedCode(attempt);
         var file = writeTempCode(code);
         try {
