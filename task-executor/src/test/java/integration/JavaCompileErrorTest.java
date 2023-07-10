@@ -3,13 +3,15 @@ package integration;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.tinkoff.summer.taskexecutor.domain.Attempt;
-import ru.tinkoff.summer.taskexecutor.domain.Language;
-import ru.tinkoff.summer.taskexecutor.domain.Type;
+
+
 import ru.tinkoff.summer.taskexecutor.domain.exceptions.JavaCompileException;
 import ru.tinkoff.summer.taskexecutor.domain.executor.JavaExecutor;
-import ru.tinkoff.summer.taskexecutor.domain.task.Task;
-import ru.tinkoff.summer.taskexecutor.domain.task.TaskParams;
+
+import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.Language;
+import ru.tinkoff.summer.taskshareddomain.Type;
+import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
 
 
 import java.util.List;
@@ -19,25 +21,22 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 public class JavaCompileErrorTest {
 
-    private Task task;
-    private Attempt attempt;
+
+    private AttemptDTO attempt;
     private JavaExecutor javaExecutor;
 
     @BeforeEach
     public void setUp() {
         javaExecutor = new JavaExecutor();
-        task = new Task();
-        task.setMethodName("method");
-        task.setParams(new TaskParams(
+        attempt = new AttemptDTO();
+        attempt.setMethodName("method");
+        attempt.setParams(new TaskParams(
                 List.of(Type.INTEGER, Type.INTEGER),
                 Type.INTEGER
         ));
-        attempt = new Attempt(
-                "",
-                Language.JAVA,
-                task,
-                null
-        );
+        attempt.setLanguage(Language.JAVA);
+        attempt.setCode("");
+
     }
 
     @Test

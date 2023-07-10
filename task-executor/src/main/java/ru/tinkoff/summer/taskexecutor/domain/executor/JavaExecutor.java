@@ -1,6 +1,7 @@
 package ru.tinkoff.summer.taskexecutor.domain.executor;
 
-import ru.tinkoff.summer.taskexecutor.domain.Attempt;
+
+import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.ExecutionResult;
 import ru.tinkoff.summer.taskexecutor.domain.ProgramLauncher;
 import ru.tinkoff.summer.taskexecutor.domain.driver.DriverProcessor;
@@ -25,7 +26,7 @@ public class JavaExecutor implements LanguageExecutor {
     }
 
     @Override
-    public ExecutionResult execute(Attempt attempt) {
+    public ExecutionResult execute(AttemptDTO attempt) {
         var code = driverProcessor.getPreparedCode(attempt);
         var file = writeTempCode(code);
         try {
@@ -35,7 +36,7 @@ public class JavaExecutor implements LanguageExecutor {
             launcher.compileProgram("javac", file.getParent() + "/" + PATH_TO_DRIVER);
 
             return launcher.testProgram(
-                    attempt.getTask(),
+                    attempt,
                     "java",
                     "-cp",
                     file.getParent(),

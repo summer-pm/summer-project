@@ -6,27 +6,27 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.tinkoff.summer.taskexecutor.domain.Attempt;
-import ru.tinkoff.summer.taskexecutor.domain.Language;
-import ru.tinkoff.summer.taskexecutor.domain.Type;
+
 import ru.tinkoff.summer.taskexecutor.domain.driver.DriverProcessor;
 import ru.tinkoff.summer.taskexecutor.domain.driver.PythonDriverProcessor;
-import ru.tinkoff.summer.taskexecutor.domain.task.Task;
-import ru.tinkoff.summer.taskexecutor.domain.task.TaskParams;
+import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.Language;
+import ru.tinkoff.summer.taskshareddomain.Type;
+import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
 
 
 public class PythonDriverProcessorTest {
     DriverProcessor driverProcessor = new PythonDriverProcessor();
     // TODO: Вынести в отдельный класс
-    static Task oneIntTask;
-    static Task twoIntTask;
+    static AttemptDTO oneIntTask;
+    static AttemptDTO twoIntTask;
 
     @BeforeAll
     public static void setUp() {
-        oneIntTask = new Task();
+        oneIntTask = new AttemptDTO();
         oneIntTask.setMethodName("sum");
         oneIntTask.setParams(new TaskParams(List.of(Type.INTEGER), Type.INTEGER));
-        twoIntTask = new Task();
+        twoIntTask = new AttemptDTO();
         twoIntTask.setMethodName("sum");
         twoIntTask.setParams(new TaskParams(List.of(Type.INTEGER, Type.INTEGER), Type.INTEGER));
     }
@@ -50,7 +50,9 @@ public class PythonDriverProcessorTest {
         assertThat(processedDriver).contains("any code");
     }
 
-    private static Attempt createAttempt(Task task) {
-        return new Attempt("any code", Language.PYTHON, task, null);
+   private static AttemptDTO createAttempt(AttemptDTO attempt) {
+        attempt.setCode("any code");
+        attempt.setLanguage(Language.PYTHON);
+        return attempt;
     }
 }

@@ -1,7 +1,6 @@
 package ru.tinkoff.summer.taskexecutor.domain.driver;
 
-import ru.tinkoff.summer.taskexecutor.domain.*;
-import ru.tinkoff.summer.taskexecutor.domain.task.Task;
+import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.Type;
 import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
@@ -11,20 +10,20 @@ import java.util.List;
 
 public class JavaDriverProcessor extends DriverProcessor {
     @Override
-    public String getPreparedCode(Attempt attempt) {
+    public String getPreparedCode(AttemptDTO attempt) {
         String genericDriver = readGenericDriver(Language.JAVA);
         return prepareDriver(genericDriver, attempt);
     }
 
-    private String prepareDriver(String genericDriver, Attempt attempt) {
-        Task task = attempt.getTask();
-        TaskParams params = task.getParams();
+    private String prepareDriver(String genericDriver, AttemptDTO attempt) {
+
+        TaskParams params = attempt.getParams();
 
         return genericDriver
                 .replace(PARAM_READ_SECTION, getInputReadSection(params, attempt.getLanguage()))
-                .replace(METHOD_NAME, task.getMethodName())
+                .replace(METHOD_NAME, attempt.getMethodName())
                 .replace(INPUT_PARAM_LIST, getInputParamsNames(params))
-                .replace(RETURN_TYPE, getOutputTypeName(attempt.getLanguage(), task))
+                .replace(RETURN_TYPE, getOutputTypeName(attempt))
                 .replace(SOLUTION, attempt.getCode());
     }
 
@@ -46,7 +45,7 @@ public class JavaDriverProcessor extends DriverProcessor {
         return inputSection.toString();
     }
 
-    private static String getOutputTypeName(Language language, Task task) {
-        return language.getTypeName(task.getParams().getOutputType());
+    private static String getOutputTypeName(AttemptDTO attemptDTO) {
+        return attemptDTO.getLanguage().getTypeName(attemptDTO.getParams().getOutputType());
     }
 }
