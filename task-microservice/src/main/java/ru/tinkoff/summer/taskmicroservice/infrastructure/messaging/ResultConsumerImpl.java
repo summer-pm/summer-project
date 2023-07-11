@@ -11,18 +11,34 @@ import ru.tinkoff.summer.taskmicroservice.application.port.messaging.ResultConsu
 import ru.tinkoff.summer.taskmicroservice.application.usecase.ApplyResultUseCase;
 import ru.tinkoff.summer.taskshareddomain.TotalExecutionResult;
 
+import java.time.Duration;
+import java.time.LocalTime;
+
 import static ru.tinkoff.summer.taskshareddomain.ConnectionConstants.*;
 
 @Service
 @RequiredArgsConstructor
 public class ResultConsumerImpl implements ResultConsumer {
-
+    private LocalTime start;
+    private LocalTime end;
+    boolean isStarted = false;
+    int count = 0;
     private static final Logger log = LoggerFactory.getLogger(ResultConsumerImpl.class);
     private final ApplyResultUseCase useCase;
     @KafkaListener(topics = RESULT_TOPIC_NAME,
             groupId = SERVICE_GROUP_ID)
     public void consume(TotalExecutionResult result) {
-
-        log.info(result.toString());
+        if(!isStarted){
+            start = LocalTime.now();
+        }
+        isStarted = true;
+        count++;
+        log.info("Get {}",result.getAttemptId());
+        useCase.apply(result);
+        if(count == 99){
+            end = LocalTime.now();
+            Duration duration = Duration.between(start,end);
+            log.error("Finish {}", String.valueOf(duration.toSeconds()));
+        }
     }
 }

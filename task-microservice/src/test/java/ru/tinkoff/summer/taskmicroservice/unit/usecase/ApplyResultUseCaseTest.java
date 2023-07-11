@@ -85,6 +85,10 @@ public class ApplyResultUseCaseTest {
 
         var attempt = attemptCaptor.getValue();
         assertThat(attempt.getStatus()).isEqualTo(ExecutionStatus.FAILURE);
+        assertThat(attempt.getActualResult()).isEqualTo(totalResult.getActualResult());
+        assertThat(attempt.getExecutionTimeNs()).isEqualTo(totalResult.getExecutionTimeNs());
+        assertThat(attempt.getMemoryUsageMb()).isEqualTo(totalResult.getMemoryUsageMb());
+        assertThat(attempt.getTestCase()).isEqualTo(totalResult.getTestCase());
 
 
     }

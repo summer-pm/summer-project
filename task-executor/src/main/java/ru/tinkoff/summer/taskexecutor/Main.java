@@ -11,20 +11,29 @@ import org.slf4j.LoggerFactory;
 
 import org.slf4j.Logger;
 import ru.tinkoff.summer.taskexecutor.domain.executor.JavaExecutor;
+import ru.tinkoff.summer.taskexecutor.domain.executor.LanguageExecutor;
+import ru.tinkoff.summer.taskexecutor.domain.executor.PythonExecutor;
 import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.ConnectionConstants;
 import ru.tinkoff.summer.taskshareddomain.TotalExecutionResult;
 
 import java.time.Duration;
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class Main {
     private static final Logger log = LoggerFactory.getLogger(Main.class);
-    private static final JavaExecutor javaExecutor = new JavaExecutor();
+    private static final LanguageExecutor javaExecutor = new JavaExecutor();
+    private static final LanguageExecutor pythonExecutor = new PythonExecutor();
+    private static List<LanguageExecutor> executorList = List.of(javaExecutor, pythonExecutor);
 
+    private static int maxThreads = 10;
     public static void main(String[] args) {
+         ExecutorService threadExecutor = Executors.newFixedThreadPool(maxThreads);
         Properties properties = new Properties();
         properties.put("bootstrap.servers", "127.0.0.1:9092");
         properties.put("group.id", ConnectionConstants.EXECUTOR_GROUP_ID);
@@ -43,22 +52,29 @@ public class Main {
         while (true) {
             ConsumerRecords<String, AttemptDTO> records = consumer.poll(timeout);
             for (ConsumerRecord<String, AttemptDTO> record : records) {
-                log.info("topic {} , partition {}, offset {}, attempt {}, id? {}",
-                        record.topic(), record.partition(), record.offset(), record.value(), record.key());
-                TotalExecutionResult result;
-                AttemptDTO attempt = record.value();
-                try {
-                   result = new TotalExecutionResult(attempt,javaExecutor.execute(attempt));
-                   log.debug(result.toString());
-                } catch (RuntimeException e) {
-                    result = new TotalExecutionResult(attempt, e.getMessage());
-                    log.warn(result.toString());
-                }
-                var resultRecord = new ProducerRecord<>(ConnectionConstants.RESULT_TOPIC_NAME,attempt.getId().toString(),result);
+                log.info("Get {}",record.key());
 
-                producer.send(resultRecord);
+                threadExecutor.execute(() -> {
+                    TotalExecutionResult result;
+                    AttemptDTO attempt = record.value();
+                    var codeExecutor = executorList.stream().filter(e -> e.getLanguage().equals(attempt.getLanguage())).findFirst().get();
+                    try {
+                        result = new TotalExecutionResult(attempt, codeExecutor.execute(attempt));
+                        log.debug(result.toString());
+                    } catch (RuntimeException e) {
+                        result = new TotalExecutionResult(attempt, e.getMessage());
+                        log.warn(result.toString());
+                    }
+                    var resultRecord = new ProducerRecord<>(ConnectionConstants.RESULT_TOPIC_NAME, attempt.getId().toString(), result);
+
+                    producer.send(resultRecord);
+                    log.info("Send {}",record.key());
+                });
+
             }
+
         }
+
 
     }
 }

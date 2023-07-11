@@ -1,5 +1,6 @@
 package ru.tinkoff.summer.taskmicroservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import ru.tinkoff.summer.taskshareddomain.ExecutionStatus;
@@ -17,6 +18,7 @@ public class Attempt {
     private long id;
     private String code;
     private Language language;
+    @JsonIgnore
     private Task task;
     private ExecutionStatus status;
     private double executionTimeNs;

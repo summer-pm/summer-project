@@ -9,16 +9,23 @@ import java.util.List;
 
 @Repository
 public class AttemptPortImpl implements AttemptPort {
-   private final List<Attempt> attempts = new ArrayList();
+    private final List<Attempt> attempts = new ArrayList();
+
     @Override
     public Attempt save(Attempt attempt) {
-        attempts.add(attempt);
-        attempt.setId(attempts.size() + 1);
+        var attemptOpt = attempts.stream().filter(a -> a.getId() == attempt.getId()).findFirst();
+        if (attemptOpt.isPresent()) {
+            attempts.remove(attemptOpt.get());
+            attempts.add(attempt);
+        } else {
+            attempts.add(attempt);
+            attempt.setId(attempts.size() + 1);
+        }
         return attempt;
     }
 
     @Override
     public Attempt getById(long id) {
-        return null;
+        return attempts.stream().filter(a -> a.getId() == id).findFirst().get();
     }
 }

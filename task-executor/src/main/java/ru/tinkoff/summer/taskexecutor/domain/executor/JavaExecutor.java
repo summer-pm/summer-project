@@ -12,6 +12,7 @@ import ru.tinkoff.summer.taskshareddomain.Language;
 
 import java.io.*;
 import java.util.List;
+import java.util.UUID;
 
 public class JavaExecutor implements LanguageExecutor {
     private final DriverProcessor driverProcessor;
@@ -65,7 +66,7 @@ public class JavaExecutor implements LanguageExecutor {
     }
 
     private File writeTempCode(String preparedDriver) {
-        String path = PATH_TO_TMP + "/" + System.currentTimeMillis() + "/" + PATH_TO_DRIVER;
+        String path = PATH_TO_TMP + "/" + UUID.randomUUID().toString() + "/" + PATH_TO_DRIVER;
 
         File file = new File(path);
         File parentDir = file.getParentFile();
