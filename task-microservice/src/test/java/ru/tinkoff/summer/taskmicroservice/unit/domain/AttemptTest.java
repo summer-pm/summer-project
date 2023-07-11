@@ -1,7 +1,9 @@
-package ru.tinkoff.summer.taskmicroservice.domain;
+package ru.tinkoff.summer.taskmicroservice.unit.domain;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import ru.tinkoff.summer.taskmicroservice.domain.Attempt;
+import ru.tinkoff.summer.taskmicroservice.domain.Task;
 import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.Type;
 import ru.tinkoff.summer.taskshareddomain.task.TaskParams;

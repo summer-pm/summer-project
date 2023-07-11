@@ -16,4 +16,9 @@ public class AttemptPortImpl implements AttemptPort {
         attempt.setId(attempts.size() + 1);
         return attempt;
     }
+
+    @Override
+    public Attempt getById(long id) {
+        return null;
+    }
 }

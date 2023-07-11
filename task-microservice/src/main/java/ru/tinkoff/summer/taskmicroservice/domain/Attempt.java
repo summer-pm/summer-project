@@ -2,8 +2,10 @@ package ru.tinkoff.summer.taskmicroservice.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import ru.tinkoff.summer.taskshareddomain.ExecutionStatus;
 import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.Type;
+import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
 
 import java.util.List;
 
@@ -16,7 +18,12 @@ public class Attempt {
     private String code;
     private Language language;
     private Task task;
-
+    private ExecutionStatus status;
+    private double executionTimeNs;
+    private String actualResult;
+    private double memoryUsageMb;
+    private TaskTestCase testCase;
+    private String errorMessage;
     public static Attempt of(String code, Language language, Task task) {
         checkCodeIsNotBlank(code);
 

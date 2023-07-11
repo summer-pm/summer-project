@@ -1,5 +1,6 @@
 package ru.tinkoff.summer.taskshareddomain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @ToString
+@Builder
 public class TotalExecutionResult {
     long attemptId;
     ExecutionStatus status;
@@ -39,5 +41,15 @@ public class TotalExecutionResult {
          this.attemptId = attempt.getId();
         this.errorMessage = errorMessage;
         this.status = ExecutionStatus.ERROR;
+    }
+
+    public TotalExecutionResult(long attemptId, ExecutionStatus status, double executionTimeNs, String actualResult, double memoryUsageMb, TaskTestCase testCase, String errorMessage) {
+        this.attemptId = attemptId;
+        this.status = status;
+        this.executionTimeNs = executionTimeNs;
+        this.actualResult = actualResult;
+        this.memoryUsageMb = memoryUsageMb;
+        this.testCase = testCase;
+        this.errorMessage = errorMessage;
     }
 }

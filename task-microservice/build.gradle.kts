@@ -24,7 +24,7 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.1.1")
     implementation (project(":task-shared-domain"))
-
+testImplementation("org.mockito:mockito-core:5.4.0")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.assertj:assertj-core:3.24.2")
