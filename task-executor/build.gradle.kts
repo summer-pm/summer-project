@@ -48,14 +48,6 @@ tasks.jar {
         attributes["Main-Class"] = "ru.tinkoff.summer.taskexecutor.Main"
     }
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-    archiveFileName.set("task-executor.jar")
-    destinationDirectory.set(file("/build/libs"))
-}
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
-}
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+
+
 }

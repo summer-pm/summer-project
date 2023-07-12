@@ -59,7 +59,6 @@ public class ProgramLauncher {
             for (TaskTestCase testCase : attempt.getTaskTestCases()) {
 
                 Process process = builder.start();
-                log.info("StartExec {}",attempt.getId());
                 long timeoutInMillis = 2000;
 
                 Timer timer = new Timer(true);

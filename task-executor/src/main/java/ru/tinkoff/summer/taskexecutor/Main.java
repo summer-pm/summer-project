@@ -29,13 +29,13 @@ public class Main {
     private static final Logger log = LoggerFactory.getLogger(Main.class);
     private static final LanguageExecutor javaExecutor = new JavaExecutor();
     private static final LanguageExecutor pythonExecutor = new PythonExecutor();
-    private static List<LanguageExecutor> executorList = List.of(javaExecutor, pythonExecutor);
+    private static List<LanguageExecutor> EXECUTORS = List.of(javaExecutor, pythonExecutor);
 
-    private static int maxThreads = Runtime.getRuntime().availableProcessors();
+    private static final int MAX_THREADS = Runtime.getRuntime().availableProcessors()/2;
     public static void main(String[] args) {
-         ExecutorService threadExecutor = Executors.newFixedThreadPool(maxThreads);
+         ExecutorService threadExecutor = Executors.newFixedThreadPool(MAX_THREADS);
         Properties properties = new Properties();
-        properties.put("bootstrap.servers", "127.0.0.1:9092");
+        properties.put("bootstrap.servers", "localhost:9092");
         properties.put("group.id", ConnectionConstants.EXECUTOR_GROUP_ID);
         properties.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         properties.put("value.deserializer", "ru.tinkoff.summer.taskexecutor.AttemptMapper");
@@ -45,7 +45,7 @@ public class Main {
 
 
         Properties propertiesProducer = new Properties();
-        propertiesProducer.put("bootstrap.servers", "127.0.0.1:9092");
+        propertiesProducer.put("bootstrap.servers", "localhost:9092");
         propertiesProducer.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         propertiesProducer.put("value.serializer", "ru.tinkoff.summer.taskexecutor.TotalExecutionResultMapper");
         var producer = new KafkaProducer<String, TotalExecutionResult>(propertiesProducer);
@@ -57,7 +57,7 @@ public class Main {
                 threadExecutor.execute(() -> {
                     TotalExecutionResult result;
                     AttemptDTO attempt = record.value();
-                    var codeExecutor = executorList.stream().filter(e -> e.getLanguage().equals(attempt.getLanguage())).findFirst().get();
+                    var codeExecutor = EXECUTORS.stream().filter(e -> e.getLanguage().equals(attempt.getLanguage())).findFirst().get();
                     try {
                         log.info("Start {}",record.key());
                         result = new TotalExecutionResult(attempt, codeExecutor.execute(attempt));
