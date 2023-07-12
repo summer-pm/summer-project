@@ -23,12 +23,15 @@ dependencies {
     implementation(project(":task-shared-domain"))
 
     implementation("org.apache.kafka:kafka-clients:3.2.3")
-implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
-    implementation("org.slf4j:slf4j-api:1.7.32")
+   implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+implementation("ch.qos.logback:logback-classic:1.4.8")
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+implementation("ch.qos.logback:logback-core:1.4.8")
 
-    implementation("org.slf4j:slf4j-simple:1.7.32")
     testImplementation("org.assertj:assertj-core:3.24.2")
     testCompileOnly("org.projectlombok:lombok:1.18.28")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.28")

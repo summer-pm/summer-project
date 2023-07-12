@@ -24,6 +24,14 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.1.1")
     implementation (project(":task-shared-domain"))
+    // https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
+implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+testImplementation("ch.qos.logback:logback-classic:1.4.8")
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+implementation("ch.qos.logback:logback-core:1.4.8")
+
 testImplementation("org.mockito:mockito-core:5.4.0")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
