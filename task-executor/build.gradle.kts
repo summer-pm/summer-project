@@ -23,7 +23,7 @@ dependencies {
     implementation(project(":task-shared-domain"))
 
     implementation("org.apache.kafka:kafka-clients:3.2.3")
-
+implementation("net.logstash.logback:logstash-logback-encoder:7.4")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
     implementation("org.slf4j:slf4j-api:1.7.32")
 
