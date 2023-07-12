@@ -35,10 +35,10 @@ public class ResultConsumerImpl implements ResultConsumer {
         count++;
         log.info("Get {}",result.getAttemptId());
         useCase.apply(result);
-        if(count == 99){
+        if(count == 199){
             end = LocalTime.now();
             Duration duration = Duration.between(start,end);
-            log.error("Finish {}", String.valueOf(duration.toSeconds()));
+            log.error("Finish {}", duration.toSeconds());
         }
     }
 }

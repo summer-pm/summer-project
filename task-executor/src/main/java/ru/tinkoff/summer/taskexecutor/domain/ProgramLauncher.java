@@ -1,5 +1,8 @@
 package ru.tinkoff.summer.taskexecutor.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import ru.tinkoff.summer.taskexecutor.Main;
 import ru.tinkoff.summer.taskexecutor.domain.exceptions.JavaCompileException;
 
 import ru.tinkoff.summer.taskexecutor.domain.exceptions.TimeExceedException;
@@ -16,6 +19,8 @@ import java.util.*;
 //TODO: РЕФАКТОР
 public class ProgramLauncher {
     private static final double TIME_LIMIT_MULTIPLY = 3;
+    private static final Logger log = LoggerFactory.getLogger(ProgramLauncher.class);
+
 
     public void compileProgram(String... commands) {
         try {
@@ -54,17 +59,18 @@ public class ProgramLauncher {
             for (TaskTestCase testCase : attempt.getTaskTestCases()) {
 
                 Process process = builder.start();
+                log.info("StartExec {}",attempt.getId());
+                long timeoutInMillis = 2000;
 
-                long timeoutInMillis = 1000;
-
-//                Timer timer = new Timer(true);
-//                timer.schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        process.destroy();
-//                        cancel();
-//                    }
-//                }, timeoutInMillis);
+                Timer timer = new Timer(true);
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        log.warn("FinishTimer {}",attempt.getId());
+                        process.destroy();
+                        cancel();
+                    }
+                }, timeoutInMillis);
                 inputTestData(testCase, process);
 
                 var errorOutput = readErrors(process);
@@ -73,14 +79,14 @@ public class ProgramLauncher {
 
                 int exitCode = process.waitFor();
                 if (exitCode != 0) {
-//                    if (errorOutput.toString().isBlank()) {//Процесс завершается с кодом 1 без ошибки при оканчивании таймера
-//                        throw new RuntimeException("Превышено время ожидания");
-//                    } else {
-//                        timer.cancel();
+                    if (errorOutput.toString().isBlank()) {//Процесс завершается с кодом 1 без ошибки при оканчивании таймера
+                        throw new RuntimeException("Превышено время ожидания");
+                    } else {
+                        timer.cancel();
                         throw new RuntimeException(errorOutput.toString());
-
+                    }
                 } else {
-//                    timer.cancel();
+                    timer.cancel();
                     var testCaseResult = new ExecutionResult(output, testCase);
                     results.add(testCaseResult);
                     if (!testCaseResult.isSuccess())

@@ -23,12 +23,21 @@ public class TaskMicroserviceApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 200; i++) {
             var data = new SolutionData();
-            data.setCode("class Solution{" +
+            if(i%2 == 0){
+                 data.setCode("class Solution{" +
                     "public int add(int a, int b){return a+b;}}");
+                   data.setLanguage(Language.JAVA);
+            } else {
+                data.setCode("class Solution:\n" +
+                        "    def add(self, a,b):\n" +
+                        "        return a+b");
+                  data.setLanguage(Language.PYTHON);
+            }
+
             data.setTaskId(1L);
-            data.setLanguage(Language.JAVA);
+
             var id = useCase.execute(data);
         }
 

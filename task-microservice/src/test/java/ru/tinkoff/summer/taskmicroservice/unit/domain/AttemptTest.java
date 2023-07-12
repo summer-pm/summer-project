@@ -62,17 +62,7 @@ public class AttemptTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Входные параметры  в methodName должны быть типов [INTEGER, INTEGER_ARR]");
     }
-    @Test
-    public void wrongNumberOfParams(){
-        assertThatThrownBy(() -> {var attempt = Attempt.of("class Solution{" +
-                "public int[] methodName(int i, int b, int c)}}", Language.JAVA,task);})
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("В methodName должно быть 2 параметров");
-        assertThatThrownBy(() -> {var attempt = Attempt.of("class Solution{" +
-                "def methodName(a,b,c)}", Language.PYTHON,task);})
-                .isInstanceOf(IllegalArgumentException.class)
-                  .hasMessage("В methodName должно быть 2 параметров");
-    }
+
     @Test
     public void correctCode(){
         var attempt = Attempt.of("class Solution{" +

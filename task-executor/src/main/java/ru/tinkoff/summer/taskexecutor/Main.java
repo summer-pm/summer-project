@@ -31,7 +31,7 @@ public class Main {
     private static final LanguageExecutor pythonExecutor = new PythonExecutor();
     private static List<LanguageExecutor> executorList = List.of(javaExecutor, pythonExecutor);
 
-    private static int maxThreads = 10;
+    private static int maxThreads = Runtime.getRuntime().availableProcessors();
     public static void main(String[] args) {
          ExecutorService threadExecutor = Executors.newFixedThreadPool(maxThreads);
         Properties properties = new Properties();
@@ -52,23 +52,24 @@ public class Main {
         while (true) {
             ConsumerRecords<String, AttemptDTO> records = consumer.poll(timeout);
             for (ConsumerRecord<String, AttemptDTO> record : records) {
-                log.info("Get {}",record.key());
+
 
                 threadExecutor.execute(() -> {
                     TotalExecutionResult result;
                     AttemptDTO attempt = record.value();
                     var codeExecutor = executorList.stream().filter(e -> e.getLanguage().equals(attempt.getLanguage())).findFirst().get();
                     try {
+                        log.info("Start {}",record.key());
                         result = new TotalExecutionResult(attempt, codeExecutor.execute(attempt));
                         log.debug(result.toString());
                     } catch (RuntimeException e) {
                         result = new TotalExecutionResult(attempt, e.getMessage());
                         log.warn(result.toString());
                     }
+                    log.info("Finish {}",record.key());
                     var resultRecord = new ProducerRecord<>(ConnectionConstants.RESULT_TOPIC_NAME, attempt.getId().toString(), result);
 
                     producer.send(resultRecord);
-                    log.info("Send {}",record.key());
                 });
 
             }

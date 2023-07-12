@@ -34,7 +34,7 @@ public class Attempt {
         chackCodeHaveMethod(code, task);
 
         String[] parameterTypes = extractParameterTypes(code, task.getMethodName());
-        checkNumnberOfParamsMatch(task, parameterTypes);
+
 
         checkTypesMatch(language, task, parameterTypes);
 
@@ -57,10 +57,7 @@ public class Attempt {
         }
     }
 
-    private static void checkNumnberOfParamsMatch(Task task, String[] parameterTypes) {
-        if (parameterTypes.length != task.getParams().getInputTypes().size())
-            throw new IllegalArgumentException("В " + task.getMethodName() + " должно быть " + task.getParams().getInputTypes().size() + " параметров");
-    }
+
 
     private static void chackCodeHaveMethod(String code, Task task) {
         if (!code.contains(task.getMethodName()))
