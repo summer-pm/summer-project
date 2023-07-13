@@ -8,6 +8,7 @@ import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.Type;
 import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
 
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -26,6 +27,7 @@ public class Attempt {
     private double memoryUsageMb;
     private TaskTestCase testCase;
     private String errorMessage;
+
     public static Attempt of(String code, Language language, Task task) {
         checkCodeIsNotBlank(code);
 
@@ -51,7 +53,7 @@ public class Attempt {
                 Type neededType = neededTypes.get(i);
 
                 if (!parameterType.equals(language.getTypeName(neededType))) {
-                    throw new IllegalArgumentException("Входные параметры  в " + task.getMethodName() + " должны быть типов [INTEGER, INTEGER_ARR]");
+                    throw new IllegalArgumentException("Входные параметры  в " + task.getMethodName() + " должны быть типов " + task.getParams().getInputTypes().toString());
                 }
             }
         }

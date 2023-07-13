@@ -1,6 +1,7 @@
 package ru.tinkoff.summer.taskmicroservice.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,8 +17,11 @@ public class Task {
     private long id;
     private String title;
     private String description;
+     @JsonIgnore //TODO: DTO
     private String methodName;
+    @JsonIgnore
     private TaskParams params;
     private Set<TaskTestCase> taskTestCases;
     private long timeLimitMs;
+    private long volumeLimitMb;
 }

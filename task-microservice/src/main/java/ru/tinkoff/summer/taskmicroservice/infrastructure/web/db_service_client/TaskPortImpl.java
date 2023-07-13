@@ -1,4 +1,4 @@
-package ru.tinkoff.summer.taskmicroservice.infrastructure.web;
+package ru.tinkoff.summer.taskmicroservice.infrastructure.web.db_service_client;
 
 import org.springframework.stereotype.Repository;
 import ru.tinkoff.summer.taskmicroservice.application.port.data.TaskPort;

@@ -20,7 +20,7 @@ public class SendSolutionUseCaseImpl implements SendSolutionUseCase {
     private final AttemptPort attemptPort;
 
     @Override
-    public long execute(SolutionData solutionData) {
+    public Attempt execute(SolutionData solutionData) {
         var task  = taskPort.getTask(solutionData.getTaskId());
         var attempt = Attempt.of(solutionData.getCode(), solutionData.getLanguage(), task);
         attempt.setStatus(ExecutionStatus.PENDING);
@@ -33,6 +33,6 @@ public class SendSolutionUseCaseImpl implements SendSolutionUseCase {
         dto.setTaskTestCases(task.getTaskTestCases());
         dto.setMethodName(task.getMethodName());
         attemptProducer.publishForExecute(dto);
-        return attempt.getId();
+        return attempt;
     }
 }
