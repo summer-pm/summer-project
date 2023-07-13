@@ -9,15 +9,17 @@
 
 ## `` GET /tasks ``
 
-Параметры строки запроса
+Параметры 
 | Параметр | Обязательность | Описание | Тип данных |
 | ------------- | ------------- |  ------------- | ------------- |
 | level | Не обязательно | Отображение задач с определённым уровнем сложности: "easy/medium/hard" | string |
-| status | Не обязательно | Отображение задач с определённым статусом: "решено (1)/не решено (0)" | integer |
+| status | Не обязательно | Отображение задач с определённым статусом: "решено/не решено" | string |
 | title | Не обязательно | Отображение задачи с определённым названием | string |
+| limit | Не обязательно | Максимальное количество возвращаемых элементов. По умолчанию 20 | integer |
+| sort | Не обязательно | Сортировка по возрастанию номеров задач по умолчанию | integer |
 
 Пример запроса
-`` GET "<baseurl>/v1/tasks?level=easy&status=0&title=taskname" ``
+`` GET "<baseurl>/v1/tasks?level=easy&status=0&title=taskname&limit=20&sort=asc" ``
 
 Ответ
 
@@ -25,16 +27,16 @@
 {
     "tasks": [
                {
-                "taskID": 1,   // номер задачи
+                "taskID": 1,   
                 "title": "Название задачи 1",
                 "level": "Уровень сложности задачи",
-                "status": 0  // статус задачи ("решено" = 1 или "не решено" = 0)
+                "status": "решено" 
                },
                {
                 "taskID": 2,
                 "title": "Название задачи 2",
                 "level": "Уровень сложности задачи",
-                "status": 1
+                "status": "не решено"
                 },
               ...
               ]
@@ -46,7 +48,7 @@
 | taskID | Номер задачи, отображаемый в списке задач | integer |
 | title | Название задачи, отображаемое в списке задач | string |
 | level | Уровень сложности задачи, отображаемый в списке задач | string |
-| status | Факт того, решена ли задача пользователем | boolean |
+| status | Факт того, решена ли задача пользователем. Статусы: "решено/не решено" | string |
 
 Коды ответа
 
@@ -55,9 +57,508 @@
 | 200 | ОК |
 | 404 | Элемент не существует |
 
+
+
+OpenAPI 
+
+
+```bash
+paths:
+  /tasks:
+    get:
+      summary: Getting the list of tasks
+      description: Returns a list of tasks that satisfy the specified parameters.
+      parameters:
+        - name: level
+          in: query
+          description: Displaying tasks with a certain level of difficulty
+          schema:
+            type: string
+          example: easy
+        - name: status
+          in: query
+          description: Displaying tasks with a specific status
+          schema:
+            type: string
+          example: решено
+        - name: title
+          in: query
+          description: Displaying a task with a specific name
+          schema:
+            type: string
+          example: taskname
+        - name: limit
+          in: query
+          description: Maximum number of returned items
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: sort
+          in: query
+          description: Sorting order for the tasks (ascending or descending)
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tasks:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        taskID:
+                          type: integer
+                          format: int64
+                          description: The ID of the task
+                        title:
+                          type: string
+                          description: The title of the task
+                        level:
+                          type: string
+                          description: The difficulty level of the task
+                        status:
+                          type: string
+                          description: The status of the task
+        '404':
+          description: The element does not exist
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Просмотр задачи
 
 ## `` GET /tasks/{id} ``
 
+Пример запроса
+`` GET "<baseurl>/v1/tasks/1111" ``
+
+Ответ
+
+```bash
+{
+  "taskID": 1,
+  "title": "Задача 1",
+  "description": "Описание условия задачи 1",
+   "level": "Уровень сложности задачи",
+  "examples": [
+    {
+      "input": "Входные данные примера 1",
+      "output": "Ожидаемый результат примера 1",
+       "explanation": "Объяснения"
+    },
+    {
+      "input": "Входные данные примера 2",
+      "output": "Ожидаемый результат примера 2",
+       "explanation": "Объяснения"
+    },
+    {
+      "input": "Входные данные примера 3",
+      "output": "Ожидаемый результат примера 3",
+       "explanation": "Объяснения"
+    }
+  ],
+  "status": "не решено",
+   "languages":[
+    {
+    "language": "name"
+     }
+     ...
+   ],
+   "solutionTemplate": "class Solution {...}",
+   "timeRestrict": "ограничения по времени",
+   "volumeRestrict": "ограничения по объёму занимаемой памяти"
+}
+
+```
+
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- |  
+| taskID | Номер задачи, отображаемый в списке задач | int64 |
+| title | Название задачи, отображаемое в списке задач | string |
+| description | Описание условий задачи | string |
+| level | Уровень сложности задачи, отображаемый в списке задач. Уровни сложности: "easy/medium/hard" | string |
+| input | Строка с входными данными тестового кейса | string |
+| output | Строка с выходными данными тестового кейса | string |
+| explanation | Строка с пояснением данных тестового кейса | string |
+| language | Названия возможного ЯП задачи | string |
+| status | Факт того, решена ли задача пользователем/ Статусы: "решено/не решено" | string |
+| solutionTemplate | Скелет кода для пользователя | string |
+| timeRestrict | Ограничение по времени | string |
+| volumeRestrict | Ограничение по памяти | string |
 
 
+Коды ответа
+
+| Код | Описание |
+| ------------- | ------------- |
+| 200 | ОК |
+| 403 | Нет прав доступа |
+| 404 | Элемент не существует |
+
+
+OpenAPI
+```bash
+paths:
+  /tasks/{id}:
+    get:
+      summary: Task preview
+      description: Returns task information for the specified identifier.
+      parameters:
+        - name: id
+          in: path
+          description: Task ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  taskID:
+                    type: integer
+                    format: int64
+                    description: The ID of the task
+                  title:
+                    type: string
+                    description: The title of the task
+                  description:
+                    type: string
+                    description: The description of the task
+                  level:
+                    type: string
+                    description: The difficulty level of the task
+                  examples:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        input:
+                          type: string
+                          description: The input data of the example
+                        output:
+                          type: string
+                          description: The expected output of the example
+                        explanation:
+                          type: string
+                          description: Explanation of the example
+                  status:
+                    type: string
+                    description: The status of the task
+                  languages:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        language:
+                          type: string
+                          description: The name of the programming language
+                  solutionTemplate:
+                    type: string
+                    description: The solution template for the task
+                  timeRestrict:
+                    type: string
+                    description: The time restriction for the task
+                  volumeRestrict:
+                    type: string
+                    description: The volume restriction for the task
+        '403':
+          description: Access denied
+        '404':
+          description: Element not found
+
+```
+
+
+
+
+
+
+
+
+### Отправка попытки решения
+
+## `` POST /tasks/{id}/attempts ``
+
+Пример запроса
+`` POST "<baseurl>/v1/tasks/1111/attempts" ``
+
+Тело запроса
+
+```bash
+{
+  "userID": 0,
+  "language": "Java",
+  "code": "class Solution{...}"
+}
+```
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- |  
+| userID | Идентификатор пользователя | int64 |
+| language | Язык программирования | string |
+| code | Решение пользователя | string |
+
+Ответ
+
+```bash
+{
+  "attemptID": 1111,
+  "taskID": 2222,
+  "userID": 3333,
+  "language": "Java"
+}
+```
+
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- |  
+| attemptID | Идентификатор пользователя | int64 |
+| taskID | Идентификатор задачи | int64 |
+| userID | Идентификатор пользователя | int64 |
+| language | Язык программирования | string |
+
+Коды ответа
+
+| Код | Описание |
+| ------------- | ------------- |
+| 201 | Попытка создана |
+| 400 | Некорректный запрос |
+| 404 | Элемент не существует |
+
+
+OpenAPI
+
+```bash
+paths:
+  /tasks/{id}/attempts:
+    post:
+      summary: Sending an attempt to solve a task
+      description: Allows the user to submit an attempt to solve a problem in a specific programming language
+      parameters:
+        - name: id
+          in: path
+          description: Task ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userID:
+                  type: integer
+                  format: int64
+                  description: User ID
+                language:
+                  type: string
+                  description: Programming language name
+                code:
+                  type: string
+                  description: Solution
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  attemptID:
+                    type: integer
+                    format: int64
+                    description: ID of the created attempt
+                  taskID:
+                    type: integer
+                    format: int64
+                    description: ID of the associated task
+                  userID:
+                    type: integer
+                    format: int64
+                    description: User ID
+                  language:
+                    type: string
+                    description: Programming language name
+        '400':
+          description: Incorrect request
+        '404':
+          description: Task not found
+
+
+
+```
+
+
+
+
+
+### Просмотр попыток решения
+
+## `` GET /tasks/{id}/attempts/{id} ``
+
+Параметры 
+| Параметр | Обязательность | Описание | Тип данных |
+| ------------- | ------------- |  ------------- | ------------- |
+| limit | Не обязательно | Максимальное количество возвращаемых элементов. По умолчанию 20 | integer |
+| sort | Не обязательно | Сортировка по возрастанию. Сначала новые решения | integer |
+
+Пример запроса
+`` GET "<baseurl>/v1/tasks/1111/attempts/1111?limit=20&sort=asc"  ``
+
+Ответ
+
+```bash
+{
+    "taskID": 1,
+    "title": "Название задачи",
+    "level": "Уровень сложности задачи",
+    "attempts": [
+               {
+                "status": "решено",
+                "datetime": "дата и время",
+                "language": "Java"
+               },
+               {
+                 "status": "решено",
+                "datetime": "дата и время",
+                "language": "Python"
+                },
+              ...
+              ],
+   "code": "class Solution {...}",
+    "timeRestrict": "ограничения по времени",
+    "volumeRestrict": "ограничения по объёму занимаемой памяти"
+}
+```
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- |  
+| taskID | Номер задачи, отображаемый в списке задач | int64 |
+| title | Название задачи, отображаемое в списке задач | string |
+| level | Уровень сложности задачи, отображаемый в списке задач. Уровни сложности: "easy/medium/hard" | string |
+| language | Название ЯП задачи | string |
+| status | Факт того, решена ли задача пользователем/ Статусы: "решено/не решено" | string |
+| datetime | Дата и время попытки решения | string |
+| code | Код пользователя | string |
+| timeRestrict | Ограничение по времени | string |
+| volumeRestrict | Ограничение по памяти | string |
+
+
+Коды ответа
+
+| Код | Описание |
+| ------------- | ------------- |
+| 200 | ОК |
+| 403 | Нет прав доступа |
+| 404 | Элемент не существует |
+
+```bash
+paths:
+  /tasks/{taskID}/attempts/{attemptID}:
+    get:
+      summary: Viewing a problem solving attempt
+      description: Returns task attempt information for the specified task and attempt IDs.
+      parameters:
+        - name: taskID
+          in: path
+          description: Task ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: attemptID
+          in: path
+          description: Attempt ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: limit
+          in: query
+          description: Maximum number of returned items
+          schema:
+            type: integer
+            minimum: 1
+            default: 20
+        - name: sort
+          in: query
+          description: Sorting order for the attempts (ascending or descending)
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  taskID:
+                    type: integer
+                    format: int64
+                    description: The ID of the task
+                  title:
+                    type: string
+                    description: The title of the task
+                  level:
+                    type: string
+                    description: The difficulty level of the task
+                  attempts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        status:
+                          type: string
+                          description: The status of the attempt
+                        date:
+                          type: string
+                          description: The date of the attempt
+                        language:
+                          type: string
+                          description: The programming language used in the attempt
+                  code:
+                    type: string
+                    description: The user's code
+                  timeRestrict:
+                    type: string
+                    description: The time restriction for the task
+                  volumeRestrict:
+                    type: string
+                    description: The volume restriction for the task
+        '403':
+          description: Access denied
+        '404':
+          description: Element not found
+
+
+
+```
