@@ -1,9 +1,12 @@
 package ru.tinkoff.summer.taskmicroservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import ru.tinkoff.summer.taskshareddomain.ExecutionStatus;
 import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.Type;
+import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
 
 import java.util.List;
 
@@ -15,8 +18,14 @@ public class Attempt {
     private long id;
     private String code;
     private Language language;
+    @JsonIgnore
     private Task task;
-
+    private ExecutionStatus status;
+    private double executionTimeNs;
+    private String actualResult;
+    private double memoryUsageMb;
+    private TaskTestCase testCase;
+    private String errorMessage;
     public static Attempt of(String code, Language language, Task task) {
         checkCodeIsNotBlank(code);
 
@@ -25,7 +34,7 @@ public class Attempt {
         chackCodeHaveMethod(code, task);
 
         String[] parameterTypes = extractParameterTypes(code, task.getMethodName());
-        checkNumnberOfParamsMatch(task, parameterTypes);
+
 
         checkTypesMatch(language, task, parameterTypes);
 
@@ -48,10 +57,7 @@ public class Attempt {
         }
     }
 
-    private static void checkNumnberOfParamsMatch(Task task, String[] parameterTypes) {
-        if (parameterTypes.length != task.getParams().getInputTypes().size())
-            throw new IllegalArgumentException("В " + task.getMethodName() + " должно быть " + task.getParams().getInputTypes().size() + " параметров");
-    }
+
 
     private static void chackCodeHaveMethod(String code, Task task) {
         if (!code.contains(task.getMethodName()))

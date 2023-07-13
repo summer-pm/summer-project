@@ -12,8 +12,7 @@ public class PythonDriverProcessor extends DriverProcessor {
     @Override
     public String getPreparedCode(AttemptDTO attempt) {
         String genericDriver = readGenericDriver(attempt.getLanguage());
-        String preparedDriver = prepareDriver(genericDriver, attempt);
-        return preparedDriver;
+        return prepareDriver(genericDriver, attempt);
     }
 
     private String prepareDriver(String genericDriver, AttemptDTO attempt) {

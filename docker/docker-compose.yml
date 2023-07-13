@@ -1,5 +1,43 @@
 version: '3.8'
 services:
+  elasticsearch:
+    image: elasticsearch:7.7.0
+    container_name: elasticsearch
+    restart: always
+    volumes:
+        - elastic1:/usr/share/elasticsearch/data/
+    environment:
+        ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+        discovery.type: single-node
+    ports:
+        - '9200:9200'
+        - '9300:9300'
+    networks:
+        - elk
+  kibana:
+    image: kibana:7.7.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_URL: "http://elasticsearch.9300"
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    networks:
+        - elk
+  logstash:
+    image: logstash:7.7.0
+    container_name: logstash
+    command:
+      logstash -f /etc/logstash/conf.d/logstash.conf
+    volumes:
+      - ./config:/etc/logstash/conf.d
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5000:5000
+    networks:
+      - elk
   zookeeper:
       image: confluentinc/cp-zookeeper:latest
       hostname: zookeeper
@@ -22,3 +60,8 @@ services:
         KAFKA_KRAFT_BROKER_ID: 1
         KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
         KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+volumes:
+  elastic1: {}
+
+networks:
+  elk:

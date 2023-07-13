@@ -1,20 +1,23 @@
 package ru.tinkoff.summer.taskexecutor.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.tinkoff.summer.taskexecutor.domain.exceptions.JavaCompileException;
-
 import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.ExecutionResult;
 import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
-
+//TODO: РЕФАКТОР
 public class ProgramLauncher {
-    private static final double TIME_LIMIT_MULTIPLY = 3;
+    private static final long TIME_LIMIT_MS = 2000;
+    private static final Logger log = LoggerFactory.getLogger(ProgramLauncher.class);
+
+
     public void compileProgram(String... commands) {
         try {
             ProcessBuilder compileProcessBuilder = new ProcessBuilder(commands);
@@ -52,15 +55,18 @@ public class ProgramLauncher {
             for (TaskTestCase testCase : attempt.getTaskTestCases()) {
 
                 Process process = builder.start();
-                long timeoutInMillis = (long) (attempt.getTimeLimitMs() * TIME_LIMIT_MULTIPLY);
-//                Timer timer = new Timer(true);
-//                timer.schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        process.destroy();
-//                        cancel();
-//                    }
-//                }, timeoutInMillis);
+
+
+                Timer timer = new Timer(true);
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        log.warn("FinishTimer {}",attempt.getId());
+                        process.destroy();
+                        cancel();
+                    }
+                }, TIME_LIMIT_MS);
+
                 inputTestData(testCase, process);
 
                 var errorOutput = readErrors(process);
@@ -69,20 +75,26 @@ public class ProgramLauncher {
 
                 int exitCode = process.waitFor();
                 if (exitCode != 0) {
-                    throw new RuntimeException(errorOutput.toString());
+                    if (errorOutput.toString().isBlank()) {//Процесс завершается с кодом 1 без ошибки при оканчивании таймера
+                        throw new RuntimeException("Превышено время ожидания");
+                    } else {
+                        timer.cancel();
+                        throw new RuntimeException(errorOutput.toString());
+                    }
                 } else {
+                    timer.cancel();
                     var testCaseResult = new ExecutionResult(output, testCase);
                     results.add(testCaseResult);
                     if (!testCaseResult.isSuccess())
                         return results; // TODO: Возможно исключениями
                 }
-//                timer.cancel();
+
             }
 
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return results; // TODO: Возможно среднее время и память
+        return results;
     }
 
     private static ArrayList<String> readOutputData(Process process) throws IOException {

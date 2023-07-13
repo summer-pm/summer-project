@@ -26,6 +26,21 @@ public class TaskPortImpl implements TaskPort {
         task.setTaskTestCases(Set.of(
                 new TaskTestCase(
                         List.of("2","4"),"6"
+                ),
+                  new TaskTestCase(
+                        List.of("2","5"),"7"
+                ),
+              new TaskTestCase(
+                        List.of("1","4"),"5"
+                ),
+                        new TaskTestCase(
+                        List.of("2","6"),"8"
+                ),
+                                  new TaskTestCase(
+                        List.of("2","-2"),"0"
+                ),
+                                            new TaskTestCase(
+                        List.of("2","22"),"24"
                 )
         ));
         return task;

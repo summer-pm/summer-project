@@ -8,7 +8,7 @@ import ru.tinkoff.summer.taskshareddomain.Language;
 import java.util.List;
 
 public interface LanguageExecutor {
-    final String PATH_TO_TMP = "tmp/";
+    String PATH_TO_TMP = "tmp/";
 
     Language getLanguage();
 

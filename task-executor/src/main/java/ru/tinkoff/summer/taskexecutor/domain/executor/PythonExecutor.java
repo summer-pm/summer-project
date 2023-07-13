@@ -10,6 +10,7 @@ import ru.tinkoff.summer.taskshareddomain.Language;
 
 import java.io.*;
 import java.util.List;
+import java.util.UUID;
 
 public class PythonExecutor implements LanguageExecutor {
     private final String PATH_TO_DRIVER = "Driver.py";
@@ -45,7 +46,7 @@ public class PythonExecutor implements LanguageExecutor {
     }
 
     private File writeTempCode(String preparedDriver) {
-        String path = PATH_TO_TMP + "/" + System.currentTimeMillis() + "/" + PATH_TO_DRIVER;
+        String path = PATH_TO_TMP + "/" + UUID.randomUUID() + "/" + PATH_TO_DRIVER;
 
         File file = new File(path);
         File parentDir = file.getParentFile();
