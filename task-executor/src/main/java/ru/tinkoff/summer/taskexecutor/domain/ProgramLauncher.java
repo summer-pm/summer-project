@@ -2,14 +2,10 @@ package ru.tinkoff.summer.taskexecutor.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.tinkoff.summer.taskexecutor.Main;
 import ru.tinkoff.summer.taskexecutor.domain.exceptions.JavaCompileException;
-
-import ru.tinkoff.summer.taskexecutor.domain.exceptions.TimeExceedException;
 import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.ExecutionResult;
 import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,7 +14,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 //TODO: РЕФАКТОР
 public class ProgramLauncher {
-    private static final double TIME_LIMIT_MULTIPLY = 3;
+    private static final long TIME_LIMIT_MS = 2000;
     private static final Logger log = LoggerFactory.getLogger(ProgramLauncher.class);
 
 
@@ -59,7 +55,7 @@ public class ProgramLauncher {
             for (TaskTestCase testCase : attempt.getTaskTestCases()) {
 
                 Process process = builder.start();
-                long timeoutInMillis = 2000;
+
 
                 Timer timer = new Timer(true);
                 timer.schedule(new TimerTask() {
@@ -69,7 +65,8 @@ public class ProgramLauncher {
                         process.destroy();
                         cancel();
                     }
-                }, timeoutInMillis);
+                }, TIME_LIMIT_MS);
+
                 inputTestData(testCase, process);
 
                 var errorOutput = readErrors(process);
@@ -97,7 +94,7 @@ public class ProgramLauncher {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return results; // TODO: Возможно среднее время и память
+        return results;
     }
 
     private static ArrayList<String> readOutputData(Process process) throws IOException {

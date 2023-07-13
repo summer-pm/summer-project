@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 @Builder
 public class TotalExecutionResult {
-    long attemptId;
+    Long attemptId;
     ExecutionStatus status;
     double executionTimeNs;
     String actualResult;
