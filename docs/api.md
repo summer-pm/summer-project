@@ -5,21 +5,11 @@
 ## Version 
 Текущая версия `v1`
 
+
 ### Получение списка задач
 
 ## `` GET /tasks ``
 
-<<<<<<< HEAD
-Параметры строки запроса
-| Параметр | Обязательность | Описание | Тип данных |
-| ------------- | ------------- |  ------------- | ------------- |
-| level | Не обязательно | Отображение задач с определённым уровнем сложности: "easy/medium/hard" | string |
-| status | Не обязательно | Отображение задач с определённым статусом: "решено (1)/не решено (0)" | integer |
-| title | Не обязательно | Отображение задачи с определённым названием | string |
-
-Пример запроса
-`` GET "<baseurl>/v1/tasks?level=easy&status=0&title=taskname" ``
-=======
 Параметры 
 | Параметр | Обязательность | Описание | Тип данных |
 | ------------- | ------------- |  ------------- | ------------- |
@@ -31,7 +21,6 @@
 
 Пример запроса
 `` GET "<baseurl>/v1/tasks?level=easy&status=0&title=taskname&limit=20&sort=asc" ``
->>>>>>> abe64b06c86ae596b1dcb093b0d2d008782c59ce
 
 Ответ
 
@@ -39,27 +28,16 @@
 {
     "tasks": [
                {
-<<<<<<< HEAD
-                "taskID": 1,   // номер задачи
-                "title": "Название задачи 1",
-                "level": "Уровень сложности задачи",
-                "status": 0  // статус задачи ("решено" = 1 или "не решено" = 0)
-=======
                 "taskID": 1,   
                 "title": "Название задачи 1",
                 "level": "Уровень сложности задачи",
                 "status": "решено" 
->>>>>>> abe64b06c86ae596b1dcb093b0d2d008782c59ce
                },
                {
                 "taskID": 2,
                 "title": "Название задачи 2",
                 "level": "Уровень сложности задачи",
-<<<<<<< HEAD
-                "status": 1
-=======
                 "status": "не решено"
->>>>>>> abe64b06c86ae596b1dcb093b0d2d008782c59ce
                 },
               ...
               ]
@@ -71,11 +49,7 @@
 | taskID | Номер задачи, отображаемый в списке задач | integer |
 | title | Название задачи, отображаемое в списке задач | string |
 | level | Уровень сложности задачи, отображаемый в списке задач | string |
-<<<<<<< HEAD
-| status | Факт того, решена ли задача пользователем | boolean |
-=======
 | status | Факт того, решена ли задача пользователем. Статусы: "решено/не решено" | string |
->>>>>>> abe64b06c86ae596b1dcb093b0d2d008782c59ce
 
 Коды ответа
 
@@ -84,8 +58,6 @@
 | 200 | ОК |
 | 404 | Элемент не существует |
 
-<<<<<<< HEAD
-=======
 
 
 OpenAPI 
@@ -175,15 +147,10 @@ paths:
 
 
 
->>>>>>> abe64b06c86ae596b1dcb093b0d2d008782c59ce
 ### Просмотр задачи
 
 ## `` GET /tasks/{id} ``
 
-<<<<<<< HEAD
-
-
-=======
 Пример запроса
 `` GET "<baseurl>/v1/tasks/1111" ``
 
@@ -215,11 +182,15 @@ paths:
   "status": "не решено",
    "languages":[
     {
-    "language": "name"
+    "language": "name",
+     "solutionTemplate": "class Solution {...}",
+     },
+    {
+    "language": "name",
+     "solutionTemplate": "class Solution {...}",
      }
      ...
-   ],
-   "solutionTemplate": "class Solution {...}",
+   ]
    "timeRestrict": "ограничения по времени",
    "volumeRestrict": "ограничения по объёму занимаемой памяти"
 }
@@ -312,9 +283,9 @@ paths:
                         language:
                           type: string
                           description: The name of the programming language
-                  solutionTemplate:
-                    type: string
-                    description: The solution template for the task
+                        solutionTemplate:
+                          type: string
+                          description: The solution template for the task
                   timeRestrict:
                     type: string
                     description: The time restriction for the task
@@ -362,7 +333,6 @@ paths:
 ```bash
 {
   "attemptID": 1111,
-  "taskID": 2222,
   "userID": 3333,
   "language": "Java"
 }
@@ -371,7 +341,6 @@ paths:
 | Параметр | Описание | Тип данных |
 | ------------- | ------------- |  ------------- |  
 | attemptID | Идентификатор пользователя | int64 |
-| taskID | Идентификатор задачи | int64 |
 | userID | Идентификатор пользователя | int64 |
 | language | Язык программирования | string |
 
@@ -429,10 +398,6 @@ paths:
                     type: integer
                     format: int64
                     description: ID of the created attempt
-                  taskID:
-                    type: integer
-                    format: int64
-                    description: ID of the associated task
                   userID:
                     type: integer
                     format: int64
@@ -596,4 +561,3 @@ paths:
 
 
 ```
->>>>>>> abe64b06c86ae596b1dcb093b0d2d008782c59ce

@@ -1,16 +1,5 @@
 version: '3.8'
 services:
-<<<<<<< HEAD
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    hostname: kafka
-    ports:
-      - "9092:9092"
-    environment:
-      KAFKA_LISTENERS: PLAINTEXT://:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-=======
   elasticsearch:
     image: elasticsearch:7.7.0
     container_name: elasticsearch
@@ -76,4 +65,3 @@ volumes:
 
 networks:
   elk:
->>>>>>> abe64b06c86ae596b1dcb093b0d2d008782c59ce
