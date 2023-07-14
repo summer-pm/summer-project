@@ -1,5 +1,6 @@
 package ru.tinkoff.summer.taskexecutor;
 
+<<<<<<< HEAD
 
 import ru.tinkoff.summer.taskexecutor.domain.Attempt;
 
@@ -120,3 +121,14 @@ public class Main {
 
         }
     }
+=======
+import ru.tinkoff.summer.taskexecutor.messaging.AttemptListener;
+
+public class Main {
+
+    public static void main(String[] args) {
+        new AttemptListener();
+    }
+
+}
+>>>>>>> abe64b06c86ae596b1dcb093b0d2d008782c59ce

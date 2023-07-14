@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+<<<<<<< HEAD
   kafka:
     image: confluentinc/cp-kafka:latest
     hostname: kafka
@@ -9,3 +10,70 @@ services:
       KAFKA_LISTENERS: PLAINTEXT://:9092
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+=======
+  elasticsearch:
+    image: elasticsearch:7.7.0
+    container_name: elasticsearch
+    restart: always
+    volumes:
+        - elastic1:/usr/share/elasticsearch/data/
+    environment:
+        ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+        discovery.type: single-node
+    ports:
+        - '9200:9200'
+        - '9300:9300'
+    networks:
+        - elk
+  kibana:
+    image: kibana:7.7.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_URL: "http://elasticsearch.9300"
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch
+    networks:
+        - elk
+  logstash:
+    image: logstash:7.7.0
+    container_name: logstash
+    command:
+      logstash -f /etc/logstash/conf.d/logstash.conf
+    volumes:
+      - ./config:/etc/logstash/conf.d
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5000:5000
+    networks:
+      - elk
+  zookeeper:
+      image: confluentinc/cp-zookeeper:latest
+      hostname: zookeeper
+      ports:
+        - "2181:2181"
+      environment:
+        ZOOKEEPER_CLIENT_PORT: 2181
+        ZOOKEEPER_TICK_TIME: 2000
+  kafka:
+      image: confluentinc/cp-kafka:latest
+      hostname: kafka
+      ports:
+        - "9092:9092"
+      depends_on:
+        - zookeeper
+      environment:
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_LISTENERS: PLAINTEXT://:9092
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+        KAFKA_KRAFT_BROKER_ID: 1
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+        KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+volumes:
+  elastic1: {}
+
+networks:
+  elk:
+>>>>>>> abe64b06c86ae596b1dcb093b0d2d008782c59ce
