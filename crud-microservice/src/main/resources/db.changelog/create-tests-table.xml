@@ -1,0 +1,23 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="create-test-table" author="kharitonov">
+        <createTable tableName="tests">
+            <column name="test_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="task_id" type="bigint"/>
+            <column name="input_parameters" type="varchar(255)"/>
+            <column name="output_parameters" type="varchar(255)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="tests"
+                                 baseColumnNames="task_id"
+                                 constraintName="fk_test_task"
+                                 referencedTableName="tasks"
+                                 referencedColumnNames="task_id"/>
+    </changeSet>
+
+</databaseChangeLog>
