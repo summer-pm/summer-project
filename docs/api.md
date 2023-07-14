@@ -5,6 +5,7 @@
 ## Version 
 Текущая версия `v1`
 
+
 ### Получение списка задач
 
 ## `` GET /tasks ``
@@ -181,11 +182,15 @@ paths:
   "status": "не решено",
    "languages":[
     {
-    "language": "name"
+    "language": "name",
+     "solutionTemplate": "class Solution {...}",
+     },
+    {
+    "language": "name",
+     "solutionTemplate": "class Solution {...}",
      }
      ...
-   ],
-   "solutionTemplate": "class Solution {...}",
+   ]
    "timeRestrict": "ограничения по времени",
    "volumeRestrict": "ограничения по объёму занимаемой памяти"
 }
@@ -278,9 +283,9 @@ paths:
                         language:
                           type: string
                           description: The name of the programming language
-                  solutionTemplate:
-                    type: string
-                    description: The solution template for the task
+                        solutionTemplate:
+                          type: string
+                          description: The solution template for the task
                   timeRestrict:
                     type: string
                     description: The time restriction for the task
@@ -328,7 +333,6 @@ paths:
 ```bash
 {
   "attemptID": 1111,
-  "taskID": 2222,
   "userID": 3333,
   "language": "Java"
 }
@@ -337,7 +341,6 @@ paths:
 | Параметр | Описание | Тип данных |
 | ------------- | ------------- |  ------------- |  
 | attemptID | Идентификатор пользователя | int64 |
-| taskID | Идентификатор задачи | int64 |
 | userID | Идентификатор пользователя | int64 |
 | language | Язык программирования | string |
 
@@ -395,10 +398,6 @@ paths:
                     type: integer
                     format: int64
                     description: ID of the created attempt
-                  taskID:
-                    type: integer
-                    format: int64
-                    description: ID of the associated task
                   userID:
                     type: integer
                     format: int64
