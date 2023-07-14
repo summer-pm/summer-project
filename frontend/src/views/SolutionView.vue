@@ -6,8 +6,7 @@
       <code-editor :pending=" attempt.status === 'PENDING'" class="item" @sendAttempt="sendAttempt"/>
     </div>
     <div v-if="attempt">
-      Результат:
-      {{ attempt }}
+      <h5>Результат</h5>
       <br>
       <span style="white-space: pre-line">{{ attempt.errorMessage }}</span>
     </div>

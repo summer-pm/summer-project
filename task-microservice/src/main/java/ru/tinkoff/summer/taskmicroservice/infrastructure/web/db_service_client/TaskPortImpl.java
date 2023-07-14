@@ -32,16 +32,8 @@ public class TaskPortImpl implements TaskPort {
                 ),
               new TaskTestCase(
                         List.of("1","4"),"5"
-                ),
-                        new TaskTestCase(
-                        List.of("2","6"),"8"
-                ),
-                                  new TaskTestCase(
-                        List.of("2","-2"),"0"
-                ),
-                                            new TaskTestCase(
-                        List.of("2","22"),"24"
                 )
+
         ));
         return task;
     }
