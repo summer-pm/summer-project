@@ -16,7 +16,7 @@
         placeholder="Ваше решение..."
     />
     <button :disabled="$props.pending" @click="sendSolution">
-      <span v-if="!$props.pending"> Отправить </span>
+      <span v-if="!$props.pending"> Отправить на проверку</span>
     </button>
   </div>
 
