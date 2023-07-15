@@ -420,16 +420,16 @@ paths:
 
 ### Просмотр попыток решения
 
-## `` GET /tasks/{id}/attempts/{id} ``
+## `` GET /tasks/{id}/attempts ``
 
 Параметры 
 | Параметр | Обязательность | Описание | Тип данных |
 | ------------- | ------------- |  ------------- | ------------- |
-| limit | Не обязательно | Максимальное количество возвращаемых элементов. По умолчанию 20 | integer |
+| limit | Не обязательно | Максимальное количество возвращаемых элементов. По умолчанию 10 | integer |
 | sort | Не обязательно | Сортировка по возрастанию. Сначала новые решения | integer |
 
 Пример запроса
-`` GET "<baseurl>/v1/tasks/1111/attempts/1111?limit=20&sort=asc"  ``
+`` GET "<baseurl>/v1/tasks/1111/attempts/1111?limit=10&sort=asc"  ``
 
 Ответ
 
@@ -442,18 +442,21 @@ paths:
                {
                 "status": "решено",
                 "datetime": "дата и время",
-                "language": "Java"
+                "language": "Java",
+                "code": "class Solution {...}",
+                "timeResult": "результат попытки по времени",
+                "volumeResult": "результат попытки по объёму занимаемой памяти"
                },
                {
-                 "status": "решено",
+                "status": "решено",
                 "datetime": "дата и время",
-                "language": "Python"
+                "language": "Python",
+                "code": "class Solution {...}",
+                "timeResult": "результат попытки по времени",
+                 "volumeResult": "результат попытки по объёму занимаемой памяти"
                 },
               ...
-              ],
-   "code": "class Solution {...}",
-    "timeRestrict": "ограничения по времени",
-    "volumeRestrict": "ограничения по объёму занимаемой памяти"
+              ]
 }
 ```
 | Параметр | Описание | Тип данных |
@@ -465,8 +468,8 @@ paths:
 | status | Факт того, решена ли задача пользователем/ Статусы: "решено/не решено" | string |
 | datetime | Дата и время попытки решения | string |
 | code | Код пользователя | string |
-| timeRestrict | Ограничение по времени | string |
-| volumeRestrict | Ограничение по памяти | string |
+| timeResult | Результат попытки по времени | string |
+| volumeResult | Результат попытки по объёму занимаемой памяти | string |
 
 
 Коды ответа
@@ -479,10 +482,10 @@ paths:
 
 ```bash
 paths:
-  /tasks/{taskID}/attempts/{attemptID}:
+  /tasks/{taskID}/attempts:
     get:
       summary: Viewing a problem solving attempt
-      description: Returns task attempt information for the specified task and attempt IDs.
+      description: Returns task attempts information for the specified task.
       parameters:
         - name: taskID
           in: path
@@ -504,7 +507,7 @@ paths:
           schema:
             type: integer
             minimum: 1
-            default: 20
+            default: 10
         - name: sort
           in: query
           description: Sorting order for the attempts (ascending or descending)
@@ -544,15 +547,15 @@ paths:
                         language:
                           type: string
                           description: The programming language used in the attempt
-                  code:
-                    type: string
-                    description: The user's code
-                  timeRestrict:
-                    type: string
-                    description: The time restriction for the task
-                  volumeRestrict:
-                    type: string
-                    description: The volume restriction for the task
+                        code:
+                          type: string
+                          description: The user's code
+                        timeResult:
+                          type: string
+                          description: Result of a time attempt
+                        volumeResult:
+                          type: string
+                          description: Result of a volume attempt
         '403':
           description: Access denied
         '404':
@@ -560,4 +563,123 @@ paths:
 
 
 
+```
+
+### Общая лента
+
+## `` GET /feed ``
+
+Параметры 
+| Параметр | Обязательность | Описание | Тип данных |
+| ------------- | ------------- |  ------------- | ------------- |
+| limit | Не обязательно | Максимальное количество возвращаемых элементов. По умолчанию 20 | integer |
+| sort | Не обязательно | Сортировка по возрастанию. Сначала новые посты | integer |
+| title | Не обязательно | Отображение задачи с определённым названием | string |
+
+Пример запроса
+`` GET "<baseurl>/v1/feed?limit=20&sort=asc&title=taskname"  ``
+
+
+Ответ
+
+```bash
+{
+    "posts": [
+               {
+                "username": "Имя пользователя",
+                "timeOfPost": "дата и вермя поста",
+                "commentary": "Комментарий пользователя",
+                "title": "Название задачи 1",
+                "level": "Уровень сложности задачи"
+               },
+               {
+                "username": "Имя пользователя",
+                "timeOfPost": "дата и вермя поста",
+                 "commentary": "Комментарий пользователя",
+                "title": "Название задачи 2",
+                "level": "Уровень сложности задачи"
+                },
+              ...
+              ]
+}
+```
+
+
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- |  
+| username | Имя пользователя | string |
+| timeOfPost | Время публикации поста | string |
+| commentary | Комментарий пользователя к посту | string |
+| title | Название задачи | string |
+| level | Уровень сложности задачи, отображаемый в списке постов. Уровни сложности: "easy/medium/hard" | string |
+
+
+
+Коды ответа
+
+| Код | Описание |
+| ------------- | ------------- |
+| 200 | ОК |
+| 403 | Нет прав доступа |
+| 404 | Элемент не существует |
+
+
+OpenAPI
+
+```bash
+paths:
+  /feed:
+    get:
+      summary: General feed
+      description: Returns a list of posts in the general feed.
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of returned items. Default is 20.
+          schema:
+            type: integer
+            minimum: 1
+        - name: sort
+          in: query
+          description: Sorting order for the posts (ascending or descending). Default is descending.
+          schema:
+            type: string
+            enum: [asc, desc]
+        - name: title
+          in: query
+          description: Displaying a post with a specific title.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  posts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                          description: User's username
+                        timeOfPost:
+                          type: string
+                          description: Time of the post
+                        commentary:
+                          type: string
+                          description: User's commentary on the post
+                        title:
+                          type: string
+                          description: Title of the task
+                        level:
+                          type: string
+                          description: Difficulty level of the task
+        '403':
+          description: Access denied
+        '404':
+          description: Element not found
 ```
