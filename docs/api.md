@@ -425,11 +425,11 @@ paths:
 Параметры 
 | Параметр | Обязательность | Описание | Тип данных |
 | ------------- | ------------- |  ------------- | ------------- |
-| limit | Не обязательно | Максимальное количество возвращаемых элементов. По умолчанию 20 | integer |
+| limit | Не обязательно | Максимальное количество возвращаемых элементов. По умолчанию 10 | integer |
 | sort | Не обязательно | Сортировка по возрастанию. Сначала новые решения | integer |
 
 Пример запроса
-`` GET "<baseurl>/v1/tasks/1111/attempts/1111?limit=20&sort=asc"  ``
+`` GET "<baseurl>/v1/tasks/1111/attempts/1111?limit=10&sort=asc"  ``
 
 Ответ
 
@@ -444,16 +444,16 @@ paths:
                 "datetime": "дата и время",
                 "language": "Java",
                 "code": "class Solution {...}",
-                "timeRestrict": "ограничения по времени",
-                "volumeRestrict": "ограничения по объёму занимаемой памяти"
+                "timeResult": "результат попытки по времени",
+                "volumeResult": "результат попытки по объёму занимаемой памяти"
                },
                {
                 "status": "решено",
                 "datetime": "дата и время",
                 "language": "Python",
                 "code": "class Solution {...}",
-                "timeRestrict": "ограничения по времени",
-                 "volumeRestrict": "ограничения по объёму занимаемой памяти"
+                "timeResult": "результат попытки по времени",
+                 "volumeResult": "результат попытки по объёму занимаемой памяти"
                 },
               ...
               ]
@@ -468,8 +468,8 @@ paths:
 | status | Факт того, решена ли задача пользователем/ Статусы: "решено/не решено" | string |
 | datetime | Дата и время попытки решения | string |
 | code | Код пользователя | string |
-| timeRestrict | Ограничение по времени | string |
-| volumeRestrict | Ограничение по памяти | string |
+| timeResult | Результат попытки по времени | string |
+| volumeResult | Результат попытки по объёму занимаемой памяти | string |
 
 
 Коды ответа
@@ -482,10 +482,10 @@ paths:
 
 ```bash
 paths:
-  /tasks/{taskID}/attempts/{attemptID}:
+  /tasks/{taskID}/attempts:
     get:
       summary: Viewing a problem solving attempt
-      description: Returns task attempt information for the specified task and attempt IDs.
+      description: Returns task attempts information for the specified task.
       parameters:
         - name: taskID
           in: path
@@ -507,7 +507,7 @@ paths:
           schema:
             type: integer
             minimum: 1
-            default: 20
+            default: 10
         - name: sort
           in: query
           description: Sorting order for the attempts (ascending or descending)
@@ -550,12 +550,12 @@ paths:
                         code:
                           type: string
                           description: The user's code
-                        timeRestrict:
+                        timeResult:
                           type: string
-                          description: The time restriction for the task
-                        volumeRestrict:
+                          description: Result of a time attempt
+                        volumeResult:
                           type: string
-                          description: The volume restriction for the task
+                          description: Result of a volume attempt
         '403':
           description: Access denied
         '404':
