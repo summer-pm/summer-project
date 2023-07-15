@@ -3,11 +3,13 @@
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
   --vt-c-white-mute: #f2f2f2;
-
+  --vt-c-success: #219653;
+  --vt-c-success-mute: rgba(33, 150, 83, 0.26);
   --vt-c-black: #181818;
   --vt-c-black-soft: #222222;
   --vt-c-black-mute: #282828;
-
+--vt-c-error: #FF0000;
+--vt-c-error-mute: rgba(255, 0, 0, 0.17);
   --vt-c-total-black: #000000;
   --vt-c-yellow:#FCDD2D;
   --vt-c-divider-light-1: rgba(60, 60, 60, 0.29);
@@ -23,13 +25,15 @@
 
 /* semantic color variables for this project */
 :root {
-  --color-background: var(--vt-c-white);
+  --color-success: var(--vt-c-success);
+  --color-success-background: var(--vt-c-success-mute);
+  --color-backgrcodeound: var(--vt-c-white);
   --color-background-soft: var(--vt-c-white-soft);
   --color-background-mute: var(--vt-c-white-mute);
-
+  --color-background-error: var(--vt-c-error-mute);
   --color-border: var(--vt-c-divider-light-2);
   --color-border-hover: var(--vt-c-divider-light-1);
-
+  --color--text-error: var(--vt-c-error);
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
   --color-main: var(--vt-c-yellow);

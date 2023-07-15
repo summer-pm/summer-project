@@ -6,9 +6,7 @@
       <code-editor :pending=" attempt.status === 'PENDING'" class="item" @sendAttempt="sendAttempt"/>
     </div>
     <div v-if="attempt">
-      <h5>Результат</h5>
-      <br>
-      <span style="white-space: pre-line">{{ attempt.errorMessage }}</span>
+      <result-display :attempt="attempt"/>
     </div>
   </div>
 
@@ -21,9 +19,10 @@ import taskApi from "@/api/taskApi";
 import TaskDescription from "@/components/task/TaskDescription.vue";
 import CodeEditor from "@/components/task/CodeEditor.vue";
 import {useRoute} from "vue-router";
+import ResultDisplay from "@/components/task/ResultDisplay.vue";
 
 export default defineComponent({
-  components: {CodeEditor, TaskDescription},
+  components: {ResultDisplay, CodeEditor, TaskDescription},
   setup() {
     const route = useRoute()
     const task = ref();
