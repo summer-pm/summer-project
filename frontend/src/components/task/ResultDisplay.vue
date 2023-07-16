@@ -2,9 +2,8 @@
   <div v-if="attempt.status !== 'NONE'">
     <h5>Результат:</h5>
     <div class="result-wrapper" :class="{pending : isPending, error: isError, failure: isFailure, success: isSuccess}">
-      <div v-if="isPending">
-        <p>Загрузка... </p>
-        <loader/>
+      <div id="loader" v-if="isPending">
+        <loader style="height: 80px"/>
       </div>
       <div v-else-if="isError">
         <p>Ошибка</p>
@@ -73,6 +72,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+#loader{
+  height: 80px;
+  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .result-wrapper {
   width: 35%;
   padding: 10px;
