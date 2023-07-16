@@ -1,6 +1,6 @@
 <template>
   <div >
-    <bear-logo/>
+    <bear-logo :is-loader="true"/>
   </div>
 
 
@@ -15,24 +15,6 @@ export default {
 }
 </script>
 
-<style >
-#bear{
-  animation-duration: .6s;
-   animation-name: fade-in;
-animation-iteration-count: infinite;
-}
-#bear1{
-  animation-duration: .6s;
-   animation-name: fade-in;
-animation-iteration-count: infinite;
-}
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
+<style scoped>
 
-  to {
-    opacity: 1;
-  }
-}
 </style>
