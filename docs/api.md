@@ -425,6 +425,7 @@ paths:
 Параметры 
 | Параметр | Обязательность | Описание | Тип данных |
 | ------------- | ------------- |  ------------- | ------------- |
+| id | Обязательно | ID задачи | int64 |
 | limit | Не обязательно | Максимальное количество возвращаемых элементов. По умолчанию 10 | integer |
 | sort | Не обязательно | Сортировка по возрастанию. Сначала новые решения | integer |
 
@@ -813,7 +814,7 @@ paths:
 
 ```bash
 {
-   "roomID": "1111",
+   "roomID": 1111,
     "users": ["userID", "userID"]
 }
 ```
@@ -828,13 +829,13 @@ paths:
 
 ```bash
 {
-   "isCreated": true,
+   "roomID": 1111
 }
 ```
 
 | Параметр | Описание | Тип данных |
 | ------------- | ------------- |  ------------- |  
-| isCreated | Флаг, что комната создана | boolean |
+| roomID | Идентификатор комнаты | int64 |
 
 
 Коды ответа
@@ -865,18 +866,18 @@ paths:
                 users:
                   type: array
                   items:
-                    type: integer
-                    format: int64
+                    type: string
       responses:
-        '200':
-          description: Successful request. The chat is successfully created and stored.
+        '201':
+          description: Chat created. The chat is successfully created and stored.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  isCreated:
-                    type: boolean
+                  roomID:
+                    type: integer
+                    format: int64
         '400':
           description: Bad Request. The room cannot be created with fewer than 2 users.
 
@@ -1199,7 +1200,7 @@ paths:
 | Параметр | Обязательность | Описание | Тип данных |
 | ------------- | ------------- |  ------------- | ------------- |
 | room | Не обязательно | ID комнаты | string |
-| user | Не обязательно | ID пользователя | string |
+| user | Не обязательно | ID пользователя | int64 |
 
 Пример запроса
 `` GET "<baseurl>/v1/messages?room=chatRoomId&user=userID"  ``
@@ -1295,4 +1296,281 @@ paths:
         '404':
           description: Cannot display messages if the chat or user does not exist.
 
+```
+
+
+### Показ определённого сообщения
+
+## `` GET /messages/{id} ``
+
+Параметры 
+| Параметр | Обязательность | Описание | Тип данных |
+| ------------- | ------------- |  ------------- | ------------- |
+| id | Обязательно | ID сообщения | int64 |
+
+
+Пример запроса
+`` GET "<baseurl>/v1/messages/1111"  ``
+
+Ответ
+
+```bash
+{
+     "message_ID": "111",
+     "room_ID": "1111",
+     "sender": 1111,
+     "content" [
+           "message": "message text"
+     ],
+    "dateTime": "дата и время отправки сообщения",
+    "status": "прочитано"
+}
+```
+
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- | 
+| message_ID | ID сообщения | string  | 
+| room_ID | ID комнаты | string  |
+| sender | ID отправителя | int64  |
+| message | Текст сообщения | string |
+| dateTime | Дата и время отправки сообщения | string  |
+| status | Статус сообщения: "доставлено/не прочитано/прочитано" |  string |
+
+Коды ответа
+
+| Код | Описание |
+| ------------- | ------------- |
+| 200 | ОК |
+| 404 | Нельзя отобразить сообщения, если оно не существует |
+
+
+
+OpenAPI
+
+```bash
+paths:
+  /v1/messages/{id}:
+    get:
+      summary: Retrieve a specific message
+      parameters:
+        - name: id
+          in: path
+          description: ID of the message
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK. Returns the specified message.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message_ID:
+                    type: string
+                  room_ID:
+                    type: string
+                  sender:
+                    type: integer
+                    format: int64
+                  content:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                  dateTime:
+                    type: string
+                  status:
+                    type: string
+        '404':
+          description: Cannot display the message if it does not exist.
+```
+
+
+
+
+
+
+
+### Редактирование сообщения
+
+## `` PUT /messages/{id}/edit ``
+
+Параметры 
+| Параметр | Обязательность | Описание | Тип данных |
+| ------------- | ------------- |  ------------- | ------------- |
+| id | Обязательно | ID сообщения | int64 |
+
+
+Пример запроса
+`` PUT "<baseurl>/v1/messages/1111/edit"  ``
+
+
+Тело запроса
+
+```bash
+{
+  "edit content" [
+           "mew message": "message text"
+     ]"
+}
+```
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- |  
+| new message | Новый текст сообщения | string|
+
+
+Ответ
+
+```bash
+{
+     "message_ID": "111",
+     "room_ID": "1111",
+     "sender": 1111,
+     "editContent" [
+           "new message": "message text"
+     ],
+    "dateTime": "дата и время отправки сообщения",
+    "status": "прочитано"
+}
+```
+
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- |  
+| message_ID | ID сообщения | string  | 
+| room_ID | ID комнаты | string  |
+| sender | ID отправителя | int64  |
+| new message | Новый текст сообщения | string |
+| dateTime | Дата и время отправки сообщения | string  |
+| status | Статус сообщения: "доставлено/не прочитано/прочитано" |  string |
+
+
+Коды ответа
+
+| Код | Описание |
+| ------------- | ------------- |
+| 201 | Попытка создана |
+| 404 | Нельзя отредактировать несуществующий элемент |
+
+
+OpenAPI
+
+```bash
+paths:
+  /v1/messages/{id}/edit:
+    put:
+      summary: Edit a message
+      parameters:
+        - name: id
+          in: path
+          description: ID of the message
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                editContent:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: OK. The message is successfully edited.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message_ID:
+                    type: string
+                  room_ID:
+                    type: string
+                  sender:
+                    type: integer
+                    format: int64
+                  editContent:
+                    type: array
+                    items:
+                      type: string
+                  dateTime:
+                    type: string
+                  status:
+                    type: string
+        '404':
+          description: The specified message does not exist and cannot be edited.
+```
+
+
+
+### Удаление сообщения
+
+## `` DELETE /messages/{id} ``
+
+
+Параметры 
+| Параметр | Обязательность | Описание | Тип данных |
+| ------------- | ------------- |  ------------- | ------------- |
+| id | Обязательно | ID сообщения | int64 |
+
+
+Пример запроса
+`` DELETE "<baseurl>/v1/messages/1111"  ``
+
+Ответ
+
+```bash
+{
+   "isDeleted": true
+}
+```
+
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- |  
+| isCreated | Флаг, что сообщение удалено | boolean |
+
+
+Коды ответа
+
+| Код | Описание |
+| ------------- | ------------- |
+| 200 | ОК |
+| 404 | Несуществующее сообщение не может быть удалено |
+
+OpenAPI
+
+```bash
+paths:
+  /v1/messages/{id}:
+    delete:
+      summary: Delete a message
+      parameters:
+        - name: id
+          in: path
+          description: ID of the message
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK. The message is successfully deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isDeleted:
+                    type: boolean
+        '404':
+          description: The specified message does not exist and cannot be deleted.
 ```
