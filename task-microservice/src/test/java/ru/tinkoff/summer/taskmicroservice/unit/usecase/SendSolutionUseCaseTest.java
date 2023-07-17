@@ -39,13 +39,12 @@ public class SendSolutionUseCaseTest {
     private AttemptProducer attemptProducer;
     @InjectMocks
     private SendSolutionUseCaseImpl sut;
-    private Task task;
     @Captor
     private ArgumentCaptor<Attempt> attemptCaptor;
 
     @BeforeEach
     public void setUp() {
-        task = new Task();
+        Task task = new Task();
         task.setId(1L);
         task.setMethodName("methodName");
         task.setParams(new TaskParams(
