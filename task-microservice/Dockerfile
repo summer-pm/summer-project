@@ -1,4 +1,4 @@
-FROM gradle:7.6.2-jdk17-focal AS build
+FROM gradle:7.6.2-jdk17-focal
 
 
 COPY task-microservice/src /app/task-microservice/src
@@ -9,7 +9,12 @@ COPY build.gradle.kts /app/build.gradle.kts
 COPY settings.gradle.kts /app/settings.gradle.kts
 
 WORKDIR /app
+RUN gradle task-microservice:build
+RUN find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+COPY  /app/task-microservice/build/libs/task-microservice-1.0-SNAPSHOT.jar /app/task-microservice/your-app.jar
 
-CMD ["gradle", "task-microservice:bootRun"]
+WORKDIR /app/task-microservice
+
+CMD ["java", "-jar", "your-app.jar"]
 
 
