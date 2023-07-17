@@ -6,7 +6,7 @@
     </encoder>
   </appender>
   <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:5000</destination>
+        <destination>logstash:5000</destination>
 
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
            <customFields>{"application_name":"task-executor"}</customFields>
