@@ -1,5 +1,8 @@
 package ru.tinkoff.summer.taskmicroservice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -18,7 +21,9 @@ import java.util.Collections;
 
 @SpringBootApplication
 public class TaskMicroserviceApplication implements ApplicationRunner {
-
+    @Value("${spring.kafka.consumer.bootstrap-servers}")
+    public String test;
+    public Logger log = LoggerFactory.getLogger(TaskMicroserviceApplication.class);
     private final SendSolutionUseCase useCase;
 
     public TaskMicroserviceApplication(SendSolutionUseCase useCase) {
@@ -47,23 +52,7 @@ public class TaskMicroserviceApplication implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-//        for (int i = 0; i < 200; i++) {
-//            var data = new SolutionData();
-//            if(i%2 == 0){
-//                 data.setCode("class Solution{" +
-//                    "public int add(int a, int b){return a+b;}}");
-//                   data.setLanguage(Language.JAVA);
-//            } else {
-//                data.setCode("class Solution:\n" +
-//                        "    def add(self, a,b):\n" +
-//                        "        return a+b");
-//                  data.setLanguage(Language.PYTHON);
-//            }
-//
-//            data.setTaskId(1L);
-//
-//            var id = useCase.execute(data);
-//        }
+        log.error(test);
 
     }
 }
