@@ -68,8 +68,11 @@ export default defineComponent({
     }
 
     &.disabled {
-      opacity: 0.5;
+      opacity: 0.7;
       cursor: default;
+      &:hover{
+        background-color: var(--color-background-soft);
+      }
     }
   }
 
