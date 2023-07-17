@@ -44,4 +44,7 @@ onMounted(loadData)
 #pagination{
   margin-top: 30px;
 }
+#table{
+  margin-top: 50px;
+}
 </style>
