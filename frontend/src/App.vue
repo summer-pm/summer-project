@@ -1,10 +1,16 @@
 <template>
-  <router-view></router-view>
+  <Header/>
+  <div id="wrapper">
+    <router-view></router-view>
+  </div>
 
 </template>
 
 <script>
-
+import Header from "@/components/ui/Header.vue";
+export default {
+  components: {Header}
+}
 </script>
 
 

@@ -6,10 +6,7 @@
       <code-editor :pending=" attempt.status === 'PENDING'" class="item" @sendAttempt="sendAttempt"/>
     </div>
     <div v-if="attempt">
-      Результат:
-      {{ attempt }}
-      <br>
-      <span style="white-space: pre-line">{{ attempt.errorMessage }}</span>
+      <result-display :attempt="attempt"/>
     </div>
   </div>
 
@@ -19,12 +16,14 @@
 
 import {defineComponent, onBeforeMount, reactive, ref} from 'vue'
 import taskApi from "@/api/taskApi";
-import TaskDescription from "@/components/task/TaskDescription.vue";
-import CodeEditor from "@/components/task/CodeEditor.vue";
+import TaskDescription from "@/components/solution/TaskDescription.vue";
+import CodeEditor from "@/components/solution/CodeEditor.vue";
 import {useRoute} from "vue-router";
+import ResultDisplay from "@/components/solution/ResultDisplay.vue";
+import attemptApi from "@/api/attemptApi";
 
 export default defineComponent({
-  components: {CodeEditor, TaskDescription},
+  components: {ResultDisplay, CodeEditor, TaskDescription},
   setup() {
     const route = useRoute()
     const task = ref();
@@ -49,8 +48,7 @@ export default defineComponent({
     }
 
     function sendAttempt(solution) {
-      taskApi.sendAttempt(solution).then(r => {
-        console.log(r.data);
+      attemptApi.sendAttempt(solution).then(r => {
         Object.assign(attempt, r.data);
         checkForPending();
       }).catch(err => {
@@ -63,7 +61,7 @@ export default defineComponent({
     }
 
     function checkAttemptStatus() {
-      taskApi.getAttemptById(task.value.id, attempt.id).then(r => {
+      attemptApi.getAttemptById(task.value.id, attempt.id).then(r => {
         Object.assign(attempt, r.data);
         checkForPending();
       }).catch(
