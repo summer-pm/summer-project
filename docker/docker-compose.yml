@@ -1,5 +1,35 @@
 version: '3.8'
 services:
+  task-microservice:
+    build:
+      context: ../
+      dockerfile: task-microservice/Dockerfile
+    container_name: task-microservice
+    environment:
+      - BOOTSTRAP_SERVERS=${BOOTSTRAP_SERVERS}
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart:
+      on-failure
+    ports:
+      - 60000:60000
+    networks:
+      - app
+  task-executor:
+    build:
+      context: ../
+      dockerfile: task-executor/Dockerfile
+    container_name: task-executor
+    environment:
+      - BOOTSTRAP_SERVERS=${BOOTSTRAP_SERVERS}
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart:
+      on-failure
+    networks:
+      - app
   elasticsearch:
     image: elasticsearch:7.7.0
     container_name: elasticsearch
@@ -13,7 +43,7 @@ services:
         - '9200:9200'
         - '9300:9300'
     networks:
-        - elk
+        - app
   kibana:
     image: kibana:7.7.0
     container_name: kibana
@@ -24,7 +54,7 @@ services:
     depends_on:
       - elasticsearch
     networks:
-        - elk
+        - app
   logstash:
     image: logstash:7.7.0
     container_name: logstash
@@ -37,7 +67,7 @@ services:
     ports:
       - 5000:5000
     networks:
-      - elk
+      - app
   zookeeper:
       image: confluentinc/cp-zookeeper:latest
       hostname: zookeeper
@@ -46,22 +76,39 @@ services:
       environment:
         ZOOKEEPER_CLIENT_PORT: 2181
         ZOOKEEPER_TICK_TIME: 2000
+      healthcheck:
+        test: [ "CMD", "nc", "-z", "localhost", "2181" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+      networks:
+        - app
   kafka:
       image: confluentinc/cp-kafka:latest
       hostname: kafka
       ports:
         - "9092:9092"
       depends_on:
-        - zookeeper
+        zookeeper:
+          condition: service_healthy
       environment:
         KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
         KAFKA_LISTENERS: PLAINTEXT://:9092
-        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${KAFKA_LISTENERS}
         KAFKA_KRAFT_BROKER_ID: 1
         KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
         KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      healthcheck:
+        test: [ "CMD", "nc", "-z", "localhost", "9092" ]
+        interval: 10s
+        timeout: 5s
+        retries: 10
+      restart:
+        on-failure
+      networks:
+        - app
 volumes:
   elastic1: {}
 
 networks:
-  elk:
+  app:
