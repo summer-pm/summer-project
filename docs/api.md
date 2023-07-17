@@ -481,6 +481,10 @@ paths:
 | 403 | Нет прав доступа |
 | 404 | Элемент не существует |
 
+
+
+OpenAPI
+
 ```bash
 paths:
   /tasks/{taskID}/attempts:
@@ -565,6 +569,111 @@ paths:
 
 
 ```
+
+
+
+
+
+
+### Просмотр попытки решения
+
+## `` GET /attempts/{id} ``
+
+Параметры 
+| Параметр | Обязательность | Описание | Тип данных |
+| ------------- | ------------- |  ------------- | ------------- |
+| id | Обязательно | ID попытки решения | int64 |
+
+
+Пример запроса
+`` GET "<baseurl>/v1/attempts/1111"  ``
+
+Ответ
+
+```bash
+{
+    "taskID": 1,
+    "title": "Название задачи",
+    "level": "Уровень сложности задачи",
+     "status": "решено",
+     "datetime": "дата и время",
+     "language": "Java",
+     "code": "class Solution {...}",
+     "timeResult": "результат попытки по времени",
+     "volumeResult": "результат попытки по объёму занимаемой памяти"
+}
+```
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- |  
+| taskID | Номер задачи, отображаемый в списке задач | int64 |
+| title | Название задачи, отображаемое в списке задач | string |
+| level | Уровень сложности задачи, отображаемый в списке задач. Уровни сложности: "easy/medium/hard" | string |
+| language | Название ЯП задачи | string |
+| status | Факт того, решена ли задача пользователем/ Статусы: "решено/не решено" | string |
+| datetime | Дата и время попытки решения | string |
+| code | Код пользователя | string |
+| timeResult | Результат попытки по времени | string |
+| volumeResult | Результат попытки по объёму занимаемой памяти | string |
+
+
+Коды ответа
+
+| Код | Описание |
+| ------------- | ------------- |
+| 200 | ОК |
+| 403 | Нет прав доступа |
+| 404 | Элемент не существует |
+
+OpenAPI
+```bash
+paths:
+  /v1/attempts/{id}:
+    get:
+      summary: View an attempt
+      parameters:
+        - name: id
+          in: path
+          description: ID of the attempt
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK. The attempt details are successfully retrieved.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  taskID:
+                    type: integer
+                    format: int64
+                  title:
+                    type: string
+                  level:
+                    type: string
+                  status:
+                    type: string
+                  datetime:
+                    type: string
+                  language:
+                    type: string
+                  code:
+                    type: string
+                  timeResult:
+                    type: string
+                  volumeResult:
+                    type: string
+        '403':
+          description: Access denied. The user does not have permission to view the attempt.
+        '404':
+          description: The specified attempt does not exist.
+```
+
+
+
+
 
 ### Общая лента
 
@@ -1069,15 +1178,14 @@ paths:
 
 ### Создание сообщения
 
-## `` POST /messages ``
+## `` POST room/{id}/messages ``
 
 
 Тело запроса
 
 ```bash
 {
-   "message_ID": "111",
-   "room_ID": "1111",
+   "message_ID": "1111",
    "sender": "1111",
    "content [
            "message": "message text"
@@ -1090,7 +1198,6 @@ paths:
 | Параметр | Описание | Тип данных |
 | ------------- | ------------- |  ------------- | 
 | message_ID | ID сообщения | string  | 
-| room_ID | ID комнаты | string  |
 | sender | ID отправителя | string  |
 | message | Текст сообщения | string |
 | dateTime | Дата и время отправки сообщения | string  |
@@ -1136,33 +1243,37 @@ OpenAPI
 
 ```bash
 paths:
-  /messages:
+  /room/{id}/messages:
     post:
       summary: Create a message
+      parameters:
+        - name: id
+          in: path
+          description: ID of the room
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              type: object
-              properties:
-                message_ID:
-                  type: string
-                room_ID:
-                  type: string
-                sender:
-                  type: string
-                content:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-                dateTime:
-                  type: string
-                status:
-                  type: string
+           schema:
+                type: object
+                properties:
+                  message_ID:
+                    type: string
+                  room_ID:
+                    type: string
+                  sender:
+                    type: string
+                  content:
+                    type: array
+                    items:
+                      type: string
+                  dateTime:
+                    type: string
+                  status:
+                    type: string 
       responses:
         '201':
           description: Message created and saved successfully.
@@ -1180,10 +1291,7 @@ paths:
                   content:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        message:
-                          type: string
+                      type: string
                   dateTime:
                     type: string
                   status:
@@ -1200,7 +1308,7 @@ paths:
 | Параметр | Обязательность | Описание | Тип данных |
 | ------------- | ------------- |  ------------- | ------------- |
 | room | Не обязательно | ID комнаты | string |
-| user | Не обязательно | ID пользователя | int64 |
+| user | Не обязательно | ID пользователя | string |
 
 Пример запроса
 `` GET "<baseurl>/v1/messages?room=chatRoomId&user=userID"  ``
@@ -1210,9 +1318,9 @@ paths:
 ```bash
 {
   "messages"[
-     "message_ID": "111",
+     "message_ID": 1111,
      "room_ID": "1111",
-     "sender": 1111,
+     "sender": "1111",
      "content [
            "message": "message text"
      ]",
@@ -1224,9 +1332,9 @@ paths:
 
 | Параметр | Описание | Тип данных |
 | ------------- | ------------- |  ------------- | 
-| message_ID | ID сообщения | string  | 
+| message_ID | ID сообщения | int64 | 
 | room_ID | ID комнаты | string  |
-| sender | ID отправителя | int64  |
+| sender | ID отправителя | string  |
 | message | Текст сообщения | string |
 | dateTime | Дата и время отправки сообщения | string  |
 | status | Статус сообщения: "доставлено/не прочитано/прочитано" |  string |
@@ -1259,8 +1367,7 @@ paths:
           description: ID of the user
           required: false
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: OK. Returns the messages.
@@ -1275,19 +1382,16 @@ paths:
                       type: object
                       properties:
                         message_ID:
-                          type: string
+                          type: integer
+                          format: int64
                         room_ID:
                           type: string
                         sender:
-                          type: integer
-                          format: int64
+                          type: string
                         content:
                           type: array
                           items:
-                            type: object
-                            properties:
-                              message:
-                                type: string
+                            type: string
                         dateTime:
                           type: string
                           format: date-time
@@ -1316,7 +1420,7 @@ paths:
 
 ```bash
 {
-     "message_ID": "111",
+     "message_ID": 1111,
      "room_ID": "1111",
      "sender": 1111,
      "content" [
@@ -1329,7 +1433,7 @@ paths:
 
 | Параметр | Описание | Тип данных |
 | ------------- | ------------- |  ------------- | 
-| message_ID | ID сообщения | string  | 
+| message_ID | ID сообщения | int64  | 
 | room_ID | ID комнаты | string  |
 | sender | ID отправителя | int64  |
 | message | Текст сообщения | string |
@@ -1398,7 +1502,7 @@ paths:
 
 ### Редактирование сообщения
 
-## `` PUT /messages/{id}/edit ``
+## `` PUT /messages/{id} ``
 
 Параметры 
 | Параметр | Обязательность | Описание | Тип данных |
@@ -1407,46 +1511,53 @@ paths:
 
 
 Пример запроса
-`` PUT "<baseurl>/v1/messages/1111/edit"  ``
+`` PUT "<baseurl>/v1/messages/1111"  ``
 
 
 Тело запроса
 
 ```bash
 {
-  "edit content" [
-           "mew message": "message text"
-     ]"
-}
-```
-| Параметр | Описание | Тип данных |
-| ------------- | ------------- |  ------------- |  
-| new message | Новый текст сообщения | string|
-
-
-Ответ
-
-```bash
-{
-     "message_ID": "111",
+  "message_ID": 1111,
      "room_ID": "1111",
      "sender": 1111,
-     "editContent" [
-           "new message": "message text"
+     "content" [
+           "message": "message text"
      ],
     "dateTime": "дата и время отправки сообщения",
     "status": "прочитано"
 }
 ```
-
 | Параметр | Описание | Тип данных |
 | ------------- | ------------- |  ------------- |  
-| message_ID | ID сообщения | string  | 
-| room_ID | ID комнаты | string  |
-| sender | ID отправителя | int64  |
-| new message | Новый текст сообщения | string |
+| message_ID | ID сообщения | int64 | 
+| sender | ID отправителя | string  |
+| message | Текст сообщения | string |
 | dateTime | Дата и время отправки сообщения | string  |
 | status | Статус сообщения: "доставлено/не прочитано/прочитано" |  string |
+
+Ответ
+
+```bash
+{
+     "message_ID": 111,
+     "room_ID": "1111",
+     "sender": 1111,
+     "content" [
+           "message": "message text"
+     ],
+    "dateTime": "дата и время отправки сообщения",
+    "status": "прочитано"
+}
+```
+| Параметр | Описание | Тип данных |
+| ------------- | ------------- |  ------------- |  
+| message_ID | ID сообщения | int64  | 
+| sender | ID отправителя | string  |
+| message | Текст сообщения | string |
+| dateTime | Дата и время отправки сообщения | string  |
+| status | Статус сообщения: "доставлено/не прочитано/прочитано" |  string |
+
 
 
 Коды ответа
@@ -1461,9 +1572,9 @@ OpenAPI
 
 ```bash
 paths:
-  /v1/messages/{id}/edit:
+  /messages/{id}:
     put:
-      summary: Edit a message
+      summary: Update a message
       parameters:
         - name: id
           in: path
@@ -1479,26 +1590,39 @@ paths:
             schema:
               type: object
               properties:
-                editContent:
+                message_ID:
+                  type: integer
+                  format: int64
+                room_ID:
+                  type: string
+                sender:
+                  type: integer
+                  format: int64
+                content:
                   type: array
                   items:
                     type: string
+                dateTime:
+                  type: string
+                status:
+                  type: string
       responses:
         '200':
-          description: OK. The message is successfully edited.
+          description: Message updated successfully.
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   message_ID:
-                    type: string
+                    type: integer
+                    format: int64
                   room_ID:
                     type: string
                   sender:
                     type: integer
                     format: int64
-                  editContent:
+                  content:
                     type: array
                     items:
                       type: string
@@ -1507,8 +1631,27 @@ paths:
                   status:
                     type: string
         '404':
-          description: The specified message does not exist and cannot be edited.
+          description: Cannot update a non-existent message.
+
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
