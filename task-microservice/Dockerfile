@@ -1,29 +1,15 @@
-FROM maven:3.8.3-openjdk-17 AS build
+FROM gradle:7.6.2-jdk17-focal AS build
 
 
-
-COPY Driver.py /app/Driver.py
-COPY Driver.java /app/Driver.java
-COPY src /app/src
-COPY pom.xml /app/pom.xml
+COPY task-microservice/src /app/task-microservice/src
+COPY task-microservice/build.gradle.kts /app/task-microservice/build.gradle.kts
+COPY task-shared-domain/src  /app/task-shared-domain/src
+COPY task-shared-domain/build.gradle.kts /app/task-shared-domain/build.gradle.kts
+COPY build.gradle.kts /app/build.gradle.kts
+COPY settings.gradle.kts /app/settings.gradle.kts
 
 WORKDIR /app
 
-RUN mvn package
+CMD ["gradle", "task-microservice:bootRun"]
 
 
-FROM maven:3.8.3-openjdk-17
-
-
-RUN  microdnf  install -y python3
-RUN  microdnf install gcc python3-devel
-RUN python3 -m pip install psutil
-
-COPY --from=build /app/target/Task-executor-1.0-SNAPSHOT.jar /app/your-app.jar
-
-
-COPY --from=build /app/Driver.py /app/Driver.py
-COPY --from=build /app/Driver.java /app/Driver.java
-WORKDIR /app
-# Запускаем JAR-файл при старте контейнера
-CMD ["java", "-jar", "your-app.jar"]
