@@ -1,14 +1,13 @@
-package ru.tinkoff.summer.authmicroservice.dto;
+package com.example.crudmicroservice.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
+@AllArgsConstructor
+public class UserCredentialsInfo {
     private String email;
     private String password;
-    private String username;
 }

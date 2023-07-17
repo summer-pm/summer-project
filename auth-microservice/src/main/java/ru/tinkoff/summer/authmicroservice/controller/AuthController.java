@@ -1,5 +1,6 @@
 package ru.tinkoff.summer.authmicroservice.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,14 +8,16 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.server.ResponseStatusException;
 import ru.tinkoff.summer.authmicroservice.dto.AuthRequest;
-import ru.tinkoff.summer.authmicroservice.entity.UserCredential;
-import ru.tinkoff.summer.authmicroservice.exception.UserAlreadyExistsException;
+import ru.tinkoff.summer.authmicroservice.dto.UserDTO;
+import ru.tinkoff.summer.authmicroservice.exception.BadCredentialsException;
 import ru.tinkoff.summer.authmicroservice.service.AuthService;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
@@ -28,24 +31,20 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity addNewUser(@RequestBody UserCredential user) {
-        try {
-            authService.saveUser(user);
-            return ResponseEntity.ok("Пользователь успешно создан");
-        } catch (UserAlreadyExistsException ex) {
-            return ResponseEntity.badRequest().body("Пользователь с такой почтой уже существует");
-        }
+    public ResponseEntity<String> addNewUser(@RequestBody UserDTO newUser) {
+        return authService.saveUser(newUser);
     }
 
-    @PostMapping("/token")
-    public String getToken(@RequestBody AuthRequest authRequest) {
+    @PostMapping("/login")
+    public ResponseEntity<String> getToken(@RequestBody AuthRequest authRequest) {
         Authentication authenticate
                 = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
+        log.info("Authenticate: {}", authenticate.toString());
         if (authenticate.isAuthenticated()) {
-            return authService.generateToken(authRequest.getEmail());
+            return ResponseEntity.ok(authService.generateToken(authRequest.getEmail()));
         } else {
-            //throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Bad Credentials");
-            return "Bad Credentials";
+            log.info("Inside else of login endpoint");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad credentials");
         }
     }
 
