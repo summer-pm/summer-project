@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.28/a2ff5da8bcd8b1b26f36b806ced63213362c6dcc/lombok-1.18.28.jar" />
+        </processorPath>
+        <module name="spring-micro-demo.crud-microservice.main" />
+        <module name="spring-micro-demo.task-shared-domain.main" />
+        <module name="spring-micro-demo.task-executor.main" />
+        <module name="spring-micro-demo.task-microservice.main" />
+        <module name="spring-micro-demo.task-executor.test" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="17">
+      <module name="GitHubAutharization" target="1.8" />
+      <module name="summer-project" target="20" />
+      <module name="summer-project.api-gateway" target="17" />
+      <module name="summer-project.api-gateway.main" target="17" />
+      <module name="summer-project.api-gateway.test" target="17" />
+      <module name="summer-project.eureka-server" target="17" />
+      <module name="summer-project.eureka-server.main" target="17" />
+      <module name="summer-project.eureka-server.test" target="17" />
+      <module name="summer-project.main" target="20" />
+      <module name="summer-project.message-microservice" target="17" />
+      <module name="summer-project.message-microservice.main" target="17" />
+      <module name="summer-project.message-microservice.test" target="17" />
+      <module name="summer-project.test" target="20" />
+      <module name="summer-project.user-microservice" target="17" />
+      <module name="summer-project.user-microservice.main" target="17" />
+      <module name="summer-project.user-microservice.test" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="GitHubAutharization" options="-parameters" />
+      <module name="social-login" options="-parameters" />
+    </option>
+  </component>
+</project>
