@@ -4,7 +4,7 @@
 ## Swagger Hub
 
 
-[Beercode API]((https://app.swaggerhub.com/apis/MARIESDENISOVA_1/BeerCode/v1) "Beercode API") 
+[Beercode API](https://app.swaggerhub.com/apis/MARIESDENISOVA_1/BeerCode/v1 "Beercode API") 
 
 ## Version 
 Текущая версия `v1`
