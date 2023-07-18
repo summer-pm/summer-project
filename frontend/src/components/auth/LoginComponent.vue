@@ -1,12 +1,13 @@
 <template>
   <div class="form-item">
-    <app-input v-model="form.email" :label="'Email'" :placeholder="'Введите почту'" :type="'email'"/>
+    <app-input v-model="v$.email.$model" :errors="v$.email.$errors" :label="'Email'" :placeholder="'Введите почту'"
+               :type="'email'"/>
   </div>
   <div class="form-item">
-    <app-input v-model="form.password" :label="'Пароль'" :placeholder="'Введите пароль'" :type="'password'"/>
+    <app-input v-model="v$.password.$model" :errors="v$.password.$errors" :label="'Пароль'" :placeholder="'Введите пароль'" :type="'password'"/>
   </div>
   <div class="form-item">
-    <app-button :full-width="true">Войти</app-button>
+    <app-button @click="send" :disabled="v$.$errors.length !== 0" :full-width="true">Войти</app-button>
   </div>
   <h5>или <span style="color: var(--color-main)" @click="$emit('register')">Зарегистрироваться</span></h5>
 </template>
@@ -16,6 +17,8 @@
 import {reactive} from "vue";
 import AppButton from "@/components/ui/AppButton.vue";
 import AppInput from "@/components/ui/AppInput.vue";
+import useVuelidate from "@vuelidate/core";
+import {email, helpers, required} from "@vuelidate/validators";
 
 const form = reactive(
     {
@@ -23,6 +26,22 @@ const form = reactive(
       password: ''
     }
 )
+const rules = {
+
+  email: {
+    required: helpers.withMessage("Введите Email", required),
+    email: helpers.withMessage("Неправильный формат email", email)
+  },
+  password: {required: helpers.withMessage("Введите пароль", required)},
+}
+const v$ = useVuelidate(rules, form);
+
+const send = async () => {
+  const result = await v$.value.$validate()
+  if (result) {
+    console.log("can login");
+  }
+}
 
 </script>
 

@@ -1,7 +1,8 @@
 <template>
   <div id="input">
-    <label for="">{{label}}</label>
+    <label>{{label}}</label>
     <input @input="$emit('update:modelValue',$event.target.value)" :placeholder="placeholder" :type="type">
+    <label :key="error.$uid" v-for="error in errors" style="color: var(--color--text-error)">{{error.$message}}</label>
   </div>
 </template>
 
@@ -19,6 +20,10 @@ defineProps({
   type: {
     type: String,
     required: true
+  },
+  errors: {
+    type: Array,
+    required: false
   }
 })
 
@@ -42,7 +47,7 @@ input {
   padding: 11px 0;
   font-size: 14px;
   transition: all .2s ease-in;
-
+  color: var(--color-text);
   &::placeholder {
     color: var(--color-text);
     opacity: .2;
