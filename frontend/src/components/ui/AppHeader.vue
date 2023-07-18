@@ -1,18 +1,21 @@
 <template>
 <header>
   <div id="logo">
-  <bear-logo/>
+  <app-bear-logo/>
     <h1><span>Beer</span>code</h1>
   </div>
 </header>
 </template>
 
 <script>
-import BearLogo from "@/components/ui/BearLogo.vue";
+
+
+import AppBearLogo from "@/components/ui/AppLogo.vue";
 
 export default {
-  name: "Header",
-  components: {BearLogo}
+  name: "AppHeader",
+  components: {AppBearLogo},
+
 }
 </script>
 
