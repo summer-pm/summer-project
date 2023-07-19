@@ -2,8 +2,8 @@ package ru.tinkoff.summer.authmicroservice.config;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import ru.tinkoff.summer.authmicroservice.dto.UserCredentialsInfo;
-import ru.tinkoff.summer.authmicroservice.dto.UserDTO;
 
 import java.util.Collection;
 

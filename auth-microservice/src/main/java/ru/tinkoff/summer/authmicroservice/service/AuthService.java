@@ -2,6 +2,7 @@ package ru.tinkoff.summer.authmicroservice.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,15 +29,17 @@ public class AuthService {
         this.restTemplate = restTemplate;
     }
 
+    @Value("${link.database.save}")
+    private String DATABASE_SAVE_URL;
+
     public String saveUser(UserDTO newUser) throws UserAlreadyExistsException {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         HttpEntity<UserDTO> request = new HttpEntity<>(newUser);
-
-        String DATABASE_SAVE_URL = "http://crud-microservice/users";
         ResponseEntity<String> responseEntity
                 = restTemplate.exchange(DATABASE_SAVE_URL, HttpMethod.POST, request, String.class);
 
+        log.info("database url: {}", DATABASE_SAVE_URL);
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             return responseEntity.getBody();
         } else {
