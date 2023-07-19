@@ -9,6 +9,7 @@ import com.example.crudmicroservice.chat.repository.ChatMessageRepository;
 import com.example.crudmicroservice.chat.repository.mongotemplate.ChatMessageDALImpl;
 import com.example.crudmicroservice.chat.util.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +19,13 @@ public class ChatMessageService {
 
     private final ChatMessageRepository chatMessageRepository;
     private final ChatMessageDALImpl chatMessageDALImpl;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Autowired
-    public ChatMessageService(ChatMessageRepository chatMessageRepository, ChatMessageDALImpl chatMessageDALImpl) {
+    public ChatMessageService(ChatMessageRepository chatMessageRepository, ChatMessageDALImpl chatMessageDALImpl, SimpMessagingTemplate messagingTemplate) {
         this.chatMessageRepository = chatMessageRepository;
         this.chatMessageDALImpl = chatMessageDALImpl;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public ChatMessage save(ChatMessageCreateDTO message) {

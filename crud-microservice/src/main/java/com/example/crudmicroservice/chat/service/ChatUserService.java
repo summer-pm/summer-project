@@ -38,6 +38,10 @@ public class ChatUserService {
         return chatUser;
     }
 
+    public String getInterlocutorNameByRoomIdAndUserId(String roomId, String userId) {
+        return null;
+    }
+
     public List<ChatUser> getAllChatUser() {
         return chatUserRepository.findAll();
     }

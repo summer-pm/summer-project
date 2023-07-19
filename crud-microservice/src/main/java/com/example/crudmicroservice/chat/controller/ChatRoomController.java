@@ -2,9 +2,13 @@ package com.example.crudmicroservice.chat.controller;
 
 
 import com.example.crudmicroservice.chat.dto.ChatRoomCreateDTO;
+import com.example.crudmicroservice.chat.dto.ChatRoomTransferDTO;
 import com.example.crudmicroservice.chat.exception.ChatRoomCreateException;
 import com.example.crudmicroservice.chat.exception.ChatRoomNotFoundException;
 import com.example.crudmicroservice.chat.model.ChatRoom;
+import com.example.crudmicroservice.chat.model.ChatUser;
+import com.example.crudmicroservice.chat.repository.ChatUserRepository;
+import com.example.crudmicroservice.chat.repository.mongotemplate.ChatUserDALImpl;
 import com.example.crudmicroservice.chat.service.ChatRoomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +18,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/rooms")
 public class ChatRoomController {
+
+    @Autowired
+    private ChatUserDALImpl chatUserDALImpl;
 
     private final ChatRoomService chatRoomService;
 
@@ -68,6 +76,20 @@ public class ChatRoomController {
         catch (Exception ex) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<List<ChatRoomTransferDTO>> getChatRoomsByUsers(@RequestParam("userid") String userId) {
+        log.info("Requesting chat by {} ID", userId);
+        try {
+            List<ChatRoomTransferDTO> chatRooms = chatRoomService.getChatRoomsByUserId(userId);
+            return ResponseEntity.ok(chatRooms);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
 
