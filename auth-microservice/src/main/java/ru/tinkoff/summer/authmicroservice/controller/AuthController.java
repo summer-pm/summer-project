@@ -1,6 +1,7 @@
 package ru.tinkoff.summer.authmicroservice.controller;
 
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,11 +9,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.server.ResponseStatusException;
+
 import ru.tinkoff.summer.authmicroservice.dto.AuthRequest;
 import ru.tinkoff.summer.authmicroservice.dto.UserDTO;
-import ru.tinkoff.summer.authmicroservice.exception.BadCredentialsException;
+import ru.tinkoff.summer.authmicroservice.exception.UserAlreadyExistsException;
 import ru.tinkoff.summer.authmicroservice.service.AuthService;
 
 @RestController
@@ -32,7 +32,11 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> addNewUser(@RequestBody UserDTO newUser) {
-        return authService.saveUser(newUser);
+        try {
+            return ResponseEntity.ok(authService.saveUser(newUser));
+        } catch (UserAlreadyExistsException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        }
     }
 
     @PostMapping("/login")

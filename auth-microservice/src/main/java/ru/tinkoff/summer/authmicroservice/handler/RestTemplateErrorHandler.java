@@ -29,5 +29,4 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
             }
         }
     }
-
 }

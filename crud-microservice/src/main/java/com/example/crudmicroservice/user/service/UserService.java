@@ -1,6 +1,5 @@
 package com.example.crudmicroservice.user.service;
 
-import com.example.crudmicroservice.task.model.SolutionsAttempts;
 import com.example.crudmicroservice.task.service.SolutionsAttemptsService;
 import com.example.crudmicroservice.user.dto.RegisterRequest;
 import com.example.crudmicroservice.user.dto.UserCredentialsInfo;
@@ -8,9 +7,6 @@ import com.example.crudmicroservice.user.exception.UserAlreadyExistsException;
 import com.example.crudmicroservice.user.exception.UserNotFoundException;
 import com.example.crudmicroservice.user.repository.UserRepository;
 import com.example.crudmicroservice.user.model.User;
-import com.example.crudmicroservice.user.model.UserPosts;
-import com.google.gson.Gson;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

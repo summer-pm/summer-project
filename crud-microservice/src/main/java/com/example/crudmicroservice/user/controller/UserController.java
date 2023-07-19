@@ -3,6 +3,7 @@ package com.example.crudmicroservice.user.controller;
 import com.example.crudmicroservice.user.dto.RegisterRequest;
 import com.example.crudmicroservice.user.dto.UserCredentialsInfo;
 import com.example.crudmicroservice.user.dto.UserEmail;
+import com.example.crudmicroservice.user.exception.UserAlreadyExistsException;
 import com.example.crudmicroservice.user.exception.UserNotFoundException;
 import com.example.crudmicroservice.user.model.User;
 import com.example.crudmicroservice.user.service.UserService;
@@ -30,8 +31,8 @@ public class UserController {
         try {
             String message = userService.saveUser(newUser);
             return ResponseEntity.ok(message);
-        } catch (Exception ex) {
-            return ResponseEntity.badRequest().body("Пользователь с такой почтой уже существует");
+        } catch (UserAlreadyExistsException ex) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Пользователь с такой почтой уже существует");
         }
     }
 
@@ -40,7 +41,7 @@ public class UserController {
         try {
             return userService.getUserCredentials(userEmail.getEmail());
         } catch (UserNotFoundException exception) {
-            log.info("Got into controller catch block. Exception: {}", exception.getMessage());
+            log.info("Got into user controller catch block. Exception: {}", exception.getMessage());
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found", exception);
         }
     }

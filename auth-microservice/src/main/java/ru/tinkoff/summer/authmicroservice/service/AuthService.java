@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import ru.tinkoff.summer.authmicroservice.dto.UserDTO;
+import ru.tinkoff.summer.authmicroservice.exception.UserAlreadyExistsException;
 
 @Service
 @Slf4j
@@ -25,19 +26,19 @@ public class AuthService {
         this.restTemplate = restTemplate;
     }
 
-    public ResponseEntity<String> saveUser(UserDTO newUser) {
+    public String saveUser(UserDTO newUser) throws UserAlreadyExistsException {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         HttpEntity<UserDTO> request = new HttpEntity<>(newUser);
 
         String DATABASE_SAVE_URL = "http://localhost:8086/users";
         ResponseEntity<String> responseEntity
-                = ResponseEntity.badRequest().body("Пользователь с такой почтой уже существует");
-        try {
-            responseEntity = restTemplate.exchange(DATABASE_SAVE_URL, HttpMethod.POST, request, String.class);
-            return responseEntity;
-        } catch (Exception ex) {
-            return responseEntity;
+                = restTemplate.exchange(DATABASE_SAVE_URL, HttpMethod.POST, request, String.class);
+
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            return responseEntity.getBody();
+        } else {
+            throw new UserAlreadyExistsException("Пользователь с такой почтой уже существует");
         }
     }
 

@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import ru.tinkoff.summer.authmicroservice.exception.UserAlreadyExistsException;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -22,5 +23,10 @@ public class RestExceptionHandler {
     @ExceptionHandler(value = {BadCredentialsException.class})
     protected ResponseEntity<Object> handleIllegalArgument(BadCredentialsException ex) {
         return new ResponseEntity(getBody(ex), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    protected ResponseEntity<Object> alreadyExists(UserAlreadyExistsException exception) {
+        return new ResponseEntity(getBody(exception), HttpStatus.CONFLICT);
     }
 }

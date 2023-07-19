@@ -1,17 +1,15 @@
 package ru.tinkoff.summer.authmicroservice.config;
 
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.server.ResponseStatusException;
+
 import ru.tinkoff.summer.authmicroservice.dto.UserCredentialsInfo;
 import ru.tinkoff.summer.authmicroservice.dto.UserEmail;
 import ru.tinkoff.summer.authmicroservice.handler.RestTemplateErrorHandler;
