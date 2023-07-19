@@ -35,7 +35,15 @@ public class OAuthUser implements OAuth2User {
     public String getEmail() {
         return oauth2User.<String>getAttribute("email");
     }
-    public int getId() {return (oauth2User.getAttribute("id"));}
+    public Object getId() {
+        if (oauth2User.getAttribute("id") != null)
+            return (oauth2User.getAttribute("id"));
+        else
+            return oauth2User.getAttribute("sub");
+    }
+    public String getIdGoogle() {
+        return oauth2User.<String>getAttribute("sub");
+    }
     public String getLodin() {
         return oauth2User.<String>getAttribute("login");
     }

@@ -5,6 +5,8 @@
 plugins {
     `java-library`
     `maven-publish`
+    id("io.spring.dependency-management") version "1.1.0"
+    id("org.springframework.boot") version "2.5.7"
 }
 
 repositories {
@@ -25,7 +27,14 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.2.2.RELEASE")
 
 }
+tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"] = "com.gitHibAutharization.GitHibAutharization.SocialLogin"
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 
+}
 group = "com.social-login"
 version = "0.0.1-SNAPSHOT"
 description = "social-login"

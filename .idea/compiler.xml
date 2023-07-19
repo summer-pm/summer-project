@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <annotationProcessing>
-      <profile name="Gradle Imported" enabled="true">
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.28/a2ff5da8bcd8b1b26f36b806ced63213362c6dcc/lombok-1.18.28.jar" />
-        </processorPath>
-        <module name="spring-micro-demo.crud-microservice.main" />
-        <module name="spring-micro-demo.task-shared-domain.main" />
-        <module name="spring-micro-demo.task-executor.main" />
-        <module name="spring-micro-demo.task-microservice.main" />
-        <module name="spring-micro-demo.task-executor.test" />
-      </profile>
-    </annotationProcessing>
-    <bytecodeTargetLevel target="17">
+    <bytecodeTargetLevel target="1.8">
       <module name="GitHubAutharization" target="1.8" />
+      <module name="spring-micro-demo" target="20" />
+      <module name="spring-micro-demo.main" target="20" />
+      <module name="spring-micro-demo.task-shared-domain" target="20" />
+      <module name="spring-micro-demo.task-shared-domain.main" target="20" />
+      <module name="spring-micro-demo.task-shared-domain.test" target="20" />
+      <module name="spring-micro-demo.test" target="20" />
       <module name="summer-project" target="20" />
       <module name="summer-project.api-gateway" target="17" />
       <module name="summer-project.api-gateway.main" target="17" />
