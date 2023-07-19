@@ -24,7 +24,7 @@ public class SocialLogin extends WebSecurityConfigurerAdapter {
 	public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
 		OAuthUser user = new OAuthUser(principal);
 		Map<String, Object> dataUser = new HashMap<>();
-
+//
 		dataUser.put("name", user.getName());
 		dataUser.put("email", user.getEmail());
 		dataUser.put("login", user.getLodin());
