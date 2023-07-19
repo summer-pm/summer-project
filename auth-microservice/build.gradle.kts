@@ -28,6 +28,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer:4.0.3")
 
     compileOnly("org.projectlombok:lombok")
 

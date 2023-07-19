@@ -2,6 +2,7 @@ package ru.tinkoff.summer.authmicroservice.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ public class AuthService {
 
     private final JwtService jwtService;
 
+    @LoadBalanced
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -31,7 +33,7 @@ public class AuthService {
 
         HttpEntity<UserDTO> request = new HttpEntity<>(newUser);
 
-        String DATABASE_SAVE_URL = "http://localhost:8086/users";
+        String DATABASE_SAVE_URL = "http://crud-microservice/users";
         ResponseEntity<String> responseEntity
                 = restTemplate.exchange(DATABASE_SAVE_URL, HttpMethod.POST, request, String.class);
 

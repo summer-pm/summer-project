@@ -55,18 +55,23 @@ public class ChatRoomController {
         }
     }
 
-    @GetMapping()
-    public ResponseEntity<List<ChatRoom>> getAllChatRoom() {
-        log.info("Requesting all Chat Rooms");
-        try {
-            List<ChatRoom> chatRooms = chatRoomService.getAllChatRoom();
-            return ResponseEntity.ok(chatRooms);
-        }
-        catch (ChatRoomNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
-        catch (Exception ex) {
-            return ResponseEntity.internalServerError().build();
-        }
+//    @GetMapping()
+//    public ResponseEntity<List<ChatRoom>> getAllChatRoom() {
+//        log.info("Requesting all Chat Rooms");
+//        try {
+//            List<ChatRoom> chatRooms = chatRoomService.getAllChatRoom();
+//            return ResponseEntity.ok(chatRooms);
+//        }
+//        catch (ChatRoomNotFoundException e) {
+//            return ResponseEntity.notFound().build();
+//        }
+//        catch (Exception ex) {
+//            return ResponseEntity.internalServerError().build();
+//        }
+//    }
+
+    @GetMapping
+    public ResponseEntity<String> greeting(@RequestHeader("loggedInUser") String email) {
+        return ResponseEntity.ok(email);
     }
 }

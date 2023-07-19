@@ -3,6 +3,7 @@ package ru.tinkoff.summer.authmicroservice.config;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +22,7 @@ import java.util.Objects;
 @Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
 
+    @LoadBalanced
     private final RestTemplate restTemplate;
 
     @Autowired
@@ -30,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        String DATABASE_GET_USER_URL = "http://localhost:8086/users/user";
+        String DATABASE_GET_USER_URL = "http://crud-microservice/users/user";
         UserEmail userEmail = new UserEmail(email);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -40,7 +42,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         ResponseEntity<UserCredentialsInfo> response
                 = restTemplate.exchange(DATABASE_GET_USER_URL, HttpMethod.POST, request, UserCredentialsInfo.class);
-        log.info("Response after external API request: {}", response);
+        log.info("database url: {}", DATABASE_GET_USER_URL);
+        //log.info("Response after external API request: {}", response);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             log.info("Response after external API request succeeded: {}", response);
