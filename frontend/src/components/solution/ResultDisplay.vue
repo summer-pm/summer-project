@@ -3,7 +3,7 @@
     <h5>Результат:</h5>
     <div class="result-wrapper" :class="{pending : isPending, error: isError, failure: isFailure, success: isSuccess}">
       <div id="loader" v-if="isPending">
-        <loader style="height: 80px"/>
+        <app-loader style="height: 80px"/>
       </div>
       <div v-else-if="isError">
         <p>Ошибка</p>
@@ -38,10 +38,11 @@
 
 <script>
 import {computed, defineComponent} from "vue";
-import Loader from "@/components/ui/Loader.vue";
+import AppLoader from "@/components/ui/AppLoader.vue";
+
 
 export default defineComponent({
-  components: {Loader},
+  components: {AppLoader},
   props: {
     attempt: {
       required: true,

@@ -22,10 +22,15 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-    implementation ("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.liquibase:liquibase-core:4.23.0")
     implementation("org.projectlombok:lombok:1.18.22")
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    testImplementation("ch.qos.logback:logback-classic:1.4.8")
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+    implementation("ch.qos.logback:logback-core:1.4.8")
 
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")

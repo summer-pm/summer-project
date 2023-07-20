@@ -5,7 +5,7 @@
     </div>
   </div>
   <div id="pagination">
-    <pagination @changePage="changePage" :current="data.currentPage" :total="data.totalPages"/>
+    <app-pagination @changePage="changePage" :current="data.currentPage" :total="data.totalPages"/>
 
   </div>
 </template>
@@ -14,7 +14,7 @@
 import {onMounted, reactive} from "vue";
 import taskApi from "@/api/taskApi";
 import TaskItem from "@/components/task/TaskItem.vue";
-import Pagination from "@/components/ui/Pagination.vue";
+import AppPagination from "@/components/ui/AppPagination.vue";
 
 const searchParams = reactive({
   title: '',

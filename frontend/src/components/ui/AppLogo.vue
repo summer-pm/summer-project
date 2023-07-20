@@ -104,7 +104,7 @@
 
 <script>
 export default {
-  name: "BearLogo",
+  name: "AppBearLogo",
   props: {
     isLoader: {
       type: Boolean,

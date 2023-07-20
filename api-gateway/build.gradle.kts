@@ -24,6 +24,13 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 
+	implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    testImplementation("ch.qos.logback:logback-classic:1.4.8")
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+    implementation("ch.qos.logback:logback-core:1.4.8")
+
 	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")

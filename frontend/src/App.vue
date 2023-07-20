@@ -1,5 +1,5 @@
 <template>
-  <Header/>
+  <app-header/>
   <div id="wrapper">
     <router-view></router-view>
   </div>
@@ -7,9 +7,10 @@
 </template>
 
 <script>
-import Header from "@/components/ui/Header.vue";
+
+import AppHeader from "@/components/ui/AppHeader.vue";
 export default {
-  components: {Header}
+  components: {AppHeader}
 }
 </script>
 
