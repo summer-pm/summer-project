@@ -6,6 +6,7 @@
   <div class="form-item">
     <app-input v-model="v$.password.$model" :errors="v$.password.$errors" :label="'Пароль'" :placeholder="'Введите пароль'" :type="'password'"/>
   </div>
+   <p v-if="isError" style="margin-top: 10px;text-align: center; color: var(--color--text-error)">Неправильный email или пароль</p>
   <div class="form-item">
     <app-button @click="send" :disabled="v$.$errors.length !== 0" :full-width="true">Войти</app-button>
   </div>
@@ -14,11 +15,12 @@
 
 <script setup>
 
-import {reactive} from "vue";
+import {computed, reactive} from "vue";
 import AppButton from "@/components/ui/AppButton.vue";
 import AppInput from "@/components/ui/AppInput.vue";
 import useVuelidate from "@vuelidate/core";
 import {email, helpers, required} from "@vuelidate/validators";
+import {useStore} from "vuex";
 
 const form = reactive(
     {
@@ -35,11 +37,15 @@ const rules = {
   password: {required: helpers.withMessage("Введите пароль", required)},
 }
 const v$ = useVuelidate(rules, form);
-
+const store = useStore();
+const isError = computed(() => store.getters['user/isLoginError'])
 const send = async () => {
   const result = await v$.value.$validate()
   if (result) {
-    console.log("can login");
+    await store.dispatch('user/login', {
+      email: form.email,
+      password: form.password
+    })
   }
 }
 

@@ -11,9 +11,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import ru.tinkoff.summer.authmicroservice.dto.AuthRequest;
+import ru.tinkoff.summer.authmicroservice.dto.Token;
 import ru.tinkoff.summer.authmicroservice.dto.UserDTO;
 import ru.tinkoff.summer.authmicroservice.exception.UserAlreadyExistsException;
 import ru.tinkoff.summer.authmicroservice.service.AuthService;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -31,24 +34,25 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> addNewUser(@RequestBody UserDTO newUser) {
+    public ResponseEntity<?> addNewUser(@RequestBody UserDTO newUser) {
         try {
-            return ResponseEntity.ok(authService.saveUser(newUser));
+            authService.saveUser(newUser);
+            return ResponseEntity.created(URI.create("")).build();
         } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> getToken(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<Token> getToken(@RequestBody AuthRequest authRequest) {
         Authentication authenticate
                 = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword()));
         log.info("Authenticate: {}", authenticate.toString());
         if (authenticate.isAuthenticated()) {
-            return ResponseEntity.ok(authService.generateToken(authRequest.getEmail()));
+            return ResponseEntity.ok(new Token(authService.generateToken(authRequest.getEmail())));
         } else {
             log.info("Inside else of login endpoint");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad credentials");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 

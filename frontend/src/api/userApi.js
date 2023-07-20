@@ -7,5 +7,11 @@ export default {
             username: username,
             password: password
         })
+    },
+    login(email,password) {
+        return axiosApi.post("/auth/login",{
+            email: email,
+            password: password
+        })
     }
 }

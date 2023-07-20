@@ -1,24 +1,27 @@
 <template>
   <app-modal v-if="show" @close="$emit('close')">
     <template #header>
-      {{ isLogin ? 'Вход' : 'Регистрация'}}
+      {{ isLogin ? 'Вход' : isRegisterSuccess ? 'Пользователь успешно зарегистрирован!' : 'Регистрация'}}
     </template>
     <template #body>
      <login-component v-if="isLogin" @register="isLogin = false"/>
-      <register-component v-else @login="isLogin = true"/>
+      <register-component v-else-if="!isLogin && !isRegisterSuccess" @login="isLogin = true"/>
+      <register-success-component v-else-if="isRegisterSuccess" @login="isLogin = true"/>
     </template>
   </app-modal>
 </template>
 
 <script>
 
-import {defineComponent, ref} from "vue";
+import {computed, defineComponent, ref} from "vue";
 import AppModal from "@/components/ui/AppModal.vue";
 import LoginComponent from "@/components/auth/LoginComponent.vue";
 import RegisterComponent from "@/components/auth/RegisterComponent.vue";
+import {useStore} from "vuex";
+import RegisterSuccessComponent from "@/components/auth/RegisterSuccessComponent.vue";
 
 export default defineComponent({
-  components: {RegisterComponent, LoginComponent, AppModal},
+  components: {RegisterSuccessComponent, RegisterComponent, LoginComponent, AppModal},
   props: {
     show: {
       type: Boolean,
@@ -28,8 +31,11 @@ export default defineComponent({
 
   setup() {
     const isLogin = ref(true);
+    const store = useStore();
+    const isRegisterSuccess = computed(() => store.getters['user/isSuccessRegister'])
     return{
-      isLogin
+      isLogin,
+      isRegisterSuccess
     }
   }
 })
