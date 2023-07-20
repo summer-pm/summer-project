@@ -30,6 +30,13 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("org.springframework.cloud:spring-cloud-starter-loadbalancer:4.0.3")
 
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+
+    // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+    testImplementation("ch.qos.logback:logback-classic:1.4.8")
+// https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+    implementation("ch.qos.logback:logback-core:1.4.8")
+
     compileOnly("org.projectlombok:lombok")
 
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")

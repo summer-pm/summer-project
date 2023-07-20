@@ -8,7 +8,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8081/eureka/
+      defaultZone: http://${EUREKA_URL:localhost:8081/eureka}
 
 # for @Value
 link:
