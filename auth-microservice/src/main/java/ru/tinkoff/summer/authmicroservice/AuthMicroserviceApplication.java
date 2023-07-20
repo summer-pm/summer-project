@@ -12,4 +12,5 @@ public class AuthMicroserviceApplication {
         SpringApplication.run(AuthMicroserviceApplication.class, args);
     }
 
+
 }
