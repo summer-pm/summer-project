@@ -12,5 +12,4 @@ public interface ChatUserRepository extends MongoRepository<ChatUser, String> {
     ChatUser findChatUserByUserPgId(String userId);
     ChatUser deleteChatUserById(String userId);
     ChatUser findChatUserById(String userId);
-
 }

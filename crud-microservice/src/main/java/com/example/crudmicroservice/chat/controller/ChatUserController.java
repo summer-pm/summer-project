@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @CrossOrigin
 @RestController()
-@RequestMapping("/user")
+@RequestMapping("api/v1/user")
 public class ChatUserController {
 
     private final ChatUserService chatUserService;
