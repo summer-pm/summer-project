@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.tinkoff.summer.taskshareddomain.task.TaskDTO;
 
 @RestController
 @RequestMapping("/tasks")
@@ -18,8 +19,8 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        Task createdTask = taskService.saveTask(task);
+    public ResponseEntity<Task> createTask(@RequestBody TaskDTO taskDTO) {
+        Task createdTask = taskService.saveTask(taskDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
     }
 
