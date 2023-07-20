@@ -18,21 +18,32 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "task_id")
     private Long taskId;
     @OneToMany(mappedBy = "task")
     @JsonManagedReference("task-attempts")
     private List<SolutionsAttempts> solutionsAttempts;
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Test> tests;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Examples> examples;
+
+    @OneToOne(mappedBy = "task", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private TaskParams taskParams;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<TasksLangs> tasksLangs;
+
     private String title;
     private String level;
     private String description;
-    private String inputParameters;
-    private String typeOfInputParameters;
-    private String outputParameters;
-    private String typeOfOutputParameters;
     private String nameOfMethod;
-    private Long TimeOfMethod;
+    private Integer timeLimit;
     private Long volumeLimit;
     private LocalDateTime creationDate;
     private LocalDateTime editDate;

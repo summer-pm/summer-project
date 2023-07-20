@@ -1,0 +1,23 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                             https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="create-input-parameters-table" author="kharitonov">
+        <createTable tableName="input_parameters">
+            <column name="test_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="value" type="varchar(255)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="input_parameters"
+                                 baseColumnNames="test_id"
+                                 constraintName="fk_input_parameters_test_id"
+                                 referencedTableName="tests"
+                                 referencedColumnNames="test_id"/>
+    </changeSet>
+
+</databaseChangeLog>

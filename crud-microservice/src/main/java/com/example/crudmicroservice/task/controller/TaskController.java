@@ -2,11 +2,10 @@ package com.example.crudmicroservice.task.controller;
 
 import com.example.crudmicroservice.task.model.Task;
 import com.example.crudmicroservice.task.service.TaskService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
@@ -35,9 +34,10 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Task>> getAllTasks() {
-        List<Task> tasks = taskService.getAllTasks();
-        return ResponseEntity.ok(tasks);
+    public Page<Task> getTasks(@RequestParam(defaultValue = "1") int page,
+                               @RequestParam(defaultValue = "10") int pageSize,
+                               @RequestParam(defaultValue = "taskId") String sortBy) {
+        return taskService.getTasks(page, pageSize, sortBy);
     }
 
     @PatchMapping("/{id}")

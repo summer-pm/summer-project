@@ -3,6 +3,9 @@ package com.example.crudmicroservice.task.service;
 import com.example.crudmicroservice.task.model.Task;
 import com.example.crudmicroservice.task.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +37,11 @@ public class TaskService {
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
+    }
+
+    public Page<Task> getTasks(int page, int pageSize, String sortBy) {
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
+        return taskRepository.findAll(pageRequest);
     }
 
     public void deleteTask(Long id) {
