@@ -96,4 +96,48 @@ h5 {
   }
 }
 
+@media (max-width: 690px) {
+  h2 {
+    font-size: 40px;
+    line-height: 50px;
+  }
+  h5 {
+    margin-top: 22px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 470px) {
+  h2 {
+    font-size: 30px;
+    line-height: 50px;
+  }
+  h5 {
+    margin-top: 22px;
+    font-size: 16px;
+  }
+
+  #search {
+  margin-top: 30px;
+
+  & input {
+    width: 60%;
+    margin: 10px 21px;
+    outline: none;
+    border: none;
+    font-size: 14px;
+    line-height: 20px;
+
+
+
+  }
+
+  button {
+    color: black;
+    font-size: 14px;
+    padding: 14px 34px;
+  }
+}
+
+}
 </style>

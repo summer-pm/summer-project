@@ -71,6 +71,7 @@ export const userModule = {
             state.errors.login = true;
         },
         showLogin(state, message) {
+            state.token = null;
             state.showLogin = true;
             state.loginMessage = message;
         },
@@ -110,9 +111,7 @@ export const userModule = {
                 userApi.login(email, password)
                     .then(r => {
                         commit('loginSuccess', r.data.token);
-                        //TODO: Задержка с 'Успешно'
-                        setTimeout(() =>commit('hideLogin'), 2000 )
-
+                        setTimeout(() =>commit('hideLogin'), 1500 )
                     })
                     .catch(err => {
                         console.log(err)

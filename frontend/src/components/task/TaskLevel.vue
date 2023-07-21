@@ -55,4 +55,12 @@ const resultClass = computed(() => {
   color: var(--color-hard);
   border-color: var(--color-hard);
 }
+
+@media (max-width: 600px) {
+  #level {
+    width: 100px;
+    padding: 5px 20px;
+    font-size: 14px;
+  }
+}
 </style>

@@ -41,4 +41,13 @@ defineProps(['task'])
 code {
   font-size: 16px;
 }
+
+@media (max-width: 650px) {
+code {
+  font-size: 14px;
+}
+  h5 {
+    font-size: 14px;
+  }
+}
 </style>

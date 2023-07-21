@@ -52,4 +52,16 @@ defineProps({
     text-align: center;
   }
 }
+@media (max-width: 600px) {
+.card{
+
+   font-size: 14px;
+}
+}
+.card-item{
+  width: 45%;
+  &:nth-child(2){
+    width:10% ;
+  }
+}
 </style>

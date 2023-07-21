@@ -106,4 +106,10 @@ export default defineComponent({
     border-color: var(--color-success);
   }
 }
+
+@media (max-width: 650px) {
+.result-wrapper{
+  width: 100%;
+}
+}
 </style>

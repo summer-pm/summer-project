@@ -108,5 +108,19 @@ export default defineComponent({
     width: 40%;
   }
 }
+@media (max-width: 650px) {
+.item {
+  width: 100%;
 
+  &:first-child {
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+  #solution {
+    flex-direction: column;
+
+  }
+}
 </style>

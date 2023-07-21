@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="code-editor">
     <select v-model="solution.language">
       <option value="JAVA">Java</option>
       <option value="PYTHON">Python</option>
@@ -128,7 +128,12 @@ select{
 
 
 
-/* скроет иконку стрелки в IE */
 
 
+@media (max-width: 650px) {
+#code-editor{
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+}
 </style>
