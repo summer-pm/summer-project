@@ -6,27 +6,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
-@Entity(name = "tests")
+@Entity
+@Table(name = "examples")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tests")
-public class Test {
+public class Examples {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long testId;
+    private Long exampleId;
+
     @ManyToOne
     @JoinColumn(name = "task_id")
     @JsonBackReference
     private Task task;
 
-    @ElementCollection
-    @CollectionTable(name = "input_parameters", joinColumns = @JoinColumn(name = "test_id"))
-    @Column(name = "value")
-    private Set<String> inputParameters;
-    private String outputParameters;
-
+    private String input;
+    private String output;
+    private String explanation;
 }

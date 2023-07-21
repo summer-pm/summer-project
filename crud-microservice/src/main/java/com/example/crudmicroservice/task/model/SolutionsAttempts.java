@@ -33,7 +33,10 @@ public class SolutionsAttempts {
     private Task task;
 
     private String code;
-    private String language;
+
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private Language language;
     private String status;
     private Long executionTime;
     private Long solutionsVolume;

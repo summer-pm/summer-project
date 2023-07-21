@@ -9,7 +9,6 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="task_id" type="bigint"/>
-            <column name="input_parameters" type="varchar(255)"/>
             <column name="output_parameters" type="varchar(255)"/>
         </createTable>
 

@@ -67,20 +67,10 @@ public class UserService {
     public User updateUser(Long userId, User updatedUser) {
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        existingUser.setUserId(userId);
-        existingUser.setUsername(updatedUser.getUsername());
-        existingUser.setPassword(updatedUser.getPassword());
-        existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
-        existingUser.setUserImage(updatedUser.getUserImage());
-        existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
-        existingUser.setDateOfRegistration(updatedUser.getDateOfRegistration());
-        existingUser.setDateOfEdit(updatedUser.getDateOfEdit());
-        existingUser.setDateOfLastActivity(updatedUser.getDateOfLastActivity());
-        existingUser.setUserPostsList(updatedUser.getUserPostsList());
-        existingUser.setSolutionsAttemptsList(updatedUser.getSolutionsAttemptsList());
+        for (SolutionsAttempts attempts : existingUser.getSolutionsAttemptsList()) {
+        }
 
-        return userRepository.save(existingUser);
+        return userRepository.save(updatedUser);
     }
 
     public User getUserById(Long userId) {

@@ -10,8 +10,8 @@
             </column>
             <column name="user_id" type="bigint"/>
             <column name="task_id" type="bigint"/>
+            <column name="language_id" type="bigint"/>
             <column name="code" type="varchar(255)"/>
-            <column name="language" type="varchar(255)"/>
             <column name="status" type="varchar(255)"/>
             <column name="execution_time" type="bigint"/>
             <column name="solutions_volume" type="bigint"/>
@@ -36,12 +36,6 @@
                                  constraintName="fk_solutions_attempts_task"
                                  referencedTableName="tasks"
                                  referencedColumnNames="task_id"/>
-
-<!--        <addForeignKeyConstraint baseTableName="user_posts"-->
-<!--                                 baseColumnNames="user_posts_id"-->
-<!--                                 constraintName="fk_user_posts_solution_attempts"-->
-<!--                                 referencedTableName="solution_attemps"-->
-<!--                                 referencedColumnNames="attempt_id"/>-->
     </changeSet>
 
 </databaseChangeLog>

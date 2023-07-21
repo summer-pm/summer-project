@@ -11,6 +11,7 @@
             <column name="user_id" type="bigint"/>
             <column name="attempt_id" type="bigint"/>
             <column name="commentary" type="varchar(255)"/>
+            <column name="time_of_post" type="timestamp"/>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="user_posts"

@@ -1,0 +1,24 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="create-input-types-table" author="kharitonov">
+        <createTable tableName="input_types">
+            <column name="task_id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="input_types_order" type="integer">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="value" type="varchar(255)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="input_types"
+                                 baseColumnNames="task_id"
+                                 constraintName="fk_input_types_task_id"
+                                 referencedColumnNames="task_id"
+                                 referencedTableName="task_params"/>
+    </changeSet>
+
+</databaseChangeLog>

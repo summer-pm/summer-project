@@ -3,7 +3,11 @@ package com.example.crudmicroservice.task.service;
 import com.example.crudmicroservice.task.model.Task;
 import com.example.crudmicroservice.task.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ru.tinkoff.summer.taskshareddomain.task.TaskDTO;
 
 import java.util.List;
 
@@ -17,7 +21,8 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public Task saveTask(Task task) {
+    public Task saveTask(TaskDTO taskDTO) {
+        Task task = convertDTOToEntity(taskDTO);
         return taskRepository.save(task);
     }
 
@@ -36,7 +41,30 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public Page<Task> getTasks(int page, int pageSize, String sortBy) {
+        PageRequest pageRequest = PageRequest.of(page - 1, pageSize, Sort.by(sortBy));
+        return taskRepository.findAll(pageRequest);
+    }
+
     public void deleteTask(Long id) {
         taskRepository.deleteById(id);
+    }
+
+    private Task convertDTOToEntity(TaskDTO taskDTO) {
+        Task task = new Task();
+//        task.setSolutionsAttempts(taskDTO.getSolutionsAttempts());
+//        task.setTests(taskDTO.getTests());
+//        task.setExamples(taskDTO.getExamples());
+//        task.setTaskParams(taskDTO.getTaskParams());
+//        task.setTasksLangs(taskDTO.getTasksLangs());
+        task.setTitle(taskDTO.getTitle());
+        task.setLevel(taskDTO.getLevel());
+        task.setDescription(taskDTO.getDescription());
+        task.setNameOfMethod(taskDTO.getNameOfMethod());
+        task.setTimeLimit(taskDTO.getTimeLimit());
+        task.setVolumeLimit(taskDTO.getVolumeLimit());
+        task.setCreationDate(taskDTO.getCreationDate());
+        task.setEditDate(taskDTO.getEditDate());
+        return task;
     }
 }
