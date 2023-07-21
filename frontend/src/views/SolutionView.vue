@@ -1,15 +1,16 @@
 <template>
-  <div v-if="task">
+  <div v-if="!task" style="display: flex; width: 100%; justify-content: center; align-items: center; margin-top: 50px;">
+    <app-loader></app-loader>
+
+  </div>
+  <div v-else>
     <h3>{{ task.id }}. {{ task.title }}</h3>
     <div id="solution">
       <task-description v-if="task" :task="task" class="item"/>
       <code-editor :pending=" attempt.status === 'PENDING'" class="item" @sendAttempt="sendAttempt"/>
     </div>
     <div v-if="attempt">
-      Результат:
-      {{ attempt }}
-      <br>
-      <span style="white-space: pre-line">{{ attempt.errorMessage }}</span>
+      <result-display :attempt="attempt"/>
     </div>
   </div>
 
@@ -19,13 +20,18 @@
 
 import {defineComponent, onBeforeMount, reactive, ref} from 'vue'
 import taskApi from "@/api/taskApi";
-import TaskDescription from "@/components/task/TaskDescription.vue";
-import CodeEditor from "@/components/task/CodeEditor.vue";
+import TaskDescription from "@/components/solution/TaskDescription.vue";
+import CodeEditor from "@/components/solution/CodeEditor.vue";
 import {useRoute} from "vue-router";
+import ResultDisplay from "@/components/solution/ResultDisplay.vue";
+import attemptApi from "@/api/attemptApi";
+import AppLoader from "@/components/ui/AppLoader.vue";
+import {useStore} from "vuex";
 
 export default defineComponent({
-  components: {CodeEditor, TaskDescription},
+  components: {AppLoader, ResultDisplay, CodeEditor, TaskDescription},
   setup() {
+    const store = useStore();
     const route = useRoute()
     const task = ref();
     let attempt = reactive({
@@ -33,8 +39,11 @@ export default defineComponent({
     });
     onBeforeMount(() => {
       taskApi.getById(route.params.id).then(r => {
-        task.value = r.data
-        console.log(task.value)
+        setTimeout(() => {
+          task.value = r.data
+          console.log(task.value)
+        }, 1000)
+
       }).catch(err => {
         console.log(err)
       })
@@ -49,21 +58,26 @@ export default defineComponent({
     }
 
     function sendAttempt(solution) {
-      taskApi.sendAttempt(solution).then(r => {
-        console.log(r.data);
-        Object.assign(attempt, r.data);
-        checkForPending();
-      }).catch(err => {
-        console.log(err)
-        if (err.response.status === 400) {
-          attempt.status = 'ERROR'
-          attempt.errorMessage = err.response.data.message
-        }
-      })
+      if (store.getters['user/isAuth']) {
+        attemptApi.sendAttempt(solution).then(r => {
+          Object.assign(attempt, r.data);
+          checkForPending();
+        }).catch(err => {
+          console.log(err)
+          if (err.response.status === 400) {
+            attempt.status = 'ERROR'
+            attempt.errorMessage = err.response.data.message
+          }
+        })
+      } else {
+        store.dispatch('user/showLogin', {message:'Войдите для отправки решения'})
+      }
+
+
     }
 
     function checkAttemptStatus() {
-      taskApi.getAttemptById(task.value.id, attempt.id).then(r => {
+      attemptApi.getAttemptById(task.value.id, attempt.id).then(r => {
         Object.assign(attempt, r.data);
         checkForPending();
       }).catch(
@@ -94,5 +108,19 @@ export default defineComponent({
     width: 40%;
   }
 }
+@media (max-width: 650px) {
+.item {
+  width: 100%;
 
+  &:first-child {
+    margin-right: 0;
+    width: 100%;
+  }
+}
+
+  #solution {
+    flex-direction: column;
+
+  }
+}
 </style>

@@ -11,6 +11,7 @@ import ru.tinkoff.summer.taskmicroservice.domain.Attempt;
 
 @RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1")
 public class AttemptController {
     private final SendSolutionUseCase sendSolutionUseCase;
     //TODO:QueryUseCase

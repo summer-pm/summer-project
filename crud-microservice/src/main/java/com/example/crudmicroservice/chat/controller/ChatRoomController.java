@@ -70,35 +70,8 @@ public class ChatRoomController {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // TODO метод отправки сообщения в топик (версия с минимальной веб мордой). Пока не удалять - удалю сам.
-//    @Autowired
-//    private SimpMessagingTemplate simpMessagingTemplate;
-//
-//    @MessageMapping("/chat/{to}")
-//    public void sendMessage(@DestinationVariable String  to, ChatMessage message) {
-//        log.info("Handling send message: " + message + "to: " + to);
-//        boolean isExist = UserStorage.getInstance().getUsers().contains(to);
-//
-//        if (isExist) {
-//            simpMessagingTemplate.convertAndSend("/topic/messages/" + to, message);
-//        }
+//    @GetMapping
+//    public ResponseEntity<String> greeting(@RequestHeader("loggedInUser") String email) {
+//        return ResponseEntity.ok(email);
 //    }
 }

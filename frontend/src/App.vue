@@ -1,10 +1,22 @@
 <template>
-  <router-view></router-view>
+  <app-header/>
+  <auth-modal :show="showModal" @close="hideModal"/>
+  <div id="wrapper">
+    <router-view></router-view>
+  </div>
 
 </template>
 
-<script>
+<script setup>
 
+import AppHeader from "@/components/ui/AppHeader.vue";
+import AuthModal from "@/components/auth/AuthModal.vue";
+import {useStore} from "vuex";
+import {computed} from "vue";
+
+const store = useStore();
+const showModal = computed(() => store.getters['user/showLogin'])
+const hideModal = () => store.dispatch('user/hideLogin')
 </script>
 
 

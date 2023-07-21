@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "ru.tinkoff.summer"
-version = "0.0.1-SNAPSHOT"
+version = "1.1-SNAPSHOT"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -49,4 +49,13 @@ dependencyManagement {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.jar {
+     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Main-Class"] = "ru.tinkoff.summer.taskmicroservice.TaskMicroserviceApplication"
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+
 }
