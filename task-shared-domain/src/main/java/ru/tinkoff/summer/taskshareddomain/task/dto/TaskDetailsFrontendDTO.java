@@ -1,27 +1,25 @@
-package ru.tinkoff.summer.taskshareddomain.task;
+package ru.tinkoff.summer.taskshareddomain.task.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.tinkoff.summer.taskshareddomain.Language;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskDTO {
+public class TaskDetailsFrontendDTO {
 
-//    private List<SolutionsAttempts> solutionsAttempts;
-//    private List<Test> tests;
-//    private List<Examples> examples;
-//    private TaskParams taskParams;
-//    private List<TasksLangs> tasksLangs;
-
+    private List<ExampleDTO> examples;
+    private Map<Language,String> templates;
+    private Long id;
     private String title;
     private String level;
     private String description;
-    private String nameOfMethod;
     private Integer timeLimit;
     private Long volumeLimit;
     private LocalDateTime creationDate;

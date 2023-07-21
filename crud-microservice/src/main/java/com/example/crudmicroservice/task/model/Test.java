@@ -1,11 +1,14 @@
 package com.example.crudmicroservice.task.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = "tests")
@@ -25,8 +28,12 @@ public class Test {
 
     @ElementCollection
     @CollectionTable(name = "input_parameters", joinColumns = @JoinColumn(name = "test_id"))
+    @OrderColumn(name = "input_parameters_order")
     @Column(name = "value")
-    private Set<String> inputParameters;
+    private List<String> inputParameters;
     private String outputParameters;
+    @OneToMany(mappedBy = "failedTest")
+    @JsonIgnore
+    private List<SolutionsAttempts> solutionsAttempts;
 
 }

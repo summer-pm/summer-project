@@ -1,18 +1,18 @@
 <template>
   <div id="task-descr">
-
-    <div v-for="(example,n) in task.taskTestCases" :key="n" class="task-example">
+    {{task.description}}
+    <div v-for="(example,n) in task.examples" :key="n" class="task-example">
       <h5>Пример {{ n + 1 }}</h5>
       <div class="task-example-wrapper">
-        <code>Входные параметры:</code> <code :key="i" v-for="(value,i) in example.inputValues ">{{ value }} &nbsp;</code>
+        <code>Входные параметры:</code> <code >{{ example.input }}&nbsp;</code>
         <br>
-        <code>Выходные параметры:</code>  <code>{{ example.outputValues }}</code>
+        <code>Выходные параметры:</code>  <code>{{ example.output }}</code>
       </div>
     </div>
     <div class="task-limits"><h5>Ограничения</h5>
       <ul>
-        <li><h5>время выполнения {{ task.timeLimitMs }} ms</h5></li>
-        <li><h5>объем памяти {{ task.volumeLimitMb }} MB</h5></li>
+        <li><h5>время выполнения {{ task.timeLimit }} ms</h5></li>
+        <li><h5>объем памяти {{ task.volumeLimit }} MB</h5></li>
       </ul>
     </div>
   </div>

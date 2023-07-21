@@ -8,6 +8,9 @@
             <column name="language_id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="language" type="nvarchar">
+                <constraints unique="true" nullable="false"/>
+            </column>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="solutions_attempts"

@@ -1,5 +1,6 @@
 package com.example.crudmicroservice.user.service;
 
+import com.example.crudmicroservice.task.model.SolutionsAttempts;
 import com.example.crudmicroservice.task.service.SolutionsAttemptsService;
 import com.example.crudmicroservice.user.dto.RegisterRequest;
 import com.example.crudmicroservice.user.dto.UserCredentialsInfo;

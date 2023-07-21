@@ -7,7 +7,7 @@
     <h3>{{ task.id }}. {{ task.title }}</h3>
     <div id="solution">
       <task-description v-if="task" :task="task" class="item"/>
-      <code-editor :pending=" attempt.status === 'PENDING'" class="item" @sendAttempt="sendAttempt"/>
+      <code-editor :templates="task.templates" :pending=" attempt.status === 'PENDING'" class="item" @sendAttempt="sendAttempt"/>
     </div>
     <div v-if="attempt">
       <result-display :attempt="attempt"/>

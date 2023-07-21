@@ -35,9 +35,10 @@ export default defineComponent({
   components: {Codemirror},
   props: {
     pending: Boolean,
+    templates: Object
   },
 
-  setup() {
+  setup(props) {
     const loading = shallowRef(false)
     const route = useRoute()
 
@@ -52,11 +53,7 @@ export default defineComponent({
       view.value = payload.view
     }
     const solution = reactive({
-      code: "class Solution{\n" +
-          "    public int add(int a, int b){\n" +
-          "        \n" +
-          "    }\n" +
-          "}",
+      code: props.templates.JAVA,
       language: "JAVA",
       taskId: route.params.id
     })
@@ -79,6 +76,7 @@ export default defineComponent({
           } else {
             extensions.value = [python()]
           }
+          solution.code = props.templates[lang];
          checkForDarkTheme();
           setTimeout(() => loading.value = false, 200)
 

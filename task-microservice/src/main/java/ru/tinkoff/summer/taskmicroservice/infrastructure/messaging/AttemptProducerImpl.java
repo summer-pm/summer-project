@@ -9,7 +9,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import ru.tinkoff.summer.taskmicroservice.application.port.messaging.AttemptProducer;
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 import ru.tinkoff.summer.taskshareddomain.ConnectionConstants;
 
 @Component
@@ -17,11 +17,11 @@ import ru.tinkoff.summer.taskshareddomain.ConnectionConstants;
 public class AttemptProducerImpl implements AttemptProducer {
     private static final Logger log = LoggerFactory.getLogger(AttemptProducerImpl.class);
 
-    private final KafkaTemplate<String, AttemptDTO> kafkaTemplate;
+    private final KafkaTemplate<String, AttemptForExecuteDTO> kafkaTemplate;
 
     @Override
-    public void publishForExecute(AttemptDTO dto) {
-        log.info("Sending {}",dto.getId());
+    public void publishForExecute(AttemptForExecuteDTO dto) {
+        log.info("Sending to executor {}",dto);
         kafkaTemplate.send(ConnectionConstants.ATTEMPT_TOPIC_NAME, dto.getId().toString(),dto );
     }
 }

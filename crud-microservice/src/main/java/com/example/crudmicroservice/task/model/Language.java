@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.ToStringExclude;
 
 import java.util.List;
 
@@ -19,9 +20,12 @@ public class Language {
     @Column(name = "language_id")
     private Long languageId;
 
+    private String language;
     @OneToMany(mappedBy = "language")
+    @ToStringExclude
     private List<SolutionsAttempts> attemptsList;
 
     @OneToMany(mappedBy = "language")
+    @ToStringExclude
     private List<TasksLangs> tasksLangs;
 }
