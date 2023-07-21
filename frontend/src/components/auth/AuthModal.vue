@@ -1,5 +1,6 @@
 <template>
-  <app-modal v-if="show" @close="$emit('close')">
+
+  <app-modal :error-message="errorMessage" v-if="show" @close="$emit('close')">
     <template #header>
       {{ isLogin ? 'Вход' : isRegisterSuccess ? 'Пользователь успешно зарегистрирован!' : 'Регистрация'}}
     </template>
@@ -33,9 +34,11 @@ export default defineComponent({
     const isLogin = ref(true);
     const store = useStore();
     const isRegisterSuccess = computed(() => store.getters['user/isSuccessRegister'])
+    const errorMessage = computed(() => store.getters['user/errorMessage'])
     return{
       isLogin,
-      isRegisterSuccess
+      isRegisterSuccess,
+      errorMessage
     }
   }
 })

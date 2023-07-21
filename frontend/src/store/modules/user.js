@@ -12,6 +12,8 @@ export const userModule = {
         },
         registered: false,
         loading: false,
+        showLogin: false,
+        loginMessage: '',
     }),
     getters: {
         isAuth: (state) => {
@@ -31,6 +33,12 @@ export const userModule = {
         },
         getToken: (state) => {
             return state.token;
+        },
+        showLogin: (state) => {
+            return state.showLogin
+        },
+        errorMessage: (state) => {
+            return state.loginMessage
         }
     },
     mutations: {
@@ -62,12 +70,28 @@ export const userModule = {
             state.loading = false;
             state.errors.login = true;
         },
+        showLogin(state, message) {
+            state.showLogin = true;
+            state.loginMessage = message;
+        },
+        hideLogin(state) {
+            state.showLogin = false;
+            state.loginMessage = '';
+        },
+        logout(state) {
+            state.token = null;
+            setItem('token', null);
+        },
         clearError(state) {
             state.loading = false;
             state.errors.login = false;
         }
     },
     actions: {
+
+        hideLogin({commit}) {
+            commit('hideLogin')
+        },
         register({commit}, {email, name, password}) {
             commit('registerStart')
             setTimeout(() => {
@@ -86,14 +110,23 @@ export const userModule = {
                 userApi.login(email, password)
                     .then(r => {
                         commit('loginSuccess', r.data.token);
-                        //TODO: Возможно сделать переменную в vuex, чтобы показывать где угодно
-                        router.push({name : 'tasks'})
+                        //TODO: Задержка с 'Успешно'
+                        setTimeout(() =>commit('hideLogin'), 2000 )
+
                     })
                     .catch(err => {
                         console.log(err)
                         commit('loginFailure')
                     })
-            }, 300)
+            }, 1000)
+        },
+        logout({commit}) {
+            commit('logout')
+            router.push({name: 'main'})
+        },
+        showLogin({commit}, {message}) {
+            console.log(message)
+            commit('showLogin', message);
         }
     }
 }

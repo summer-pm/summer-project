@@ -29,7 +29,7 @@ defineProps({
   font-size: 18px;
   font-weight: 500;
   background-color: var(--color-background-soft);
-  padding: 35px 0;
+  padding: 25px 0;
   width: 100%;
   display: flex;
   align-items: center;

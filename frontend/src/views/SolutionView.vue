@@ -1,5 +1,9 @@
 <template>
-  <div v-if="task">
+  <div v-if="!task" style="display: flex; width: 100%; justify-content: center; align-items: center; margin-top: 50px;">
+    <app-loader></app-loader>
+
+  </div>
+  <div v-else>
     <h3>{{ task.id }}. {{ task.title }}</h3>
     <div id="solution">
       <task-description v-if="task" :task="task" class="item"/>
@@ -21,10 +25,13 @@ import CodeEditor from "@/components/solution/CodeEditor.vue";
 import {useRoute} from "vue-router";
 import ResultDisplay from "@/components/solution/ResultDisplay.vue";
 import attemptApi from "@/api/attemptApi";
+import AppLoader from "@/components/ui/AppLoader.vue";
+import {useStore} from "vuex";
 
 export default defineComponent({
-  components: {ResultDisplay, CodeEditor, TaskDescription},
+  components: {AppLoader, ResultDisplay, CodeEditor, TaskDescription},
   setup() {
+    const store = useStore();
     const route = useRoute()
     const task = ref();
     let attempt = reactive({
@@ -32,8 +39,11 @@ export default defineComponent({
     });
     onBeforeMount(() => {
       taskApi.getById(route.params.id).then(r => {
-        task.value = r.data
-        console.log(task.value)
+        setTimeout(() => {
+          task.value = r.data
+          console.log(task.value)
+        }, 1000)
+
       }).catch(err => {
         console.log(err)
       })
@@ -48,16 +58,22 @@ export default defineComponent({
     }
 
     function sendAttempt(solution) {
-      attemptApi.sendAttempt(solution).then(r => {
-        Object.assign(attempt, r.data);
-        checkForPending();
-      }).catch(err => {
-        console.log(err)
-        if (err.response.status === 400) {
-          attempt.status = 'ERROR'
-          attempt.errorMessage = err.response.data.message
-        }
-      })
+      if (store.getters['user/isAuth']) {
+        attemptApi.sendAttempt(solution).then(r => {
+          Object.assign(attempt, r.data);
+          checkForPending();
+        }).catch(err => {
+          console.log(err)
+          if (err.response.status === 400) {
+            attempt.status = 'ERROR'
+            attempt.errorMessage = err.response.data.message
+          }
+        })
+      } else {
+        store.dispatch('user/showLogin', {message:'Войдите для отправки решения'})
+      }
+
+
     }
 
     function checkAttemptStatus() {

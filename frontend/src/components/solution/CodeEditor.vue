@@ -37,7 +37,7 @@ export default defineComponent({
     pending: Boolean,
   },
 
-  setup(props) {
+  setup() {
     const loading = shallowRef(false)
     const route = useRoute()
 
