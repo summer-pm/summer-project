@@ -3,6 +3,9 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
+          <div v-if="errorMessage" class="modal-error-message">
+            {{ errorMessage }}
+          </div>
           <div class="modal-close">
             <svg fill="none" height="40" viewBox="0 0 40 40" width="40" xmlns="http://www.w3.org/2000/svg"
                  @click="$emit('close')">
@@ -37,7 +40,12 @@
 
 <script>
 export default {
-  name: "AppModal"
+  name: "AppModal",
+  props: {
+    errorMessage: {
+      type: String
+    }
+  }
 }
 </script>
 
@@ -126,4 +134,31 @@ export default {
   transform: scale(1.1);
 }
 
+.modal-error-message {
+  padding: 10px;
+  text-align: center;
+  color: var(--color--text-error);
+  background-color: var(--color-background-error);
+  border-color: var(--color--text-error);
+  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
 </style>

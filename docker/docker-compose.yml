@@ -1,5 +1,19 @@
 version: '3.8'
 services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ../frontend
+    ports:
+      - 80:80
+    links:
+      - api-gateway
+    depends_on:
+      - api-gateway
+    volumes:
+      - node:/app/node_modules
+    networks:
+      - app
   auth-microservice:
     build:
       context: ../
@@ -212,6 +226,7 @@ volumes:
   elastic1: {}
   postgres:
   mongodb_data:
+  node:
 networks:
   app:
     driver: bridge

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="code-editor">
     <select v-model="solution.language">
       <option value="JAVA">Java</option>
       <option value="PYTHON">Python</option>
@@ -37,7 +37,7 @@ export default defineComponent({
     pending: Boolean,
   },
 
-  setup(props) {
+  setup() {
     const loading = shallowRef(false)
     const route = useRoute()
 
@@ -128,7 +128,12 @@ select{
 
 
 
-/* скроет иконку стрелки в IE */
 
 
+@media (max-width: 650px) {
+#code-editor{
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+}
 </style>

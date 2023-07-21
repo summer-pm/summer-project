@@ -32,7 +32,7 @@ public class AuthService {
     @Value("${link.database.save}")
     private String DATABASE_SAVE_URL;
 
-    public String saveUser(UserDTO newUser) throws UserAlreadyExistsException {
+    public void saveUser(UserDTO newUser) throws UserAlreadyExistsException {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         HttpEntity<UserDTO> request = new HttpEntity<>(newUser);
@@ -40,11 +40,9 @@ public class AuthService {
                 = restTemplate.exchange(DATABASE_SAVE_URL, HttpMethod.POST, request, String.class);
 
         log.info("database url: {}", DATABASE_SAVE_URL);
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return responseEntity.getBody();
-        } else {
+        if (responseEntity.getStatusCode() != HttpStatus.OK)
             throw new UserAlreadyExistsException("Пользователь с такой почтой уже существует");
-        }
+
     }
 
     public String generateToken(String email) {

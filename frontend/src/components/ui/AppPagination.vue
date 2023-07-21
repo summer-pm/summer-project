@@ -77,4 +77,11 @@ export default defineComponent({
   }
 
 }
+@media (max-width: 600px) {
+  .pagination-item{
+    font-size: 16px;
+    width: 50px;
+    height: 50px;
+  }
+}
 </style>

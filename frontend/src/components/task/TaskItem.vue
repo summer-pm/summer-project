@@ -29,7 +29,7 @@ defineProps({
   font-size: 18px;
   font-weight: 500;
   background-color: var(--color-background-soft);
-  padding: 35px 0;
+  padding: 25px 0;
   width: 100%;
   display: flex;
   align-items: center;
@@ -50,6 +50,18 @@ defineProps({
   &-item {
     width: 33%;
     text-align: center;
+  }
+}
+@media (max-width: 600px) {
+.card{
+
+   font-size: 14px;
+}
+}
+.card-item{
+  width: 45%;
+  &:nth-child(2){
+    width:10% ;
   }
 }
 </style>
