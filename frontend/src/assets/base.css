@@ -32,7 +32,7 @@
     --color-hard: #EB5757;
     --color-success: var(--vt-c-success);
     --color-success-background: var(--vt-c-success-mute);
-    --color-backgrcodeound: var(--vt-c-white);
+    --color-background: var(--vt-c-white);
     --color-background-soft: var(--vt-c-white-soft);
     --color-background-mute: var(--vt-c-white-mute);
     --color-background-error: var(--vt-c-error-mute);

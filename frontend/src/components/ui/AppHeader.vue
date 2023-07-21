@@ -22,7 +22,7 @@
     <ul>
       <li @click="toFeed"><a>Лента</a></li>
       <li @click="isMenuOpened = false;$router.push({name: 'tasks'})"><a>Задачи</a></li>
-      <li v-if="!isLoggedIn" id="auth" @click="showLogin"><a>Авторизация</a></li>
+      <li v-if="!isLoggedIn" @click="showLogin"><a>Авторизация</a></li>
       <li v-else @click="logout"><a>Выйти</a></li>
     </ul>
   </menu>
