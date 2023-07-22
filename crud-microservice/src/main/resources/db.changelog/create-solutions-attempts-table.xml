@@ -10,11 +10,15 @@
             </column>
             <column name="user_id" type="bigint"/>
             <column name="task_id" type="bigint"/>
+            <column name="test_id" type="bigint"/>
             <column name="language_id" type="bigint"/>
-            <column name="code" type="varchar(255)"/>
-            <column name="status" type="varchar(255)"/>
-            <column name="execution_time" type="bigint"/>
-            <column name="solutions_volume" type="bigint"/>
+            <column name="code" type="nvarchar(255)"/>
+            <column name="status" type="nvarchar(255)"/>
+            <column name="actual_result" type="nvarchar(255)"/>
+            <column name="error_message" type="nvarchar(255)"/>
+            <column name="execution_time" type="float"/>
+            <column name="solutions_volume" type="float"/>
+            <column name="creation_date" type="datetime"/>
         </createTable>
     </changeSet>
 
@@ -36,6 +40,11 @@
                                  constraintName="fk_solutions_attempts_task"
                                  referencedTableName="tasks"
                                  referencedColumnNames="task_id"/>
+          <addForeignKeyConstraint baseTableName="solutions_attempts"
+                                 baseColumnNames="test_id"
+                                 constraintName="fk_solutions_attempts_test"
+                                 referencedTableName="tests"
+                                 referencedColumnNames="test_id"/>
     </changeSet>
 
 </databaseChangeLog>

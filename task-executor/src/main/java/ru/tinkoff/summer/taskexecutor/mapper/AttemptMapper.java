@@ -7,12 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serializer;
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 
 import java.io.IOException;
 import java.util.Map;
 //TODO: Generic
-public class AttemptMapper implements Serializer<AttemptDTO>, Deserializer<AttemptDTO> {
+public class AttemptMapper implements Serializer<AttemptForExecuteDTO>, Deserializer<AttemptForExecuteDTO> {
     private final ObjectMapper objectMapper;
 
   public AttemptMapper() {
@@ -27,7 +27,7 @@ public class AttemptMapper implements Serializer<AttemptDTO>, Deserializer<Attem
     }
 
     @Override
-    public byte[] serialize(String topic, AttemptDTO data) {
+    public byte[] serialize(String topic, AttemptForExecuteDTO data) {
         try {
             return objectMapper.writeValueAsBytes(data);
         } catch (JsonProcessingException e) {
@@ -43,9 +43,9 @@ public class AttemptMapper implements Serializer<AttemptDTO>, Deserializer<Attem
     }
 
     @Override
-    public AttemptDTO deserialize(String topic, byte[] data) {
+    public AttemptForExecuteDTO deserialize(String topic, byte[] data) {
         try {
-            return objectMapper.readValue(data, AttemptDTO.class);
+            return objectMapper.readValue(data, AttemptForExecuteDTO.class);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         } catch (IOException e) {

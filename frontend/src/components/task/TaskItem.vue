@@ -1,7 +1,7 @@
 <template>
   <div :class="{odd : isOdd}" class="card">
     <div class="card-item title">{{ task.id }}. {{ task.title }}</div>
-    <div class="card-item status">{{ task.status }}</div>
+    <div class="card-item status"></div>
     <div class="card-item level">
       <task-level :value="task.level"/>
     </div>

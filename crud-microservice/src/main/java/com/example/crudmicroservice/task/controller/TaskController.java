@@ -1,15 +1,19 @@
 package com.example.crudmicroservice.task.controller;
 
+
 import com.example.crudmicroservice.task.model.Task;
 import com.example.crudmicroservice.task.service.TaskService;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.tinkoff.summer.taskshareddomain.task.TaskDTO;
+import ru.tinkoff.summer.taskshareddomain.task.dto.TaskDetailsFrontendDTO;
+import ru.tinkoff.summer.taskshareddomain.task.dto.TaskForAttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.task.dto.TaskFrontendDTO;
+
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/api/v1/tasks")
 public class TaskController {
 
     private final TaskService taskService;
@@ -18,15 +22,20 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody TaskDTO taskDTO) {
-        Task createdTask = taskService.saveTask(taskDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
-    }
+
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
-        Task task = taskService.getTaskById(id);
+    public ResponseEntity<TaskDetailsFrontendDTO> getTaskById(@PathVariable Long id) {
+        TaskDetailsFrontendDTO task = taskService.getTaskById(id);
+        if (task != null) {
+            return ResponseEntity.ok(task);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+     @GetMapping("/{id}/details")
+    public ResponseEntity<TaskForAttemptDTO> getTaskDetailsById(@PathVariable Long id) {
+        TaskForAttemptDTO task = taskService.getTaskDetailsById(id);
         if (task != null) {
             return ResponseEntity.ok(task);
         } else {
@@ -35,9 +44,9 @@ public class TaskController {
     }
 
     @GetMapping
-    public Page<Task> getTasks(@RequestParam(defaultValue = "1") int page,
-                               @RequestParam(defaultValue = "10") int pageSize,
-                               @RequestParam(defaultValue = "taskId") String sortBy) {
+    public Page<TaskFrontendDTO> getTasks(@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int pageSize,
+                                          @RequestParam(defaultValue = "taskId") String sortBy) {
         return taskService.getTasks(page, pageSize, sortBy);
     }
 

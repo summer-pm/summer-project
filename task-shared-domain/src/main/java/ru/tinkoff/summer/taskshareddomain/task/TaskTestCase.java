@@ -7,12 +7,11 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class TaskTestCase implements Serializable {
+    private Long id;
     private List<String> inputValues;
     private String outputValues;
 
-    public TaskTestCase(List<String> inputValues, String outputValues) {
-        this.inputValues = inputValues;
-        this.outputValues = outputValues;
-    }
+
 }

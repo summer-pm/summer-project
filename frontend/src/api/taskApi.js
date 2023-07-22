@@ -3,7 +3,7 @@ import {axiosApi} from "@/api/api";
 export default {
     getById(id) {
         return axiosApi.get(
-            "/task/" + id
+            "/tasks/" + id
         )
     },
     getAll(offset, sort, title, status, level) {

@@ -9,60 +9,59 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.tinkoff.summer.taskmicroservice.DTO.SolutionData;
-import ru.tinkoff.summer.taskmicroservice.application.port.data.AttemptPort;
-import ru.tinkoff.summer.taskmicroservice.application.port.data.TaskPort;
+import ru.tinkoff.summer.taskmicroservice.application.port.data.CrudPort;
 import ru.tinkoff.summer.taskmicroservice.application.port.messaging.AttemptProducer;
 import ru.tinkoff.summer.taskmicroservice.application.usecase.impl.SendSolutionUseCaseImpl;
-import ru.tinkoff.summer.taskmicroservice.domain.Attempt;
-import ru.tinkoff.summer.taskmicroservice.domain.Task;
+import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.ExecutionStatus;
 import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.Type;
 import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
 import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
+import ru.tinkoff.summer.taskshareddomain.task.dto.TaskForAttemptDTO;
 
 import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.AdditionalAnswers.returnsFirstArg;
+import static org.mockito.AdditionalAnswers.returnsLastArg;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class SendSolutionUseCaseTest {
     @Mock
-    private AttemptPort attemptPort;
-    @Mock
-    private TaskPort taskPort;
+    private CrudPort crudPort;
     @Mock
     private AttemptProducer attemptProducer;
     @InjectMocks
     private SendSolutionUseCaseImpl sut;
     @Captor
-    private ArgumentCaptor<Attempt> attemptCaptor;
-
+    private ArgumentCaptor<AttemptDTO> attemptCaptor;
+  private String email = "email@mail.com";
     @BeforeEach
     public void setUp() {
-        Task task = new Task();
+        TaskForAttemptDTO task = new TaskForAttemptDTO();
         task.setId(1L);
         task.setMethodName("methodName");
         task.setParams(new TaskParams(
                 List.of(Type.INTEGER, Type.INTEGER), Type.INTEGER_ARR
         ));
         task.setTaskTestCases(Set.of(
-                new TaskTestCase(List.of("2", "5"), "7")
+                new TaskTestCase(10L,List.of("2", "5"), "7")
         ));
-        when(taskPort.getTask(task.getId())).thenReturn(task);
+        when(crudPort.getTask(task.getId())).thenReturn(task);
     }
 
     @Test
     public void incorrectCode_Error() {
         var code = "";
+
         var solution = getSolution(code);
-        assertThatThrownBy(() -> sut.execute(solution))
+
+        assertThatThrownBy(() -> sut.execute(email, solution))
                 .isInstanceOf(IllegalArgumentException.class);
-        verify(attemptPort, never()).save(any());
+        verify(crudPort, never()).save(any(String.class),any(long.class),any());
         verify(attemptProducer, never()).publishForExecute(any());
     }
 
@@ -71,14 +70,14 @@ public class SendSolutionUseCaseTest {
         var code = "class Solution{" +
                 "public int[] methodName(int a, int b){return a+b;}}";
         var solution = getSolution(code);
-        when(attemptPort.save(any())).then(returnsFirstArg());
+        when(crudPort.save(any(String.class),any(long.class), any())).then(returnsLastArg());
 
-        sut.execute(solution);
+        sut.execute(email, solution);
 
-        verify(attemptPort).save(attemptCaptor.capture());
-        Attempt attempt = attemptCaptor.getValue();
+        verify(crudPort).save(any(String.class),any(long.class),attemptCaptor.capture());
+        AttemptDTO attemptDTO = attemptCaptor.getValue();
 
-        assertThat(attempt.getStatus()).isEqualTo(ExecutionStatus.PENDING);
+        assertThat(attemptDTO.getStatus()).isEqualTo(ExecutionStatus.PENDING);
         verify(attemptProducer).publishForExecute(any());
     }
 
