@@ -46,6 +46,7 @@ public class Task {
     private List<TasksLangs> tasksLangs;
 
     private String title;
+    @Enumerated(EnumType.STRING)
     private Level level;
     private String description;
     private String nameOfMethod;

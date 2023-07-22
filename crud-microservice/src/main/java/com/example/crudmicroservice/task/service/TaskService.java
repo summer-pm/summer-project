@@ -1,10 +1,9 @@
 package com.example.crudmicroservice.task.service;
 
 
-import com.example.crudmicroservice.task.model.Examples;
-import com.example.crudmicroservice.task.model.Task;
-import com.example.crudmicroservice.task.model.TasksLangs;
-import com.example.crudmicroservice.task.model.Test;
+import com.example.crudmicroservice.task.model.*;
+import com.example.crudmicroservice.task.model.criteria.TaskSearchCriteria;
+import com.example.crudmicroservice.task.model.criteria.TaskSpecifications;
 import com.example.crudmicroservice.task.repository.LangsTaskRepo;
 import com.example.crudmicroservice.task.repository.LanguageRepository;
 import com.example.crudmicroservice.task.repository.TaskRepository;
@@ -24,7 +23,10 @@ import ru.tinkoff.summer.taskshareddomain.task.dto.TaskDetailsFrontendDTO;
 import ru.tinkoff.summer.taskshareddomain.task.dto.TaskForAttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.task.dto.TaskFrontendDTO;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -73,9 +75,11 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Page<TaskFrontendDTO> getTasks(int page, int pageSize, String sortBy) {
+    public Page<TaskFrontendDTO> getTasks(int page, int pageSize, String title, Level level, String sortBy) {
         PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(sortBy));
-        var tasks = taskRepository.findAll(pageRequest);
+        var query = new TaskSearchCriteria(title,level);
+        var spec = TaskSpecifications.searchByCriteria(query);
+        var tasks = taskRepository.findAll(spec, pageRequest);
         return tasks.map(task -> new TaskFrontendDTO(task.getTitle(), task.getTaskId(), task.getLevel().toString()));
     }
 

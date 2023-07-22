@@ -1,6 +1,7 @@
 package com.example.crudmicroservice.task.controller;
 
 
+import com.example.crudmicroservice.task.model.Level;
 import com.example.crudmicroservice.task.model.Task;
 import com.example.crudmicroservice.task.service.TaskService;
 import org.springframework.data.domain.Page;
@@ -45,9 +46,11 @@ public class TaskController {
 
     @GetMapping
     public Page<TaskFrontendDTO> getTasks(@RequestParam(defaultValue = "0") int page,
-                                          @RequestParam(defaultValue = "10") int pageSize,
-                                          @RequestParam(defaultValue = "taskId") String sortBy) {
-        return taskService.getTasks(page, pageSize, sortBy);
+                                          @RequestParam(defaultValue = "10") int limit,
+                                          @RequestParam(defaultValue = "taskId") String sortBy,
+                                          @RequestParam(name="title", required = false) String title,
+                                          @RequestParam(name="level", required = false) Level level) {
+        return taskService.getTasks(page, limit,title,level, sortBy);
     }
 
     @PatchMapping("/{id}")
