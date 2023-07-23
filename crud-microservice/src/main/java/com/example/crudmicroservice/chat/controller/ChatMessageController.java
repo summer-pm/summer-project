@@ -15,6 +15,7 @@ import java.util.List;
 
 
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/messages")
 public class ChatMessageController {
