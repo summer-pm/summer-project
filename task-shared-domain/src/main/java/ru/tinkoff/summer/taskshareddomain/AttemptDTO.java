@@ -31,7 +31,8 @@ public class AttemptDTO {
 
     private LocalDateTime creationDate;
     public static AttemptDTO of(String code, Language language, TaskForAttemptDTO task) {
-        checkCodeIsNotBlank(code);
+        if (language == Language.JAVA) {
+            checkCodeIsNotBlank(code);
 
         checkCodeHaveSolutionClass(code);
 
@@ -41,13 +42,13 @@ public class AttemptDTO {
 
 
         checkTypesMatch(language, task, parameterTypes);
+        }
 
         return new AttemptDTO(code, language, task);
     }
 
     private static void checkTypesMatch(Language language, TaskForAttemptDTO task, String[] parameterTypes) {
         if (language == Language.JAVA) {
-
             List<Type> neededTypes = task.getParams().getInputTypes();
 
             for (int i = 0; i < parameterTypes.length; i++) {

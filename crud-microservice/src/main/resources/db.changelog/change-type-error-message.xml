@@ -1,0 +1,13 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="change-type-error-message" author="Vashkulatov">
+        <modifyDataType tableName="solutions_attempts"
+                        columnName="error_message"
+                        newDataType="text"
+                        schemaName="public"/>
+    </changeSet>
+
+</databaseChangeLog>

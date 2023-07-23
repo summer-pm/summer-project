@@ -4,6 +4,9 @@ from typing import List
 
 ${solution}
 
+def READ_STRING():
+    return input()
+
 def READ_INTEGER():
     return int(input())
 

@@ -3,6 +3,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
+
     <include file="create-user-table.xml" relativeToChangelogFile="true"/>
 
     <include file="create-user-posts-table.xml" relativeToChangelogFile="true"/>
@@ -25,5 +26,7 @@
     <include file="create-task-params-table.xml" relativeToChangelogFile="true"/>
 
     <include file="create-input-types-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="change-type-error-message.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

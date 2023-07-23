@@ -27,8 +27,18 @@ public class Driver {
     private static void printResult(int result) {
         System.out.println(result);
     }
+    private static void printResult(String result) {
+        System.out.println(result);
+    }
     private static void printResult(int[] result) {
         System.out.println(Arrays.toString(result));
+    }
+
+
+    private static String READ_STRING(){
+        String input = scanner.nextLine();
+        input = input.replace(" ", "");
+        return input;
     }
     private static int[] READ_INTEGER_ARR() {
         String input = scanner.nextLine();
