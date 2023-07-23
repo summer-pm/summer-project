@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination">
+  <div v-if="total > 1" class="pagination">
     <div :class="{disabled : current === 0}" class="pagination-item control" @click="changePage(current - 1)">--</div>
     <div v-for="n in total" :key="n" :class="{active : n-1 === current}" class="pagination-item "
          @click="changePage(n - 1)">
