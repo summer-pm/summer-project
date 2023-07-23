@@ -4,8 +4,8 @@
       <h2>Ну тут без стакана не <br> разберешься</h2>
       <h5>Находите задачи и придумывайте решения</h5>
       <div id="search">
-        <input :placeholder="'Введите название задачи'">
-        <button>Поиск</button>
+        <input v-model="query" :placeholder="'Введите название задачи'">
+        <button  @click="search">Поиск</button>
       </div>
     </div>
 
@@ -14,7 +14,14 @@
 </template>
 
 <script setup>
+import {ref} from "vue";
+import {useRouter} from "vue-router";
 
+const query = ref();
+const router = useRouter();
+const search = () => {
+  router.push({name: 'tasks', query: {title: query.value}})
+}
 </script>
 
 <style lang="scss" scoped>
@@ -118,26 +125,25 @@ h5 {
   }
 
   #search {
-  margin-top: 30px;
+    margin-top: 30px;
 
-  & input {
-    width: 60%;
-    margin: 10px 21px;
-    outline: none;
-    border: none;
-    font-size: 14px;
-    line-height: 20px;
+    & input {
+      width: 60%;
+      margin: 10px 21px;
+      outline: none;
+      border: none;
+      font-size: 14px;
+      line-height: 20px;
 
 
+    }
 
+    button {
+      color: black;
+      font-size: 14px;
+      padding: 14px 34px;
+    }
   }
-
-  button {
-    color: black;
-    font-size: 14px;
-    padding: 14px 34px;
-  }
-}
 
 }
 </style>

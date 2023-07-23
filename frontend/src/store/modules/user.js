@@ -83,17 +83,22 @@ export const userModule = {
             state.token = null;
             setItem('token', null);
         },
-        clearError(state) {
+        clearAll(state) {
             state.loading = false;
             state.errors.login = false;
+            state.registered = false;
+            state.token = null;
+            state.errors.userExists = false;
         }
     },
     actions: {
 
         hideLogin({commit}) {
+            commit('clearAll')
             commit('hideLogin')
         },
         register({commit}, {email, name, password}) {
+            commit('clearAll')
             commit('registerStart')
             setTimeout(() => {
                 userApi.register(name, email, password)
@@ -106,12 +111,13 @@ export const userModule = {
 
         },
         login({commit}, {email, password}) {
+            commit('clearAll')
             commit('loginStart')
             setTimeout(() => {
                 userApi.login(email, password)
                     .then(r => {
                         commit('loginSuccess', r.data.token);
-                        setTimeout(() =>commit('hideLogin'), 1500 )
+                        setTimeout(() => commit('hideLogin'), 1500)
                     })
                     .catch(err => {
                         console.log(err)
@@ -120,11 +126,12 @@ export const userModule = {
             }, 1000)
         },
         logout({commit}) {
+            commit('clearAll')
             commit('logout')
             router.push({name: 'main'})
         },
         showLogin({commit}, {message}) {
-            console.log(message)
+            commit('clearAll')
             commit('showLogin', message);
         }
     }

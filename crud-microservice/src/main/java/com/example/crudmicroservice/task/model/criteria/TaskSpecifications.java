@@ -11,7 +11,7 @@ public class TaskSpecifications {
             if (criteria.getTitle() !=  null && !criteria.getTitle().isBlank()){
                 predicate = criteriaBuilder.and(predicate,
                         criteriaBuilder.like(criteriaBuilder.lower(root.get("title")),
-                                "%" + criteria.getTitle().toLowerCase() + "%"));
+                                "%" + criteria.getTitle().toLowerCase().trim() + "%"));
             }
             if(criteria.getLevel() != null){
                 predicate = criteriaBuilder.and(predicate,

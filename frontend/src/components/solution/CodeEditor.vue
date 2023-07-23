@@ -1,9 +1,6 @@
 <template>
   <div id="code-editor">
-    <select v-model="solution.language">
-      <option value="JAVA">Java</option>
-      <option value="PYTHON">Python</option>
-    </select>
+    <app-dropdown-select style="margin-bottom: 20px;" v-model="solution.language" :items="languages"/>
     <codemirror
         v-if="!loading"
         v-model="solution.code"
@@ -29,10 +26,11 @@ import {java} from "@codemirror/lang-java";
 import {useRoute} from "vue-router";
 import {oneDark} from "@codemirror/theme-one-dark";
 import {python} from "@codemirror/lang-python";
+import AppDropdownSelect from "@/components/ui/AppDropdownSelect.vue";
 
 
 export default defineComponent({
-  components: {Codemirror},
+  components: {AppDropdownSelect, Codemirror},
   props: {
     pending: Boolean,
     templates: Object
@@ -43,7 +41,10 @@ export default defineComponent({
     const route = useRoute()
 
     const extensions = ref([java()])
-
+    const languages = [
+      {title: 'Java', value: "JAVA"},
+      {title: 'Python', value: "PYTHON"}
+    ]
 
 
     checkForDarkTheme();
@@ -62,7 +63,8 @@ export default defineComponent({
     function sendSolution() {
       this.$emit('sendAttempt', solution)
     }
-     function checkForDarkTheme() {
+
+    function checkForDarkTheme() {
       if (window.matchMedia('(prefers-color-scheme: dark)').matches)
         extensions.value.push(oneDark)
     }
@@ -77,13 +79,14 @@ export default defineComponent({
             extensions.value = [python()]
           }
           solution.code = props.templates[lang];
-         checkForDarkTheme();
+          checkForDarkTheme();
           setTimeout(() => loading.value = false, 200)
 
         }
     )
 
     return {
+      languages,
       loading,
       sendSolution,
       solution,
@@ -112,26 +115,23 @@ button {
     transform: scale(102%);
   }
 }
-select{
+
+select {
 
   margin-bottom: 35px;
   font-size: 16px;
   padding: 10px 50px;
-   border-radius: 100px;
+  border-radius: 100px;
   border: none;
   color: var(--color-text);
   background-color: var(--color-background-soft);
 }
 
 
-
-
-
-
 @media (max-width: 650px) {
-#code-editor{
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
+  #code-editor {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
 }
 </style>
