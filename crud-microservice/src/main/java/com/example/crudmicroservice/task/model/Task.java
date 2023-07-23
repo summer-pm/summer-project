@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.builder.ToStringExclude;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,7 @@ public class Task {
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     @JsonManagedReference
     @ToStringExclude
-    private List<Test> tests;
+    private List<Test> tests = new ArrayList<>();
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -36,6 +37,7 @@ public class Task {
     private List<Examples> examples;
 
     @OneToOne(mappedBy = "task", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     @JsonManagedReference
     @ToStringExclude
     private TaskParams taskParams;

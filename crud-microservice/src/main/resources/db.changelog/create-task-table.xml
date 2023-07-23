@@ -10,7 +10,7 @@
             </column>
             <column name="title" type="varchar(255)"/>
             <column name="level" type="varchar(255)"/>
-            <column name="description" type="varchar(255)"/>
+            <column name="description" type="text"/>
             <column name="name_of_method" type="varchar(255)"/>
             <column name="time_limit" type="bigint"/>
             <column name="volume_limit" type="bigint"/>

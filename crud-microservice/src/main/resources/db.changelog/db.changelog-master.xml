@@ -8,6 +8,7 @@
     <include file="create-user-posts-table.xml" relativeToChangelogFile="true"/>
 
     <include file="create-task-table.xml" relativeToChangelogFile="true"/>
+
     <include file="create-tests-table.xml" relativeToChangelogFile="true"/>
 
 

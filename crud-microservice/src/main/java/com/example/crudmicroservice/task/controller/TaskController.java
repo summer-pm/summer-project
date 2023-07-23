@@ -1,9 +1,14 @@
 package com.example.crudmicroservice.task.controller;
 
 
+import com.example.crudmicroservice.task.dto.CreateTaskDTO;
+import com.example.crudmicroservice.task.dto.TestDTO;
 import com.example.crudmicroservice.task.model.Level;
 import com.example.crudmicroservice.task.model.Task;
+import com.example.crudmicroservice.task.service.TaskCreateService;
 import com.example.crudmicroservice.task.service.TaskService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 
 import org.springframework.http.ResponseEntity;
@@ -12,18 +17,33 @@ import ru.tinkoff.summer.taskshareddomain.task.dto.TaskDetailsFrontendDTO;
 import ru.tinkoff.summer.taskshareddomain.task.dto.TaskForAttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.task.dto.TaskFrontendDTO;
 
+import java.net.URI;
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/tasks")
+@RequiredArgsConstructor
 public class TaskController {
 
     private final TaskService taskService;
+    private final TaskCreateService taskCreateService;
 
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
+
+    @PostMapping("/{id}/tests")
+    public ResponseEntity<Task> addTests(@PathVariable long id, @Valid @RequestBody List<TestDTO> dto){
+        taskCreateService.addTests(id, dto);
+        return ResponseEntity.created(URI.create("")).build();
     }
-
-
+    @PostMapping
+    public ResponseEntity<Task> createTask(@Valid @RequestBody CreateTaskDTO dto){
+        taskCreateService.create(dto);
+        return ResponseEntity.created(URI.create("")).build();
+    }
+    @GetMapping("/{id}/tests")
+    public ResponseEntity<List<TestDTO>> getTests(@PathVariable long id){
+        return ResponseEntity.ok(taskCreateService.getTests(id));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<TaskDetailsFrontendDTO> getTaskById(@PathVariable Long id) {
