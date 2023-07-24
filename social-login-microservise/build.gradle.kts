@@ -35,9 +35,9 @@ tasks.jar {
     from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
 
 }
-group = "com.social-login"
+group = "com.social-login-microservise"
 version = "0.0.1-SNAPSHOT"
-description = "social-login"
+description = "social-login-microservise"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 publishing {

@@ -1,0 +1,24 @@
+<html>
+<body>
+<div>
+    <form method="post">
+        <input type="text" name="text" placeholder="Enter massage" />
+        <input type="text" name="tag" placeholder="tag" />
+        <button  type="submit" >Send Massage</button>
+    </form>
+</div>
+
+    <div> List Massages</div>
+        <form method="post" action="filter">
+            <input type="text" name="filter">
+            <button  type="submit" >Find by tag</button>
+        </form>
+    {{#massages}}
+    <div>
+        <b>{{id}}</b>
+        <span>{{text}}</span>
+        <i>{{tag}}</i>
+    </div>
+    {{/massages}}
+</body>
+</html>
