@@ -2,7 +2,7 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "test-ci-cd-1" ]
+    branches: [ "main" ]
 
 env:
   TASK_EXECUTOR_NAME: task-executor
