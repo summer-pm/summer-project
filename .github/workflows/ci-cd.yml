@@ -3,8 +3,6 @@ name: Docker Image CI
 on:
   push:
     branches: [ "test-ci-cd-1" ]
-#   pull_request:
-#     branches: [ "test-ci-cd-1" ]
 
 env:
   TASK_EXECUTOR_NAME: task-executor
