@@ -29,8 +29,6 @@ jobs:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
-    - name: Setup Buildx
-      uses: docker/setup-buildx-action@v2
     - name: Build Task-executor
       uses: docker/build-push-action@v4
       with:
@@ -55,8 +53,6 @@ jobs:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
-    - name: Setup Buildx
-      uses: docker/setup-buildx-action@v2
     - name: Build Task-microservice
       uses: docker/build-push-action@v4
       with:
@@ -80,8 +76,6 @@ jobs:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
-    - name: Setup Buildx
-      uses: docker/setup-buildx-action@v2
     - name: Build Crud-microservice
       uses: docker/build-push-action@v4
       with:
@@ -105,8 +99,6 @@ jobs:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
-    - name: Setup Buildx
-      uses: docker/setup-buildx-action@v2
     - name: Build auth-microservice
       uses: docker/build-push-action@v4
       with:
@@ -130,8 +122,6 @@ jobs:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
-    - name: Setup Buildx
-      uses: docker/setup-buildx-action@v2
     - name: Build eureka-service
       uses: docker/build-push-action@v4
       with:
@@ -155,8 +145,6 @@ jobs:
             registry: ghcr.io
             username: ${{github.actor}}
             password: ${{secrets.GITHUB_TOKEN}}
-      - name: Setup Buildx
-        uses: docker/setup-buildx-action@v2
       - name: Build api-gateway
         uses: docker/build-push-action@v4
         with:
@@ -181,8 +169,6 @@ jobs:
             registry: ghcr.io
             username: ${{github.actor}}
             password: ${{secrets.GITHUB_TOKEN}}
-      - name: Setup Buildx
-        uses: docker/setup-buildx-action@v2
       - name: Build frontend
         uses: docker/build-push-action@v4
         with:
