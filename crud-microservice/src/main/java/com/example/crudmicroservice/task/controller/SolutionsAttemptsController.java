@@ -5,11 +5,12 @@ import com.example.crudmicroservice.task.service.SolutionsAttemptsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/solutions-attempts")
+@RequestMapping("/api/v1")
 public class SolutionsAttemptsController {
 
     private final SolutionsAttemptsService solutionsAttemptsService;
@@ -18,17 +19,17 @@ public class SolutionsAttemptsController {
         this.solutionsAttemptsService = solutionsAttemptsService;
     }
 
-    @PostMapping
-    public ResponseEntity<SolutionsAttempts> createSolutionsAttempts(@RequestBody SolutionsAttempts solutionsAttempts) {
-        SolutionsAttempts createdAttempts = solutionsAttemptsService.saveSolutionsAttempts(solutionsAttempts);
+    @PostMapping("/tasks/{id}/attempts")
+    public ResponseEntity<AttemptDTO> createSolutionsAttempts(@RequestHeader("loggedInUser") String email, @PathVariable("id") Long taskId,  @RequestBody AttemptDTO attemptDTO) {
+        AttemptDTO createdAttempts = solutionsAttemptsService.saveSolutionsAttempts(email,taskId,attemptDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAttempts);
     }
 
-    @PatchMapping("/{attemptId}")
-    public ResponseEntity<SolutionsAttempts> updateSolutionsAttempts(@PathVariable Long attemptId,
-                                                                     @RequestBody SolutionsAttempts solutionsAttempts) {
-        SolutionsAttempts updatedAttempts = solutionsAttemptsService.
-                updateSolutionsAttempts(attemptId, solutionsAttempts);
+    @PutMapping("/attempts/{attemptId}")
+    public ResponseEntity<AttemptDTO> updateSolutionsAttempts(@PathVariable Long attemptId,
+                                                                     @RequestBody AttemptDTO dto) {
+        AttemptDTO updatedAttempts = solutionsAttemptsService.
+                updateSolutionsAttempts(attemptId, dto);
         if (updatedAttempts != null) {
             return ResponseEntity.ok(updatedAttempts);
         } else {
@@ -36,9 +37,9 @@ public class SolutionsAttemptsController {
         }
     }
 
-    @GetMapping("/{attemptId}")
-    public ResponseEntity<SolutionsAttempts> getSolutionsAttemptsById(@PathVariable Long attemptId) {
-        SolutionsAttempts solutionsAttempts = solutionsAttemptsService.getSolutionsAttemptsById(attemptId);
+    @GetMapping("/attempts/{attemptId}")
+    public ResponseEntity<AttemptDTO> getSolutionsAttemptsById(@PathVariable Long attemptId) {
+        AttemptDTO solutionsAttempts = solutionsAttemptsService.getSolutionsAttemptsById(attemptId);
         if (solutionsAttempts != null) {
             System.out.println("yes");
             return ResponseEntity.ok(solutionsAttempts);
@@ -54,9 +55,5 @@ public class SolutionsAttemptsController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<SolutionsAttempts>> getAllSolutionsAttempts() {
-        List<SolutionsAttempts> solutionsAttempts = solutionsAttemptsService.getAllSolutionsAttempts();
-        return ResponseEntity.ok(solutionsAttempts);
-    }
+
 }

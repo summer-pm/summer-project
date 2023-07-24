@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import ru.tinkoff.summer.taskexecutor.domain.exceptions.JavaCompileException;
 import ru.tinkoff.summer.taskexecutor.domain.executor.JavaExecutor;
 
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.Type;
 import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
@@ -22,13 +22,13 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 public class JavaCompileErrorTest {
 
 
-    private AttemptDTO attempt;
+    private AttemptForExecuteDTO attempt;
     private JavaExecutor javaExecutor;
 
     @BeforeEach
     public void setUp() {
         javaExecutor = new JavaExecutor();
-        attempt = new AttemptDTO();
+        attempt = new AttemptForExecuteDTO();
         attempt.setMethodName("method");
         attempt.setParams(new TaskParams(
                 List.of(Type.INTEGER, Type.INTEGER),

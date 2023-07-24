@@ -1,15 +1,20 @@
 package com.example.crudmicroservice.task.controller;
 
+
+import com.example.crudmicroservice.task.model.Level;
 import com.example.crudmicroservice.task.model.Task;
 import com.example.crudmicroservice.task.service.TaskService;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.tinkoff.summer.taskshareddomain.task.dto.TaskDetailsFrontendDTO;
+import ru.tinkoff.summer.taskshareddomain.task.dto.TaskForAttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.task.dto.TaskFrontendDTO;
 
-import java.util.List;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/api/v1/tasks")
 public class TaskController {
 
     private final TaskService taskService;
@@ -18,15 +23,20 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task) {
-        Task createdTask = taskService.saveTask(task);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdTask);
-    }
+
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
-        Task task = taskService.getTaskById(id);
+    public ResponseEntity<TaskDetailsFrontendDTO> getTaskById(@PathVariable Long id) {
+        TaskDetailsFrontendDTO task = taskService.getTaskById(id);
+        if (task != null) {
+            return ResponseEntity.ok(task);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+     @GetMapping("/{id}/details")
+    public ResponseEntity<TaskForAttemptDTO> getTaskDetailsById(@PathVariable Long id) {
+        TaskForAttemptDTO task = taskService.getTaskDetailsById(id);
         if (task != null) {
             return ResponseEntity.ok(task);
         } else {
@@ -35,9 +45,12 @@ public class TaskController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Task>> getAllTasks() {
-        List<Task> tasks = taskService.getAllTasks();
-        return ResponseEntity.ok(tasks);
+    public Page<TaskFrontendDTO> getTasks(@RequestParam(defaultValue = "0") int page,
+                                          @RequestParam(defaultValue = "10") int limit,
+                                          @RequestParam(defaultValue = "taskId") String sortBy,
+                                          @RequestParam(name="title", required = false) String title,
+                                          @RequestParam(name="level", required = false) Level level) {
+        return taskService.getTasks(page, limit,title,level, sortBy);
     }
 
     @PatchMapping("/{id}")

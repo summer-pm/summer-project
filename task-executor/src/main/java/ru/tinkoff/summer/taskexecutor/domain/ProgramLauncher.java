@@ -3,7 +3,7 @@ package ru.tinkoff.summer.taskexecutor.domain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.tinkoff.summer.taskexecutor.domain.exceptions.JavaCompileException;
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 import ru.tinkoff.summer.taskshareddomain.ExecutionResult;
 import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
 
@@ -47,7 +47,7 @@ public class ProgramLauncher {
         return errors;
     }
 
-    public List<ExecutionResult> testProgram(AttemptDTO attempt, String... commands) {
+    public List<ExecutionResult> testProgram(AttemptForExecuteDTO attempt, String... commands) {
         ProcessBuilder builder = new ProcessBuilder(commands);
         List<ExecutionResult> results = new LinkedList<>();
 

@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: auth-microservice
+
+server:
+  port: 8083
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_URL:localhost:8081/eureka}
+
+# for @Value
+link:
+  database:
+    save: http://crud-microservice/users
+    getCred: http://crud-microservice/users/user

@@ -19,20 +19,21 @@ repositories {
 extra["springCloudVersion"] = "2022.0.3"
 
 dependencies {
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.0.3")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.1.1")
-    implementation (project(":task-shared-domain"))
+    implementation(project(":task-shared-domain"))
     // https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
-implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 
     // https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
-testImplementation("ch.qos.logback:logback-classic:1.4.8")
+    testImplementation("ch.qos.logback:logback-classic:1.4.8")
 // https://mvnrepository.com/artifact/ch.qos.logback/logback-core
-implementation("ch.qos.logback:logback-core:1.4.8")
+    implementation("ch.qos.logback:logback-core:1.4.8")
 
-testImplementation("org.mockito:mockito-core:5.4.0")
+    testImplementation("org.mockito:mockito-core:5.4.0")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.assertj:assertj-core:3.24.2")
@@ -50,9 +51,11 @@ dependencyManagement {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
+tasks.compileJava {
+    options.encoding = "UTF-8"
+}
 tasks.jar {
-     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
         attributes["Main-Class"] = "ru.tinkoff.summer.taskmicroservice.TaskMicroserviceApplication"
     }

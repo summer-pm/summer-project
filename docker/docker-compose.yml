@@ -1,5 +1,65 @@
 version: '3.8'
 services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ../frontend
+    ports:
+      - 80:80
+    links:
+      - api-gateway
+    depends_on:
+      - api-gateway
+    volumes:
+      - node:/app/node_modules
+    networks:
+      - app
+  auth-microservice:
+    build:
+      context: ../
+      dockerfile: auth-microservice/Dockerfile
+    container_name: auth-microservice
+    environment:
+      - EUREKA_URL=${EUREKA_URL}
+    restart:
+      on-failure
+    links:
+      - eureka-service
+    depends_on:
+      - eureka-service
+      - crud-microservice
+      - api-gateway
+    networks:
+      - app
+
+  api-gateway:
+    build:
+      context: ../
+      dockerfile: api-gateway/Dockerfile
+    container_name: api-gateway
+    environment:
+      - EUREKA_URL=${EUREKA_URL}
+    restart:
+      on-failure
+    ports:
+      - 8082:8082
+    links:
+      - eureka-service
+    networks:
+      - app
+  eureka-service:
+    build:
+      context: ../
+      dockerfile: eureka-server/Dockerfile
+    container_name: eureka-service
+    environment:
+      - EUREKA_URL=${EUREKA_URL}
+    restart:
+      on-failure
+    ports:
+      - 8081:8081
+    networks:
+      - app
   task-microservice:
     build:
       context: ../
@@ -7,6 +67,7 @@ services:
     container_name: task-microservice
     environment:
       - BOOTSTRAP_SERVERS=${BOOTSTRAP_SERVERS}
+      - EUREKA_URL=${EUREKA_URL}
     depends_on:
       kafka:
         condition: service_healthy
@@ -14,6 +75,8 @@ services:
       on-failure
     ports:
       - 60000:60000
+    links:
+      - eureka-service
     networks:
       - app
   task-executor:
@@ -28,6 +91,58 @@ services:
         condition: service_healthy
     restart:
       on-failure
+    networks:
+      - app
+  crud-microservice:
+    build:
+      context: ../
+      dockerfile: crud-microservice/Dockerfile
+    container_name: crud-microservice
+    environment:
+      - EUREKA_URL=${EUREKA_URL}
+      - POSTGRES_URL=${POSTGRES_URL}
+      - POSTGRES_USERNAME=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_DATABASE=${MONGO_DATABASE}
+      - MONGO_AUTH_DB=${MONGO_AUTH_DB}
+    depends_on:
+      - mongo_database
+      - pg_database
+    links:
+      - mongo_database
+      - pg_database
+      - eureka-service
+    restart:
+      on-failure
+    networks:
+      - app
+  pg_database:
+    image: postgres
+    container_name: pg_database
+    environment:
+      POSTGRES_USER : ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+        - app
+  mongo_database:
+    image: mongo:latest
+    container_name: mongo_database
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
     networks:
       - app
   elasticsearch:
@@ -102,14 +217,17 @@ services:
         test: [ "CMD", "nc", "-z", "localhost", "9092" ]
         interval: 10s
         timeout: 5s
-        retries: 10
+        retries: 20
       restart:
         on-failure
       networks:
         - app
 volumes:
   elastic1: {}
-
+  postgres:
+  mongodb_data:
+  node:
 networks:
   app:
+    driver: bridge
 

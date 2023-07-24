@@ -1,7 +1,7 @@
 package ru.tinkoff.summer.taskexecutor.domain.driver;
 
 
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
 
@@ -16,7 +16,7 @@ public abstract class DriverProcessor {
     final String METHOD_NAME = "${methodName}";
     final String SOLUTION = "${solution}";
 
-    public abstract String getPreparedCode(AttemptDTO attempt);
+    public abstract String getPreparedCode(AttemptForExecuteDTO attempt);
     // TODO: Отдельный класс
     protected String readGenericDriver(Language language) {
         StringBuilder content = new StringBuilder();

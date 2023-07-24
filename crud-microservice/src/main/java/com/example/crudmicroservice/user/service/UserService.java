@@ -2,12 +2,16 @@ package com.example.crudmicroservice.user.service;
 
 import com.example.crudmicroservice.task.model.SolutionsAttempts;
 import com.example.crudmicroservice.task.service.SolutionsAttemptsService;
+import com.example.crudmicroservice.user.dto.RegisterRequest;
+import com.example.crudmicroservice.user.dto.UserCredentialsInfo;
+import com.example.crudmicroservice.user.exception.UserAlreadyExistsException;
+import com.example.crudmicroservice.user.exception.UserNotFoundException;
 import com.example.crudmicroservice.user.repository.UserRepository;
 import com.example.crudmicroservice.user.model.User;
-import com.example.crudmicroservice.user.model.UserPosts;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -24,40 +28,50 @@ public class UserService {
         this.solutionsAttemptsService = solutionsAttemptsService;
     }
 
-    public User saveUser(User user) {
-        User savedUser = userRepository.save(user);
-        if (user.getUserPostsList() != null) {
-            for (UserPosts userPosts : user.getUserPostsList()) {
-                userPosts.setUser(savedUser);
-                userPostsService.saveUserPosts(userPosts);
-            }
+    public String saveUser(RegisterRequest newUser) {
+        Optional<User> existUser = userRepository.findByEmail(newUser.getEmail());
+        if (existUser.isEmpty()) {
+            User user = setNewUser(newUser);
+            userRepository.save(user);
+            return "Пользователь успешно зарегестрирован!";
+        } else {
+            throw new UserAlreadyExistsException("Пользователь с такой почтой уже существует");
         }
-        if (user.getSolutionsAttemptsList() != null) {
-            for (SolutionsAttempts solutionsAttempts : user.getSolutionsAttemptsList()) {
-                solutionsAttempts.setUser(savedUser);
-                solutionsAttemptsService.saveSolutionsAttempts(solutionsAttempts);
-            }
+    }
+
+    public UserCredentialsInfo getUserCredentials(String email) throws UserNotFoundException {
+        Optional<User> userDB = userRepository.findByEmail(email);
+        if (userDB.isPresent()) {
+            return setUserCred(userDB.get());
+        } else {
+            throw new UserNotFoundException("Пользователь с такой почтой не найден");
         }
-        return savedUser;
+    }
+
+    private UserCredentialsInfo setUserCred(User userDB) {
+        UserCredentialsInfo userCredentialsInfo = new UserCredentialsInfo();
+        userCredentialsInfo.setEmail(userDB.getEmail());
+        userCredentialsInfo.setPassword(userDB.getPassword());
+
+        return userCredentialsInfo;
+    }
+
+    private User setNewUser(RegisterRequest newUser) {
+        User user = new User();
+        user.setEmail(newUser.getEmail());
+        user.setPassword(newUser.getPassword());
+        user.setUsername(newUser.getUsername());
+
+        return user;
     }
 
     public User updateUser(Long userId, User updatedUser) {
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        existingUser.setUserId(userId);
-        existingUser.setUsername(updatedUser.getUsername());
-        existingUser.setPassword(updatedUser.getPassword());
-        existingUser.setEmail(updatedUser.getEmail());
-        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
-        existingUser.setUserImage(updatedUser.getUserImage());
-        existingUser.setDateOfBirth(updatedUser.getDateOfBirth());
-        existingUser.setDateOfRegistration(updatedUser.getDateOfRegistration());
-        existingUser.setDateOfEdit(updatedUser.getDateOfEdit());
-        existingUser.setDateOfLastActivity(updatedUser.getDateOfLastActivity());
-        existingUser.setUserPostsList(updatedUser.getUserPostsList());
-        existingUser.setSolutionsAttemptsList(updatedUser.getSolutionsAttemptsList());
+        for (SolutionsAttempts attempts : existingUser.getSolutionsAttemptsList()) {
+        }
 
-        return userRepository.save(existingUser);
+        return userRepository.save(updatedUser);
     }
 
     public User getUserById(Long userId) {

@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import SolutionView from "@/views/SolutionView.vue";
-import Loader from "@/components/ui/Loader.vue";
 import TasksView from "@/views/TasksView.vue";
+import MainView from "@/views/MainView.vue";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,7 +19,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'main',
-            component: Loader
+            component: MainView
         }
     ]
 })

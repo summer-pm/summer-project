@@ -11,7 +11,7 @@ import ru.tinkoff.summer.taskshareddomain.Type;
 import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
 import ru.tinkoff.summer.taskexecutor.domain.exceptions.TimeExceedException;
 import ru.tinkoff.summer.taskexecutor.domain.executor.JavaExecutor;
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 import ru.tinkoff.summer.taskshareddomain.task.TaskTestCase;
 
 
@@ -24,19 +24,19 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 public class LauncherProcessExecutionTimeLimitTest {
     ProgramLauncher launcher = new ProgramLauncher();
 
-    private AttemptDTO attempt;
+    private AttemptForExecuteDTO attempt;
     private JavaExecutor javaExecutor;
     @BeforeEach
     public void setUp(){
 
-        attempt = new AttemptDTO();
+        attempt = new AttemptForExecuteDTO();
         attempt.setMethodName("sum");
         attempt.setTimeLimitMs(100);
         attempt.setParams(new TaskParams(List.of(Type.INTEGER, Type.INTEGER), Type.INTEGER));
         attempt.setTaskTestCases(
                 Set.of(
-                        new TaskTestCase(List.of("-1", "1"), "0"),
-                        new TaskTestCase(List.of("0", "0"), "0")));
+                        new TaskTestCase(1L,List.of("-1", "1"), "0"),
+                        new TaskTestCase(1L,List.of("0", "0"), "0")));
         attempt.setCode("class Solution {\n"
                                 + "    public int sum(int a, int b) {\n"
                                 + "return a + b;\n"

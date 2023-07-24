@@ -1,0 +1,25 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="create-examples-table" author="kharitonov">
+        <createTable tableName="examples">
+            <column name="example_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="task_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="input" type="varchar(255)"/>
+            <column name="output" type="varchar(255)"/>
+            <column name="explanation" type="varchar(255)"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="examples"
+                                 baseColumnNames="task_id"
+                                 referencedTableName="tasks"
+                                 referencedColumnNames="task_id"
+                                 constraintName="fk_examples_task"/>
+    </changeSet>
+
+</databaseChangeLog>

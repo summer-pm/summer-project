@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.ToStringExclude;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,21 +19,38 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "task_id")
     private Long taskId;
     @OneToMany(mappedBy = "task")
     @JsonManagedReference("task-attempts")
+    @ToStringExclude
     private List<SolutionsAttempts> solutionsAttempts;
-    @OneToMany(mappedBy = "task")
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @ToStringExclude
     private List<Test> tests;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @ToStringExclude
+    private List<Examples> examples;
+
+    @OneToOne(mappedBy = "task", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @ToStringExclude
+    private TaskParams taskParams;
+
+    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @ToStringExclude
+    private List<TasksLangs> tasksLangs;
+
     private String title;
-    private String level;
+    @Enumerated(EnumType.STRING)
+    private Level level;
     private String description;
-    private String inputParameters;
-    private String typeOfInputParameters;
-    private String outputParameters;
-    private String typeOfOutputParameters;
     private String nameOfMethod;
-    private Long TimeOfMethod;
+    private Integer timeLimit;
     private Long volumeLimit;
     private LocalDateTime creationDate;
     private LocalDateTime editDate;
