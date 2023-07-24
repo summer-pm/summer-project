@@ -2,9 +2,9 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "test-ci-cd-1" ]
+#   pull_request:
+#     branches: [ "main" ]
 
 env:
   TASK_EXECUTOR_IMAGE: ghcr.io/summer-project/task-executor/:${{ github.sha }}
