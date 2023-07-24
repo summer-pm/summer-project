@@ -98,7 +98,7 @@ jobs:
         file: ./${{env.CRUD_MICROSERVICE_NAME}}/Dockerfile
         push: true
         tags: ghcr.io/${{ github.repository_owner }}/${{env.CRUD_MICROSERVICE_NAME}}:${{ github.sha }}
-         cache-from: type=gha,scope=${{env.CRUD_MICROSERVICE_NAME}}
+        cache-from: type=gha,scope=${{env.CRUD_MICROSERVICE_NAME}}
         cache-to: type=gha,mode=max,scope=${{env.CRUD_MICROSERVICE_NAME}}
         
   build-auth-microservice:
@@ -126,7 +126,7 @@ jobs:
         file: ./${{env.AUTH_MICROSERVICE_NAME}}/Dockerfile
         push: true
         tags: ghcr.io/${{ github.repository_owner }}/${{env.AUTH_MICROSERVICE_NAME}}:${{ github.sha }}
-         cache-from: type=gha,scope=${{env.AUTH_MICROSERVICE_NAME}}
+        cache-from: type=gha,scope=${{env.AUTH_MICROSERVICE_NAME}}
         cache-to: type=gha,mode=max,scope=${{env.AUTH_MICROSERVICE_NAME}}
         
   build-eureka-service:
@@ -154,7 +154,7 @@ jobs:
         file: ./${{env.EUREKA_SERVICE_NAME}}/Dockerfile
         push: true
         tags: ghcr.io/${{ github.repository_owner }}/${{env.EUREKA_SERVICE_NAME}}:${{ github.sha }}
-         cache-from: type=gha,scope=${{env.EUREKA_SERVICE_NAME}}
+        cache-from: type=gha,scope=${{env.EUREKA_SERVICE_NAME}}
         cache-to: type=gha,mode=max,scope=${{env.EUREKA_SERVICE_NAME}}
         
   build-api-gateway:
@@ -182,8 +182,8 @@ jobs:
           file: ./${{env.API_GATEWAY_NAME}}/Dockerfile
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/${{env.API_GATEWAY_NAME}}:${{ github.sha }}
-           cache-from: type=gha,scope=${{env.API_GATEWAY_NAME}}
-        cache-to: type=gha,mode=max,scope=${{env.API_GATEWAY_NAME}}
+          cache-from: type=gha,scope=${{env.API_GATEWAY_NAME}}
+          cache-to: type=gha,mode=max,scope=${{env.API_GATEWAY_NAME}}
           
           
   build-frontend:
@@ -210,5 +210,5 @@ jobs:
           context: ./${{env.FRONTEND_NAME}}
           push: true
           tags: ghcr.io/${{ github.repository_owner }}/${{env.FRONTEND_NAME}}:${{ github.sha }}
-           cache-from: type=gha,scope=${{env.FRONTEND_NAME}}
-        cache-to: type=gha,mode=max,scope=${{env.FRONTEND_NAME}}
+          cache-from: type=gha,scope=${{env.FRONTEND_NAME}}
+          cache-to: type=gha,mode=max,scope=${{env.FRONTEND_NAME}}
