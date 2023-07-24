@@ -49,7 +49,9 @@ public class Driver {
 
     private static String[] READ_STRING_ARR() {
         String input = scanner.nextLine();
-
+        if (input.equals("[]")) {
+            return new String[0];
+         }
         // Удаляем квадратные скобки и пробелы
         input = input.replace("[", "").replace("]", "").replace(" ", "");
 
@@ -60,6 +62,9 @@ public class Driver {
     }
     private static int[] READ_INTEGER_ARR() {
         String input = scanner.nextLine();
+        if (input.equals("[]")) {
+         return new int[0];
+         }
 
         // Удаляем квадратные скобки и пробелы
         input = input.replace("[", "").replace("]", "").replace(" ", "");

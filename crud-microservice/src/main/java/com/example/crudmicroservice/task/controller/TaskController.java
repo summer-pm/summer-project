@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.tinkoff.summer.taskshareddomain.task.dto.TaskDetailsFrontendDTO;
@@ -73,6 +74,14 @@ public class TaskController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+    @PostMapping("/{id}/publish")
+    public void publishTask(@PathVariable Long id) {
+        taskService.setPublish(id, true);
+    }
+     @PostMapping("/{id}/un-publish")
+    public void unPublishTask(@PathVariable Long id) {
+        taskService.setPublish(id, false);
     }
 
     @GetMapping

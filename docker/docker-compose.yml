@@ -12,6 +12,8 @@ services:
       - api-gateway
     volumes:
       - node:/app/node_modules
+    restart:
+      always
     networks:
       - app
   auth-microservice:
@@ -22,13 +24,15 @@ services:
     environment:
       - EUREKA_URL=${EUREKA_URL}
     restart:
-      on-failure
+      always
     links:
       - eureka-service
     depends_on:
       - eureka-service
       - crud-microservice
       - api-gateway
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
     networks:
       - app
 
@@ -40,11 +44,13 @@ services:
     environment:
       - EUREKA_URL=${EUREKA_URL}
     restart:
-      on-failure
+      always
     ports:
       - 8082:8082
     links:
       - eureka-service
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
     networks:
       - app
   eureka-service:
@@ -55,9 +61,11 @@ services:
     environment:
       - EUREKA_URL=${EUREKA_URL}
     restart:
-      on-failure
+      always
     ports:
       - 8081:8081
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
     networks:
       - app
   task-microservice:
@@ -72,11 +80,13 @@ services:
       kafka:
         condition: service_healthy
     restart:
-      on-failure
+      always
     ports:
       - 60000:60000
     links:
       - eureka-service
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
     networks:
       - app
   task-executor:
@@ -90,7 +100,9 @@ services:
       kafka:
         condition: service_healthy
     restart:
-      on-failure
+      always
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
     networks:
       - app
   crud-microservice:
@@ -117,12 +129,16 @@ services:
       - pg_database
       - eureka-service
     restart:
-      on-failure
+      always
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
     networks:
       - app
   pg_database:
     image: postgres
     container_name: pg_database
+    restart:
+      always
     environment:
       POSTGRES_USER : ${POSTGRES_USERNAME}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -143,6 +159,8 @@ services:
       - 27017:27017
     volumes:
       - mongodb_data:/data/db
+    restart:
+      always
     networks:
       - app
   elasticsearch:
@@ -168,11 +186,15 @@ services:
       - 5601:5601
     depends_on:
       - elasticsearch
+    restart:
+      always
     networks:
         - app
   logstash:
     image: logstash:7.7.0
     container_name: logstash
+    restart:
+      always
     command:
       logstash -f /etc/logstash/conf.d/logstash.conf
     volumes:
@@ -191,6 +213,8 @@ services:
       environment:
         ZOOKEEPER_CLIENT_PORT: 2181
         ZOOKEEPER_TICK_TIME: 2000
+      restart:
+        always
       healthcheck:
         test: [ "CMD", "nc", "-z", "localhost", "2181" ]
         interval: 10s
@@ -203,6 +227,7 @@ services:
       hostname: kafka
       ports:
         - "9092:9092"
+
       depends_on:
         zookeeper:
           condition: service_healthy
@@ -216,10 +241,10 @@ services:
       healthcheck:
         test: [ "CMD", "nc", "-z", "localhost", "9092" ]
         interval: 10s
-        timeout: 5s
-        retries: 20
+        timeout: 10s
+        retries: 50
       restart:
-        on-failure
+        always
       networks:
         - app
 volumes:
@@ -227,6 +252,7 @@ volumes:
   postgres:
   mongodb_data:
   node:
+  gradle-cache:
 networks:
   app:
     driver: bridge

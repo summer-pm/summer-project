@@ -12,7 +12,8 @@ def READ_INTEGER():
 
 def READ_STRING_ARR():
     input_str = input()
-
+    if input_str == "[]":
+        return []
     input_str = input_str.replace("[", "").replace("]", "").replace(" ", "")
 
     elements = input_str.split(",")
@@ -22,6 +23,8 @@ def READ_STRING_ARR():
 
 def READ_INTEGER_ARR():
     input_str = input()
+    if input_str == "[]":
+        return []
 
     input_str = input_str.replace("[", "").replace("]", "").replace(" ", "")
 
@@ -32,6 +35,8 @@ def READ_INTEGER_ARR():
 
 if __name__ == '__main__':
 ${paramsInputSection}
+    print(param1)
+    print("just string")
     s = Solution()
     start_time = time.time()
     ret = Solution.${methodName}(s, ${paramList})

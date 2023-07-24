@@ -114,4 +114,14 @@ public class TaskService {
         log.info("Get task details :{}",dto);
         return dto;
     }
+
+    public void setPublish(Long id, boolean publish) {
+        log.info("SetPublish task details id :{} publish {}",id, publish);
+        var taskOpt = taskRepository.findById(id);
+        if(taskOpt.isPresent()){
+            var task = taskOpt.get();
+            task.setIsPublish(publish);
+            taskRepository.save(task);
+        }
+    }
 }
