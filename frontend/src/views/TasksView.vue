@@ -64,6 +64,7 @@ const search = (search) => {
 }
 const changePage = (page) => {
   data.number = page;
+  loadData()
 }
 const findLevel = (level) => {
   searchParams.level = level

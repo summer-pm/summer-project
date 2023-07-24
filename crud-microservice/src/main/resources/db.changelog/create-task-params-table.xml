@@ -9,8 +9,11 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="output_type" type="varchar(255)"/>
-            <column name="input_types_list" type="varchar(255)"/>
         </createTable>
-
+        <addForeignKeyConstraint baseTableName="task_params"
+                                 baseColumnNames="task_id"
+                                 constraintName="fk_task_params_task_id"
+                                 referencedColumnNames="task_id"
+                                 referencedTableName="tasks"/>
     </changeSet>
 </databaseChangeLog>

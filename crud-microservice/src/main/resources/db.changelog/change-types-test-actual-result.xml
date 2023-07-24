@@ -1,0 +1,17 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="change-types-test-actual-result" author="Vashkulatov">
+        <modifyDataType tableName="tests"
+                        columnName="output_parameters"
+                        newDataType="text"
+                        schemaName="public"/>
+        <modifyDataType tableName="solutions_attempts"
+                        columnName="actual_result"
+                        newDataType="text"
+                        schemaName="public"/>
+    </changeSet>
+
+</databaseChangeLog>

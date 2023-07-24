@@ -53,6 +53,8 @@ public class AttemptListener {
                     }
                     log.info("Finish {}", record.key());
                     producer.send(result);
+
+
                 });
 
             }

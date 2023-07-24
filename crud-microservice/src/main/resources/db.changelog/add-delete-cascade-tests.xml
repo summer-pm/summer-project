@@ -1,0 +1,17 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="add-delete-cascade-tests" author="Vashkulatov">
+        <dropForeignKeyConstraint baseTableName="solutions_attempts"
+                                  constraintName="fk_solutions_attempts_test"/>
+        <addForeignKeyConstraint baseTableName="solutions_attempts"
+                                 baseColumnNames="test_id"
+                                 constraintName="fk_solutions_attempts_test"
+                                 referencedTableName="tests"
+                                 onDelete="CASCADE"
+                                 referencedColumnNames="test_id"/>
+    </changeSet>
+
+</databaseChangeLog>

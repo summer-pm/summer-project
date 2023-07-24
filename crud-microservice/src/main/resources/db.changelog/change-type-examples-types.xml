@@ -1,0 +1,21 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="change-type-examples-types" author="Vashkulatov">
+        <modifyDataType tableName="examples"
+                        columnName="input"
+                        newDataType="text"
+                        schemaName="public"/>
+        <modifyDataType tableName="examples"
+                        columnName="output"
+                        newDataType="text"
+                        schemaName="public"/>
+        <modifyDataType tableName="examples"
+                        columnName="explanation"
+                        newDataType="text"
+                        schemaName="public"/>
+    </changeSet>
+
+</databaseChangeLog>

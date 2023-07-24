@@ -51,6 +51,7 @@ public class ProgramLauncher {
         ProcessBuilder builder = new ProcessBuilder(commands);
         List<ExecutionResult> results = new LinkedList<>();
 
+
         try {
             for (TaskTestCase testCase : attempt.getTaskTestCases()) {
 

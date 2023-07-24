@@ -12,7 +12,7 @@
             <column name="task_id" type="bigint"/>
             <column name="test_id" type="bigint"/>
             <column name="language_id" type="bigint"/>
-            <column name="code" type="nvarchar(255)"/>
+            <column name="code" type="text"/>
             <column name="status" type="nvarchar(255)"/>
             <column name="actual_result" type="nvarchar(255)"/>
             <column name="error_message" type="nvarchar(255)"/>
@@ -28,7 +28,6 @@
                                  constraintName="fk_solutions_attempts_user"
                                  referencedTableName="users"
                                  referencedColumnNames="user_id"/>
-
         <addForeignKeyConstraint baseTableName="user_posts"
                                  baseColumnNames="attempt_id"
                                  constraintName="fk_user_posts_attempt"

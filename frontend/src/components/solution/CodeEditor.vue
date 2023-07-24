@@ -74,8 +74,12 @@ export default defineComponent({
         (lang) => {
           loading.value = true;
           if (lang === 'JAVA') {
+            // eslint-disable-next-line vue/no-mutating-props
+            props.templates.PYTHON = solution.code
             extensions.value = [java()]
           } else {
+            // eslint-disable-next-line vue/no-mutating-props
+             props.templates.JAVA = solution.code
             extensions.value = [python()]
           }
           solution.code = props.templates[lang];

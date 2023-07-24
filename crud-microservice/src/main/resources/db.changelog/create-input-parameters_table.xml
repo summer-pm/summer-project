@@ -11,7 +11,7 @@
              <column name="input_parameters_order" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="value" type="varchar(255)"/>
+            <column name="value" type="text"/>
         </createTable>
 
         <addForeignKeyConstraint baseTableName="input_parameters"

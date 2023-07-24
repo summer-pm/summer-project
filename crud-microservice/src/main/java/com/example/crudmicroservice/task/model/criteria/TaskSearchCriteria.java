@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 public class TaskSearchCriteria {
     private String title;
     private Level level;
+    private boolean publish;
 }
