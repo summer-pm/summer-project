@@ -1,5 +1,7 @@
 package com.example.crudmicroservice.task.service;
 
+import com.example.crudmicroservice.task.dto.AttemptsPreviewDTO;
+import com.example.crudmicroservice.task.dto.TaskAttemptsDTO;
 import com.example.crudmicroservice.task.model.SolutionsAttempts;
 import com.example.crudmicroservice.task.repository.LanguageRepository;
 import com.example.crudmicroservice.task.repository.SolutionsAttemptsRepository;
@@ -9,6 +11,8 @@ import com.example.crudmicroservice.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
 import ru.tinkoff.summer.taskshareddomain.ExecutionStatus;
@@ -104,4 +108,22 @@ public class SolutionsAttemptsService {
         solutionsAttemptsRepository.deleteById(attemptId);
     }
 
+    public TaskAttemptsDTO getAttempts(String email, Long taskId, int page, int limit) {
+        var user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException(email + " not found"));
+        var task = taskRepository.findById(taskId).orElseThrow(() -> new IllegalArgumentException(taskId + " not found"));
+
+        var attemptsEntity = solutionsAttemptsRepository.findAllByTaskAndUserAndStatusIn(task,
+                user,
+                List.of(ExecutionStatus.SUCCESS.toString(), ExecutionStatus.FAILURE.toString()),
+                PageRequest.of(page,limit));
+        var attempts = attemptsEntity.map(AttemptsPreviewDTO::fromEntity);
+
+        var result = TaskAttemptsDTO.builder()
+                .taskID(taskId)
+                .attempts(attempts)
+                .title(task.getTitle())
+                .level(task.getLevel())
+                .build();
+        return result;
+    }
 }

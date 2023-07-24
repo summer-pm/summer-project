@@ -1,5 +1,6 @@
 package com.example.crudmicroservice.task.controller;
 
+import com.example.crudmicroservice.task.dto.TaskAttemptsDTO;
 import com.example.crudmicroservice.task.model.SolutionsAttempts;
 import com.example.crudmicroservice.task.service.SolutionsAttemptsService;
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,14 @@ public class SolutionsAttemptsController {
     }
 
     @PostMapping("/tasks/{id}/attempts")
-    public ResponseEntity<AttemptDTO> createSolutionsAttempts(@RequestHeader("loggedInUser") String email, @PathVariable("id") Long taskId,  @RequestBody AttemptDTO attemptDTO) {
-        AttemptDTO createdAttempts = solutionsAttemptsService.saveSolutionsAttempts(email,taskId,attemptDTO);
+    public ResponseEntity<AttemptDTO> createSolutionsAttempts(@RequestHeader("loggedInUser") String email, @PathVariable("id") Long taskId, @RequestBody AttemptDTO attemptDTO) {
+        AttemptDTO createdAttempts = solutionsAttemptsService.saveSolutionsAttempts(email, taskId, attemptDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdAttempts);
     }
 
     @PutMapping("/attempts/{attemptId}")
     public ResponseEntity<AttemptDTO> updateSolutionsAttempts(@PathVariable Long attemptId,
-                                                                     @RequestBody AttemptDTO dto) {
+                                                              @RequestBody AttemptDTO dto) {
         AttemptDTO updatedAttempts = solutionsAttemptsService.
                 updateSolutionsAttempts(attemptId, dto);
         if (updatedAttempts != null) {
@@ -55,5 +56,13 @@ public class SolutionsAttemptsController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/tasks/{id}/attempts")
+    public ResponseEntity<TaskAttemptsDTO> getAttemptsByUserAndTask(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestHeader("loggedInUser") String email, @PathVariable("id") Long taskId) {
+
+        return ResponseEntity.ok(solutionsAttemptsService.getAttempts(email, taskId, page, limit));
+    }
 
 }
