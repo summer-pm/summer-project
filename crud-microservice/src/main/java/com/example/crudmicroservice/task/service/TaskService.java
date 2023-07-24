@@ -75,9 +75,9 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Page<TaskFrontendDTO> getTasks(int page, int pageSize, String title, Level level, String sortBy) {
+    public Page<TaskFrontendDTO> getTasks(int page, int pageSize, String title, Level level, String sortBy, boolean publish) {
         PageRequest pageRequest = PageRequest.of(page, pageSize, Sort.by(sortBy));
-        var query = new TaskSearchCriteria(title,level);
+        var query = new TaskSearchCriteria(title,level,publish);
         var spec = TaskSpecifications.searchByCriteria(query);
         var tasks = taskRepository.findAll(spec, pageRequest);
         return tasks.map(task -> new TaskFrontendDTO(task.getTitle(), task.getTaskId(), task.getLevel().toString()));

@@ -56,5 +56,6 @@ public class Task {
     private Long volumeLimit;
     private LocalDateTime creationDate;
     private LocalDateTime editDate;
+    private Boolean isPublish;
 
 }

@@ -10,6 +10,16 @@ def READ_STRING():
 def READ_INTEGER():
     return int(input())
 
+def READ_STRING_ARR():
+    input_str = input()
+
+    input_str = input_str.replace("[", "").replace("]", "").replace(" ", "")
+
+    elements = input_str.split(",")
+
+    arr = [str(element) for element in elements]
+    return arr
+
 def READ_INTEGER_ARR():
     input_str = input()
 

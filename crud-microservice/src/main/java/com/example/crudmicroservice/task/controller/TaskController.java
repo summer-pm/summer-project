@@ -45,6 +45,17 @@ public class TaskController {
         return ResponseEntity.ok(taskCreateService.getTests(id));
     }
 
+     @DeleteMapping("/{id}/tests")
+    public ResponseEntity<?> deleteAllTests(@PathVariable long id){
+        taskCreateService.deleteAllTests(id);
+        return ResponseEntity.noContent().build();
+    }
+    @DeleteMapping("/{id}/tests/{testId}")
+    public ResponseEntity<?> deleteTestById(@PathVariable long testId){
+        taskCreateService.deleteTest(testId);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<TaskDetailsFrontendDTO> getTaskById(@PathVariable Long id) {
         TaskDetailsFrontendDTO task = taskService.getTaskById(id);
@@ -68,9 +79,10 @@ public class TaskController {
     public Page<TaskFrontendDTO> getTasks(@RequestParam(defaultValue = "0") int page,
                                           @RequestParam(defaultValue = "10") int limit,
                                           @RequestParam(defaultValue = "taskId") String sortBy,
+                                          @RequestParam(defaultValue = "true") boolean publish,
                                           @RequestParam(name="title", required = false) String title,
                                           @RequestParam(name="level", required = false) Level level) {
-        return taskService.getTasks(page, limit,title,level, sortBy);
+        return taskService.getTasks(page, limit,title,level, sortBy, publish);
     }
 
     @PatchMapping("/{id}")

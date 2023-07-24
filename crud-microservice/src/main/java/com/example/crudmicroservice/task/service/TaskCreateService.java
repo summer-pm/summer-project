@@ -110,4 +110,13 @@ public class TaskCreateService {
     }
 
 
+    @Transactional
+    public void deleteAllTests(long id) {
+        testRepo.deleteByTaskTaskId(id);
+
+    }
+
+    public void deleteTest(long testId) {
+        testRepo.deleteById(testId);
+    }
 }

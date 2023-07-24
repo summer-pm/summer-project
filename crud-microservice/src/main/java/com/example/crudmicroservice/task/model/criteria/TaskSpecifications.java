@@ -17,6 +17,8 @@ public class TaskSpecifications {
                 predicate = criteriaBuilder.and(predicate,
                         criteriaBuilder.equal(root.get("level"),criteria.getLevel()));
             }
+            predicate = criteriaBuilder.and(predicate,
+                    criteriaBuilder.equal(root.get("isPublish"),criteria.isPublish()));
             return predicate;
         };
     }

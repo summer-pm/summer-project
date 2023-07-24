@@ -21,7 +21,9 @@ public class ExecutionResult {
 
         this.actualResult= testOutput.get(testOutput.size()-3);
         success = testCase.getOutputValues().replace(" ","")
-                .equals(actualResult.replace(" ",""));
+                .equals(actualResult.replace(" ","")
+                        .replace("True","true")
+                        .replace("False","false"));
         this.executionTimeNs = Double.parseDouble(testOutput.get(testOutput.size()-2));
         this.memoryUsageMb = Double.parseDouble(testOutput.get(testOutput.size()-1));
         this.testCase = testCase;

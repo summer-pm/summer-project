@@ -28,5 +28,8 @@
     <include file="create-input-types-table.xml" relativeToChangelogFile="true"/>
 
     <include file="change-type-error-message.xml" relativeToChangelogFile="true"/>
+    <include file="add-column-publish-task.xml" relativeToChangelogFile="true"/>
+    <include file="change-type-examples-types.xml" relativeToChangelogFile="true"/>
+    <include file="add-delete-cascade-tests.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

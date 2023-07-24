@@ -59,6 +59,7 @@ public class CreateTaskDTO {
         task.setTimeLimit(timeLimit);
         task.setCreationDate(LocalDateTime.now());
         task.setEditDate(LocalDateTime.now());
+        task.setIsPublish(false);
         return task;
     }
 
