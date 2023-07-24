@@ -11,11 +11,12 @@ env:
  
 
 jobs:
-
+ 
   build-task-executor:
 
     runs-on: ubuntu-latest
-
+    permissions:
+      packages: write
     steps:
     - name: Checkout
       uses: actions/checkout@v3
