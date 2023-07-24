@@ -8,6 +8,6 @@ include(":task-shared-domain")
 include(":crud-microservice")
 include(":auth-microservice")
 include("task-microservice:domain")
-include(":social-login")
+include("social-login-microservise")
 findProject(":task-microservice:domain")?.name = "domain"
 
