@@ -1,11 +1,11 @@
 <template>
   <header :class="{transparent : isMainPage}">
     <div id="logo" @click="$router.push({name: 'main'})">
-      <app-bear-logo/>
-      <h1><span>Beer</span>code</h1>
+      <app-bear-logo :is-main-page="isMainPage"/>
+      <h1 :class="{'white' : isMainPage}"><span :class="{'white' : isMainPage}" >Beer</span>code</h1>
     </div>
     <nav id="menu">
-      <ul>
+      <ul :class="{'white' : isMainPage}">
         <li @click="toFeed"><a>Лента</a></li>
         <li @click="$router.push({name: 'tasks'})"><a>Задачи</a></li>
         <li v-if="!isLoggedIn" id="auth" @click="showLogin"><a>Авторизация</a></li>
@@ -95,8 +95,11 @@ ul {
   & ul {
     display: flex;
     align-items: center;
-
+    &.white{
+      color: white;
+    }
     & li {
+
       margin-left: 30px;
       font-size: 18px;
       font-weight: 500;
@@ -112,7 +115,7 @@ ul {
 
 
 #auth {
-  border: 1px solid var(--color-text);
+  border: 1px solid white;
   border-radius: 100px;
   padding: 10px 20px;
 }
@@ -125,11 +128,17 @@ ul {
 
   & h1 {
     margin-left: 20px;
+    &.white {
+      color: white;
+    }
   }
 
   & span {
     font-weight: 700;
-    color: var(--color-bear)
+    color: var(--color-bear);
+    &.white {
+      color:  var(--vt-c-bear-light);;
+    }
   }
 }
 
