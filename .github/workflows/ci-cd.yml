@@ -271,7 +271,11 @@ jobs:
       needs: [build-task-executor, build-task-microservice, build-frontend, build-crud-microservice, build-auth-microservice,build-api-gateway,build-eureka-service]
       runs-on: ubuntu-latest
       steps:
-        - name: Echo
-          run: "echo test"
-        
+        - name: Deploy
+          uses: appleboy/ssh-action@v1.0.0
+          with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USERNAME }}
+            key: ${{ secrets.KEY }}
+            script: ./deploy.sh
       
