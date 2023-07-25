@@ -39,12 +39,14 @@ export default defineComponent({
       status: 'NONE'
     });
     onBeforeMount(() => {
-      taskApi.getById(route.params.id).then(r => {
-        task.value = r.data
-        console.log(task.value)
-      }).catch(err => {
-        console.log(err)
-      })
+      setTimeout(() => {
+        taskApi.getById(route.params.id).then(r => {
+          task.value = r.data
+          console.log(task.value)
+        }).catch(err => {
+          console.log(err)
+        })
+      },300)
     })
 
     function checkForPending() {
