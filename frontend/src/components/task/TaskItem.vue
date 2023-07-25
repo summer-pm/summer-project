@@ -1,7 +1,6 @@
 <template>
   <div :class="{odd : isOdd}" class="card">
     <div class="card-item title">{{ task.id }}. {{ task.title }}</div>
-    <div class="card-item status"></div>
     <div class="card-item level">
       <task-level :value="task.level"/>
     </div>
@@ -25,11 +24,12 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
+
 .card {
   font-size: 18px;
   font-weight: 500;
   background-color: var(--color-background-soft);
-  padding: 25px 0;
+  padding: 15px 0;
   width: 100%;
   display: flex;
   align-items: center;
@@ -48,10 +48,14 @@ defineProps({
   }
 
   &-item {
-    width: 33%;
+    width: 50%;
     text-align: center;
   }
 }
+.title{
+  text-align: left;
+}
+
 @media (max-width: 600px) {
 .card{
 
