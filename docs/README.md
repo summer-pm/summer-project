@@ -35,16 +35,22 @@
 ...    
         
 ```
-### UseCaseDiagram.md 
+[Use Case Diagram](https://github.com/summer-pm/summer-project/blob/main/docs/UseCaseDiagram.md) 
+
 Диаграмма UseCase с описанием вариантов использования
-### api.md 
+
+[API](https://github.com/summer-pm/summer-project/blob/main/docs/api.md) 
+
 OpenAPI спецификация и SwaggerHub
-### er.md 
+
+[Диаграммы БД](https://github.com/summer-pm/summer-project/blob/main/docs/er.md) 
+
 ER диаграмма в нотации Мартина и диаграмма базы данных
+
 ### arhitecture.svg
+
 Архитектура
 
-[Наверх](#) ↑
 
 
 <a name="techstack"/>
@@ -56,8 +62,11 @@ ER диаграмма в нотации Мартина и диаграмма б�
 
 ![Apache Kafka](https://img.shields.io/badge/Apache_Kafka-white?style=for-the-badge&logo=apachekafka&logoColor=black)
 
+![Java](https://img.shields.io/badge/Java-white?style=for-the-badge)
 ![Spring](https://img.shields.io/badge/Spring-white?style=for-the-badge&logo=spring&logoColor=green)
 ![Gradle](https://img.shields.io/badge/Gradle-white?style=for-the-badge&logo=gradle&logoColor=midnightblue)
+![JWT](https://img.shields.io/badge/JWT-white?style=for-the-badge)
+![OAuth 2.0](https://img.shields.io/badge/OAuth_2.0-white?style=for-the-badge)
 
 ![Vue.js](https://img.shields.io/badge/Vue.js-grey?style=for-the-badge&logo=vuedotjs&logoColor=teal)
 
@@ -68,7 +77,9 @@ ER диаграмма в нотации Мартина и диаграмма б�
 
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-white?style=for-the-badge&logo=elasticsearch&logoColor=yellow)
 ![Docker](https://img.shields.io/badge/Docker-darkblue?style=for-the-badge&logo=docker&logoColor=white)
-![Docker](https://img.shields.io/badge/NGINX-white?style=for-the-badge&logo=nginx&logoColor=green)
+![NGINX](https://img.shields.io/badge/NGINX-white?style=for-the-badge&logo=nginx&logoColor=green)
+![Logstash](https://img.shields.io/badge/Logstash-white?style=for-the-badge&logo=logstash&logoColor=yellow)
+![Kibana](https://img.shields.io/badge/Kibana-white?style=for-the-badge&logo=kibana&logoColor=hotpink)
 
 <a name="team"/>
 
