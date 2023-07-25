@@ -24,16 +24,20 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-
+.level{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
 .card {
   font-size: 18px;
   font-weight: 500;
   background-color: var(--color-background-soft);
-  padding: 15px 0;
+  padding: 15px 70px 15px 50px;
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+
   cursor: pointer;
   opacity: .7;
   border: 1px solid var(--color-border);
@@ -58,14 +62,9 @@ defineProps({
 
 @media (max-width: 600px) {
 .card{
-
    font-size: 14px;
+   padding: 15px 20px 15px 20px;
 }
 }
-.card-item{
-  width: 45%;
-  &:nth-child(2){
-    width:10% ;
-  }
-}
+
 </style>

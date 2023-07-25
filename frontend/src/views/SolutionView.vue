@@ -3,7 +3,7 @@
     <app-loader></app-loader>
 
   </div>
-  <div v-else>
+  <div   v-else>
     <h3>{{ task.id }}. {{ task.title }}</h3>
     <div id="solution">
       <task-description v-if="task" :task="task" class="item"/>
@@ -93,9 +93,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+
 #solution {
   display: flex;
   justify-content: space-between;
+
 }
 
 .item {

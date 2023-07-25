@@ -1,12 +1,20 @@
 <template>
-  <div id="task-descr">
-    {{task.description}}
+  <div id="task-info">
+    <div class="task-level">
+       <task-level :value="task.level"/>
+    </div>
+    <p class="task-descr">
+      {{task.description}}
+    </p>
+
     <div v-for="(example,n) in task.examples" :key="n" class="task-example">
       <h5>Пример {{ n + 1 }}</h5>
       <div class="task-example-wrapper">
-        <code>Входные параметры:</code> <code >{{ example.input }}&nbsp;</code>
+        <span>Входные параметры:</span> <code >{{ example.input }}&nbsp;</code>
         <br>
-        <code>Выходные параметры:</code>  <code>{{ example.output }}</code>
+        <span>Выходные параметры:</span>  <code>{{ example.output }}</code>
+        <br>
+        <span>Описание:</span>  <code>{{ example.explanation }}</code>
       </div>
     </div>
     <div class="task-limits"><h5>Ограничения</h5>
@@ -19,14 +27,21 @@
 </template>
 
 <script setup>
+import TaskLevel from "@/components/task/TaskLevel.vue";
+
 defineProps(['task'])
 </script>
 
 <style lang="scss" scoped>
-#task-descr {
+#task-info {
 
 }
-
+.task-level{
+  margin: 20px 0;
+}
+.task-limits{
+  margin-top: 20px;
+}
 .task-example {
   margin-top: 30px;
 
@@ -34,6 +49,10 @@ defineProps(['task'])
     background-color: var(--color-background-soft);
     padding: 10px 30px;
     border-radius: 10px;
+    font-size: 14px;
+    & span{
+      font-weight: 600;
+    }
   }
 }
 

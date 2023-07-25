@@ -6,7 +6,7 @@
     </div>
     <nav id="menu">
       <ul :class="{'white' : isMainPage}">
-        <li @click="toFeed"><a>Лента</a></li>
+<!--        <li @click="toFeed"><a>Лента</a></li>-->
         <li @click="$router.push({name: 'tasks'})"><a>Задачи</a></li>
         <li v-if="!isLoggedIn" id="auth" @click="showLogin"><a>Авторизация</a></li>
         <li v-else @click="logout"><a>Выйти</a></li>
@@ -20,7 +20,7 @@
   </header>
   <menu id="burger" :class="{active : isMenuOpened}">
     <ul>
-      <li @click="toFeed"><a>Лента</a></li>
+<!--      <li @click="toFeed"><a>Лента</a></li>-->
       <li @click="isMenuOpened = false;$router.push({name: 'tasks'})"><a>Задачи</a></li>
       <li v-if="!isLoggedIn" @click="showLogin"><a>Авторизация</a></li>
       <li v-else @click="logout"><a>Выйти</a></li>
