@@ -12,13 +12,13 @@ env:
   EUREKA_SERVICE_NAME: eureka-server
   API_GATEWAY_NAME: api-gateway
   FRONTEND_NAME: frontend
-  TASK_EXECUTOR_IMAGE: ghcr.io/${{ github.repository_owner }}/${{TASK_EXECUTOR_NAME}}:latest
-  TASK_MICROSERVICE_IMAGE: ghcr.io/${{ github.repository_owner }}/${{TASK_MICROSERVICE_NAME}}:latest
-  CRUD_MICROSERVICE_IMAGE: ghcr.io/${{ github.repository_owner }}/${{CRUD_MICROSERVICE_NAME}}:latest
-  AUTH_MICROSERVICE_IMAGE: ghcr.io/${{ github.repository_owner }}/${{AUTH_MICROSERVICE_NAME}}:latest
-  EUREKA_SERVICE_IMAGE: ghcr.io/${{ github.repository_owner }}/${{EUREKA_SERVICE_NAME}}:latest
-  API_GATEWAY_IMAGE: ghcr.io/${{ github.repository_owner }}/${{API_GATEWAY_NAME}}:latest
-  FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/${{FRONTEND_NAME}}:latest
+  TASK_EXECUTOR_IMAGE: ghcr.io/${{ github.repository_owner }}/task-executor:latest
+  TASK_MICROSERVICE_IMAGE: ghcr.io/${{ github.repository_owner }}/task-microservice:latest
+  CRUD_MICROSERVICE_IMAGE: ghcr.io/${{ github.repository_owner }}/crud-microservice:latest
+  AUTH_MICROSERVICE_IMAGE: ghcr.io/${{ github.repository_owner }}/auth-microservice:latest
+  EUREKA_SERVICE_IMAGE: ghcr.io/${{ github.repository_owner }}/eureka-server:latest
+  API_GATEWAY_IMAGE: ghcr.io/${{ github.repository_owner }}/api-gateway:latest
+  FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/frontend:latest
 
 
 
