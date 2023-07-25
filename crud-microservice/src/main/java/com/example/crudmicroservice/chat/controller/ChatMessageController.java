@@ -29,7 +29,7 @@ public class ChatMessageController {
 
     @PostMapping()
     public ResponseEntity<ChatMessage> createMessage(@RequestBody ChatMessageCreateDTO message) {
-        log.info("Save new message: {}", message);
+        log.info("Save message: {}", message);
         try {
             ChatMessage chatMessage = chatMessageService.save(message);
             return ResponseEntity.ok(chatMessage);

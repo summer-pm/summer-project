@@ -3,6 +3,7 @@ package com.example.crudmicroservice.chat.controller;
 
 import com.example.crudmicroservice.chat.dto.ChatMessageCreateDTO;
 import com.example.crudmicroservice.chat.dto.MessageDTO;
+import com.example.crudmicroservice.chat.exception.ChatMessageCreateException;
 import com.example.crudmicroservice.chat.model.ChatMessage;
 import com.example.crudmicroservice.chat.model.ChatRoom;
 import com.example.crudmicroservice.chat.model.ChatUser;
@@ -12,11 +13,13 @@ import com.example.crudmicroservice.chat.service.ChatRoomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,56 +31,27 @@ import java.util.List;
 
 @Slf4j
 @CrossOrigin
-@RestController
-//@RequestMapping("/api/v1/chat")
+@Controller
 public class MessageController {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
-
-    @Autowired
-    private ChatRoomService chatRoomService;
-
     @Autowired
     private ChatMessageService chatMessageService;
 
-    @MessageMapping("/changeMessage")
-    @SendTo("/topic/activity")
-    public ChatMessage change(ChatMessageCreateDTO message) {
-        return chatMessageService.save(message);
+    @MessageMapping("/changeMessage/{roomId}")
+    @SendTo("/topic/room/{roomId}")
+    public ResponseEntity<ChatMessage> changeMessage(@DestinationVariable String roomId,  ChatMessageCreateDTO message) {
+        log.info("Save new message: {}", message);
+        try {
+            ChatMessage chatMessage = chatMessageService.save(message);
+            return ResponseEntity.ok(chatMessage);
+        }
+        catch (ChatMessageCreateException e) {
+            return ResponseEntity.notFound().build();
+        }
+        catch (Exception ex) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
-
-
-//    @MessageMapping("/sendMessage/{roomId}")
-//    public void sendMessage(@DestinationVariable String roomId, MessageDTO message) {
-//        // Обработка входящего сообщения и рассылка его всем подключенным клиентам в комнате
-//
-//        // Определяем топик для рассылки сообщения в комнате
-//        String topic = "/topic/" + roomId;
-//        log.info("Received message: {}", message.toString());
-//        ChatMessageCreateDTO create = new ChatMessageCreateDTO();
-//        create.setContent(message.getContent());
-//        create.setChatRoomId(roomId);
-//        create.setSenderId("SenderId from client");
-//
-//        ChatMessage chatMessage = chatMessageService.save(create);
-//        // Отправляем сообщение всем подключенным клиентам в указанной комнате
-//        messagingTemplate.convertAndSend(topic, chatMessage);
-//    }
-
-
-//    @EventListener
-//    public void handleWebSocketConnectListener(SessionConnectedEvent event) {
-//        // Обработчик события подключения WebSocket
-//        log.info("New WebSocket connection: {}", event.toString());
-//
-//        StompHeaderAccessor accessor = StompHeaderAccessor.wrap(event.getMessage());
-//        // Извлекаем ID комнаты из заголовка запроса
-//        String roomId = accessor.getFirstNativeHeader("roomId");
-//        log.info("Session: {}", accessor.getSessionId());
-//        if (roomId != null) {
-//            // Связываем WebSocket-соединение с указанной комнатой
-////            chatRoomService.addUserToRoom(roomId, accessor.getSessionId());
-//        }
-//    }
 }
