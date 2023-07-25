@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
-    if: "github.event.head_commit.modified contains '${{ env.TASK_EXECUTOR_NAME }}/'"
+    if: ${{ contains(github.event.head_commit.modified, TASK_EXECUTOR_NAME) }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
