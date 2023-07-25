@@ -45,17 +45,17 @@ const data = reactive({
 });
 const loadData = () => {
   loading.value = true
-  setTimeout(() => {
 
-    taskApi.getAll(data.number,
-        searchParams.title,
-        searchParams.level)
-        .then((r) => {
-          Object.assign(data, r.data)
-        }).finally(() => {
-      loading.value = false
-    });
-  }, 1000)
+
+  taskApi.getAll(data.number,
+      searchParams.title,
+      searchParams.level)
+      .then((r) => {
+        Object.assign(data, r.data)
+      }).finally(() => {
+    loading.value = false
+  });
+
 
 }
 const search = (search) => {

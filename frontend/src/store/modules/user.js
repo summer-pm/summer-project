@@ -100,30 +100,30 @@ export const userModule = {
         register({commit}, {email, name, password}) {
             commit('clearAll')
             commit('registerStart')
-            setTimeout(() => {
-                userApi.register(name, email, password)
-                    .then(commit('registerSuccess'))
-                    .catch(err => {
-                        console.log(err)
-                        commit('registerFailure')
-                    })
-            }, 300)
+
+            userApi.register(name, email, password)
+                .then(commit('registerSuccess'))
+                .catch(err => {
+                    console.log(err)
+                    commit('registerFailure')
+                })
+
 
         },
         login({commit}, {email, password}) {
             commit('clearAll')
             commit('loginStart')
-            setTimeout(() => {
-                userApi.login(email, password)
-                    .then(r => {
-                        commit('loginSuccess', r.data.token);
-                        setTimeout(() => commit('hideLogin'), 1500)
-                    })
-                    .catch(err => {
-                        console.log(err)
-                        commit('loginFailure')
-                    })
-            }, 1000)
+
+            userApi.login(email, password)
+                .then(r => {
+                    commit('loginSuccess', r.data.token);
+                    setTimeout(() => commit('hideLogin'), 1500)
+                })
+                .catch(err => {
+                    console.log(err)
+                    commit('loginFailure')
+                })
+
         },
         logout({commit}) {
             commit('clearAll')

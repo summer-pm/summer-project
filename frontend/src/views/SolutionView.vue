@@ -7,7 +7,8 @@
     <h3>{{ task.id }}. {{ task.title }}</h3>
     <div id="solution">
       <task-description v-if="task" :task="task" class="item"/>
-      <code-editor :templates="task.templates" :pending=" attempt.status === 'PENDING'" class="item" @sendAttempt="sendAttempt"/>
+      <code-editor :templates="task.templates" :pending=" attempt.status === 'PENDING'" class="item"
+                   @sendAttempt="sendAttempt"/>
     </div>
     <div v-if="attempt">
       <result-display :attempt="attempt"/>
@@ -39,11 +40,8 @@ export default defineComponent({
     });
     onBeforeMount(() => {
       taskApi.getById(route.params.id).then(r => {
-        setTimeout(() => {
-          task.value = r.data
-          console.log(task.value)
-        }, 1000)
-
+        task.value = r.data
+        console.log(task.value)
       }).catch(err => {
         console.log(err)
       })
@@ -70,7 +68,7 @@ export default defineComponent({
           }
         })
       } else {
-        store.dispatch('user/showLogin', {message:'Войдите для отправки решения'})
+        store.dispatch('user/showLogin', {message: 'Войдите для отправки решения'})
       }
 
 
@@ -108,15 +106,16 @@ export default defineComponent({
     width: 40%;
   }
 }
-@media (max-width: 650px) {
-.item {
-  width: 100%;
 
-  &:first-child {
-    margin-right: 0;
+@media (max-width: 650px) {
+  .item {
     width: 100%;
+
+    &:first-child {
+      margin-right: 0;
+      width: 100%;
+    }
   }
-}
 
   #solution {
     flex-direction: column;
