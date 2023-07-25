@@ -265,3 +265,13 @@ jobs:
           tags: ${{env.FRONTEND_IMAGE}}
           cache-from: type=gha,scope=${{env.FRONTEND_NAME}}
           cache-to: type=gha,mode=max,scope=${{env.FRONTEND_NAME}}
+          
+  deploy:
+      if: ${{ always() }}
+      needs: [build-task-executor, build-task-microservice, build-frontend, build-crud-microservice, build-auth-microservice,build-api-gateway,build-eureka-service]
+      runs-on: ubuntu-latest
+      steps:
+        - name: Echo
+          run: "echo test"
+        
+      
