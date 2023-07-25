@@ -21,6 +21,9 @@ const hideModal = () => store.dispatch('user/hideLogin')
 
 
 <style scoped>
+#wrapper{
+  padding-bottom: 50px;
+}
 header {
   line-height: 1.5;
   max-height: 100vh;
