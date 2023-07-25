@@ -1,6 +1,6 @@
 package ru.tinkoff.summer.taskexecutor.domain.driver;
 
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.Type;
 import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
@@ -10,12 +10,12 @@ import java.util.List;
 
 public class JavaDriverProcessor extends DriverProcessor {
     @Override
-    public String getPreparedCode(AttemptDTO attempt) {
+    public String getPreparedCode(AttemptForExecuteDTO attempt) {
         String genericDriver = readGenericDriver(Language.JAVA);
         return prepareDriver(genericDriver, attempt);
     }
 
-    private String prepareDriver(String genericDriver, AttemptDTO attempt) {
+    private String prepareDriver(String genericDriver, AttemptForExecuteDTO attempt) {
 
         TaskParams params = attempt.getParams();
 
@@ -45,7 +45,7 @@ public class JavaDriverProcessor extends DriverProcessor {
         return inputSection.toString();
     }
 
-    private static String getOutputTypeName(AttemptDTO attemptDTO) {
-        return attemptDTO.getLanguage().getTypeName(attemptDTO.getParams().getOutputType());
+    private static String getOutputTypeName(AttemptForExecuteDTO attemptForExecuteDTO) {
+        return attemptForExecuteDTO.getLanguage().getTypeName(attemptForExecuteDTO.getParams().getOutputType());
     }
 }

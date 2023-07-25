@@ -10,13 +10,9 @@
             </column>
             <column name="title" type="varchar(255)"/>
             <column name="level" type="varchar(255)"/>
-            <column name="description" type="varchar(255)"/>
-            <column name="input_parameters" type="varchar(255)"/>
-            <column name="type_of_input_parameters" type="varchar(255)"/>
-            <column name="output_parameters" type="varchar(255)"/>
-            <column name="type_of_output_parameters" type="varchar(255)"/>
+            <column name="description" type="text"/>
             <column name="name_of_method" type="varchar(255)"/>
-            <column name="time_of_method" type="bigint"/>
+            <column name="time_limit" type="bigint"/>
             <column name="volume_limit" type="bigint"/>
             <column name="creation_date" type="timestamp"/>
             <column name="edit_date" type="timestamp"/>

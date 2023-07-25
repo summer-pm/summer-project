@@ -21,7 +21,7 @@ public class TotalExecutionResult {
     TaskTestCase testCase;
     String errorMessage;
 
-    public TotalExecutionResult(AttemptDTO attempt, List<ExecutionResult> results) {
+    public TotalExecutionResult(AttemptForExecuteDTO attempt, List<ExecutionResult> results) {
         this.attemptId = attempt.getId();
         this.status = results.get(results.size() - 1).success ? ExecutionStatus.SUCCESS : ExecutionStatus.FAILURE;
         //При ошибке непрошедший тест на последнем ExecutionResult
@@ -37,7 +37,7 @@ public class TotalExecutionResult {
         this.actualResult = results.get(results.size() - 1).getActualResult();
     }
 
-    public TotalExecutionResult(AttemptDTO attempt, String errorMessage) {
+    public TotalExecutionResult(AttemptForExecuteDTO attempt, String errorMessage) {
          this.attemptId = attempt.getId();
         this.errorMessage = errorMessage;
         this.status = ExecutionStatus.ERROR;

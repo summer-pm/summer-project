@@ -14,7 +14,10 @@
 - отметка о статусе решения задачи;
 - просмотр времени выполнения и объёма решения.
   
-![use](https://www.plantuml.com/plantuml/svg/fLRDJjj04BxdALPSSeeVe0T4XK2g14f5e7VBsIHMZHrvRMXl1DhI2YGaBZr1-mXE8CND7w-m-qRzTktuFycXXyG_C_FDp3UpNxB3FDtr_5EB-8pMwhhXEIwhgGlPuWzyp5zu82vmVUAX68XBt8VuBFY81tpEv-A6_oNy5I-cuXREoY0k4O3dBQ8pScAxj6ioZxgqVSAecw3__5_aepnk7IqOEgEi5jyWno-9A0PyXcza87oA-3bkRnJ2FgNj3oOzpqIigGfFjtXtfq9RPjS-wMS2xyLNk3qJFY98g881CnDNolt0wRwprnI6sn72PTu5kbRMBpn4hr4wMULxr-cO5isW_4R0C-YQ85UMl92Fgq3ssgPN1YbnX95BL77DmoJtiSu-Pc8UaL3Y1qWOIbw894ryb-n6sUSyY4k0onZNISn4Yzhj8yeSwumsEmNOUmnzYeW_Aq17X0-LmrCrrB5JqHxSCGq-AJUsRzhjYWg6808JkUClU9ZmGFdkzXo7qGFTxlfwbrP6O5a3nSaCLLz6hKSRhFB7G2rgKSCpxMwBwgxHQ_Ozqx7PsjK0sNBvhl0If8O4cnObadCVgnMLFY5wp3AMMPsMO_aopsvFTt7-g8k3OngCv7a2_bZyIEWMr-8AerYisyccrwFkvfrAeE8Z_IfkKF14zb9TiC9TLfqSxIKo8XV0daM7ENz2qrpZmlv4StHEJwdjhSH_5D_YOZPZxPtfbgzxD0-MFoKJSI5xLLYoG1NOx5Cv2Y_Z-u1nlgf5YRiO8Ek23zDv92j_I1ahxA0aEzeJ-4egfkcXULP6h8_SJmNorZ00SKGDvuowdmjwaWfV02em4rduM6dYIxIB2qNtVBab0sKTgR18LWyTbqRYxEevVXbnEkKVXEABHcCx4UOAMwoyUT32Rq7-aJJQphdTs8vLEDy-qQHHYuta3Q6VF91SWiWKLJRbz3aZiqJBcLQZ-ts097fKNv516PSt4djPKWgSiyPugRLQV5Rv5jILQ7vVImifvuGnBvC4FgPjM7wRrjR9K0HSJhYwbaJfYRO-ifBeadAL94V15jsgM4ueoOUdhgNJiEnMhN7gLwzI9gAvPhVdLQP88ojrY6WMxMo8NEhGXcupegCyax34OmTV-1Vv3m00 "use")
+
+![use](https://www.plantuml.com/plantuml/svg/fLRBJjj05Dtp5ICsMSKVq0MYGY1L0gLAe7lBcIHMZHrvR6Xt1DhIAaX8tNG5xIU4G8eRylY5cJ_gcV7xaQHI5yIFU--vzvvxvvXTvkckvvzQn6TqgwORdkEoBNKXs_oEJ_Wp7uaBN1zv80RY4lS1_XPyp4TypkTYoFyGliIB5t43PsKGbmZ0ypRH6JcnNTercKTTsZvXr4tGV_mlSZEFMqCBXiuesufkaEEdH1G3FiClCX3-WlWvReSAuO3IzZkJdcSYrbI5fnkykrMXBRDhd_GpWT_5PxWz4JucIAY20JCJLyhzqEc-iTSKXjinmcNU1RfMrayyGAzXEbdbMzVfc1RDeFn2m1FecY9Nbho0Jwf0zjkcLmOfSOIHIrHnpOCazx7EtgylVobxvbC-oW0auOSOLACZGRBJkKVPiieHoWuakqHIBxxA6OKzp2NSCkfiWkiquhD5xNQJCiSweo5kRX93p7d1Vwy07HF-e1mUgw6EdGgIuAxwAzDpODhjYWeUG0s8kUNFU00jodUlvpYC7kfsrzUxj382H8uK9pDKVHcs7fw3YD-eQ8iQdcbtMrHtZLwZxvcEpTPE26JB5Rx2Iv0Q4Enhc4XkpqGjklG9q6EMiSm2jXpBbtdsUhgBKqnTJDKq6Cdp1Fo9-9RGBQx55KQnMBVP3Qz7tSsRcK15mh0KGnGybRrK5wnmuweJWOYH4Ra0zYoKXFmvJtDD2liJpj4vFQMsjnB_Ndo9YjcCjN-cMxxkqJnO_fHCnONiLM790bLWeq_bABoCxnt66Hx4g8i1iYxuGpgFPEMFA6E57PHaXti2Nqd5ItfedfGHwoFtKu6yDWn0DAdXd57tOq6LKlaSWGhCH1O-KShw7ExYGj4zZxTaeAnZ5HQAyv7Zqb3YNJt7BoDEf_nPgHNVrEixYRvNs281hx0K1IkNj_3HoJ-IUjivj-ixaTmtDo7dAIIQZDQYQFAAq0yU1bNAaUchRCfzAJA2JxISQJMwtmT8eccr5HcKCVQA2o-qb-Q88yY_-IJVvHNME6rYhLR3LRu5kIUQtzVIhievOSphDe6FQHkMtwPRwtGn12udN5rBykaXslh8ogcLfBIaWGgsw9QYbivSt88wAwbVhKh_YEQQtPwNJP2OqiXAjIEQHJiR8cErsz12HjgKPnAMUEpY1__n_WK0 "use")
+
+
 
 
 
@@ -205,6 +208,27 @@
 |  | 1. Если задач по искомому параметру нет, то вывод пользователю сообщения об этом  |
 | 2. Поиск задач по другим параметрам |   |
 
+
+
+
+
+
+
+
+
+### ВИ Просмотр списка задач
+| ВИ | Просмотр списка задач |
+| ------------- | ------------- |
+| Основные лица | Зарегистрированный пользователь, Незарегистрированный пользователь |
+| Цель | Посмотреть список задач |
+| Триггер | Решение пользователя о просмотре списка задач |
+| Результат | Пользователю предоставлена необходимая информация |
+
+| Действия актора | Отклик системы |
+| ------------- | ------------- |
+| 1. Переход на вкладку с задачами |   |
+|  | 2. Предоставление пользователю информации по задачах. Информация: <br/>- номер задачи;<br/>- название;<br/>- уровень. |
+| 3. Изучение полученной информации |   |
 
 
 
@@ -420,7 +444,7 @@
 | Действия актора | Отклик системы |
 | ------------- | ------------- |
 | 1. Просмотр ленты другого пользователя. Выбор попытки решения из ленты |   |
-|  | 2. Предоставление пользователю информации о попытке решения другого пользователя. Информация: <br/>- название задачи; <br/>- условие задачи; <br/>- текст попытки решения выбранного пользователя; <br/>- характеристики попытки решения (статус, время выполнения, объём занимаемой памяти) |
+|  | 2. Предоставление пользователю информации о попытке решения другого пользователя. Информация: <br/>- юзернейм;<br/>- дата поста; <br/>-комментарий;<br/>- название задачи; <br/>- условие задачи;<br/>- уровень задачи; <br/>- текст попытки решения выбранного пользователя; <br/>- характеристики попытки решения ( время выполнения, объём занимаемой памяти) |
 | 3. Просмотр предоставленной информации. |   |
 
 

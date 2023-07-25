@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,5 +28,7 @@ public class UserPosts {
     private SolutionsAttempts solutionsAttempts;
 
     private String commentary;
+
+    private LocalDateTime timeOfPost;
 }
 

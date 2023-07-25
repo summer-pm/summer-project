@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.builder.ToStringExclude;
+
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -25,17 +28,28 @@ public class SolutionsAttempts {
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference("user-attempts")
+    @ToStringExclude
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "task_id")
     @JsonBackReference("task-attempts")
+    @ToStringExclude
     private Task task;
 
+    @ManyToOne
+    @JoinColumn(name = "test_id")
+    @ToStringExclude
+    private Test failedTest;
     private String code;
-    private String language;
+    private String actualResult;
+    private String errorMessage;
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    @ToStringExclude
+    private Language language;
     private String status;
-    private Long executionTime;
-    private Long solutionsVolume;
-
+    private Double executionTime;
+    private Double solutionsVolume;
+    private LocalDateTime creationDate;
 }

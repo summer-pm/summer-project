@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import ru.tinkoff.summer.taskexecutor.domain.driver.DriverProcessor;
 import ru.tinkoff.summer.taskexecutor.domain.driver.JavaDriverProcessor;
 
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 import ru.tinkoff.summer.taskshareddomain.Language;
 import ru.tinkoff.summer.taskshareddomain.Type;
 import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
@@ -19,15 +19,15 @@ import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
 public class JavaDriverProcessorTest {
     DriverProcessor processor = new JavaDriverProcessor();
 
-    static AttemptDTO oneIntTask;
-    static AttemptDTO twoIntTask;
+    static AttemptForExecuteDTO oneIntTask;
+    static AttemptForExecuteDTO twoIntTask;
 
     @BeforeAll
     public static void setUp() {
-        oneIntTask = new AttemptDTO();
+        oneIntTask = new AttemptForExecuteDTO();
         oneIntTask.setMethodName("sum");
         oneIntTask.setParams(new TaskParams(List.of(Type.INTEGER), Type.INTEGER));
-        twoIntTask = new AttemptDTO();
+        twoIntTask = new AttemptForExecuteDTO();
         twoIntTask.setMethodName("sum");
         twoIntTask.setParams(new TaskParams(List.of(Type.INTEGER, Type.INTEGER), Type.INTEGER));
     }
@@ -61,7 +61,7 @@ public class JavaDriverProcessorTest {
                                 + " result = new Solution().sum(param1, param2)");
     }
 
-    private static AttemptDTO createAttempt(AttemptDTO attempt) {
+    private static AttemptForExecuteDTO createAttempt(AttemptForExecuteDTO attempt) {
         attempt.setCode("any code");
         attempt.setLanguage(Language.JAVA);
         return attempt;

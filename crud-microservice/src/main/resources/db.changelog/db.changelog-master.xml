@@ -3,14 +3,34 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
+
     <include file="create-user-table.xml" relativeToChangelogFile="true"/>
 
     <include file="create-user-posts-table.xml" relativeToChangelogFile="true"/>
 
     <include file="create-task-table.xml" relativeToChangelogFile="true"/>
 
-    <include file="create-solutions-attempts-table.xml" relativeToChangelogFile="true"/>
-
     <include file="create-tests-table.xml" relativeToChangelogFile="true"/>
+
+
+    <include file="create-solutions-attempts-table.xml" relativeToChangelogFile="true"/>
+    
+    <include file="create-examples-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="create-language-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="create-tasks-langs-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="create-input-parameters_table.xml" relativeToChangelogFile="true"/>
+
+    <include file="create-task-params-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="create-input-types-table.xml" relativeToChangelogFile="true"/>
+
+    <include file="change-type-error-message.xml" relativeToChangelogFile="true"/>
+    <include file="add-column-publish-task.xml" relativeToChangelogFile="true"/>
+    <include file="change-type-examples-types.xml" relativeToChangelogFile="true"/>
+    <include file="add-delete-cascade-tests.xml" relativeToChangelogFile="true"/>
+    <include file="change-types-test-actual-result.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

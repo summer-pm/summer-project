@@ -3,15 +3,12 @@ package ru.tinkoff.summer.taskexecutor.messaging;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.tinkoff.summer.taskexecutor.Main;
 import ru.tinkoff.summer.taskexecutor.domain.executor.JavaExecutor;
 import ru.tinkoff.summer.taskexecutor.domain.executor.LanguageExecutor;
 import ru.tinkoff.summer.taskexecutor.domain.executor.PythonExecutor;
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 import ru.tinkoff.summer.taskshareddomain.ConnectionConstants;
 import ru.tinkoff.summer.taskshareddomain.TotalExecutionResult;
 
@@ -27,7 +24,7 @@ public class AttemptListener {
     private static final int MAX_THREADS = Runtime.getRuntime().availableProcessors() / 2;
     private static final List<LanguageExecutor> EXECUTORS = List.of(new JavaExecutor(), new PythonExecutor());
     private final ResultProducer producer;
-    KafkaConsumer<String, AttemptDTO> consumer;
+    KafkaConsumer<String, AttemptForExecuteDTO> consumer;
 
     public AttemptListener() {
         producer = new ResultProducer();
@@ -40,11 +37,11 @@ public class AttemptListener {
         ExecutorService threadExecutor = Executors.newFixedThreadPool(MAX_THREADS);
         Duration timeout = Duration.ofMillis(100);
         while (true) {
-            ConsumerRecords<String, AttemptDTO> records = consumer.poll(timeout);
-            for (ConsumerRecord<String, AttemptDTO> record : records) {
+            ConsumerRecords<String, AttemptForExecuteDTO> records = consumer.poll(timeout);
+            for (ConsumerRecord<String, AttemptForExecuteDTO> record : records) {
                 threadExecutor.execute(() -> {
                     TotalExecutionResult result;
-                    AttemptDTO attempt = record.value();
+                    AttemptForExecuteDTO attempt = record.value();
                     LanguageExecutor codeExecutor = getCodeExecutor(attempt);
                     try {
                         log.info("Start {}", record.key());
@@ -56,6 +53,8 @@ public class AttemptListener {
                     }
                     log.info("Finish {}", record.key());
                     producer.send(result);
+
+
                 });
 
             }
@@ -64,11 +63,11 @@ public class AttemptListener {
     }
 
 
-    private static LanguageExecutor getCodeExecutor(AttemptDTO attempt) {
+    private static LanguageExecutor getCodeExecutor(AttemptForExecuteDTO attempt) {
         return EXECUTORS.stream().filter(e -> e.getLanguage().equals(attempt.getLanguage())).findFirst().get();
     }
 
-    private static KafkaConsumer<String, AttemptDTO> getConsumer() {
+    private static KafkaConsumer<String, AttemptForExecuteDTO> getConsumer() {
         Properties properties = new Properties();
         properties.put("bootstrap.servers", ConnectionConstants.BOOTSTRAP_SERVERS);
         properties.put("group.id", ConnectionConstants.EXECUTOR_GROUP_ID);

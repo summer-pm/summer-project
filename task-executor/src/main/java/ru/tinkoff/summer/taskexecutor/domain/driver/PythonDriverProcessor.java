@@ -1,7 +1,7 @@
 package ru.tinkoff.summer.taskexecutor.domain.driver;
 
 
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 import ru.tinkoff.summer.taskshareddomain.Type;
 import ru.tinkoff.summer.taskshareddomain.task.TaskParams;
 
@@ -10,12 +10,12 @@ import java.util.List;
 
 public class PythonDriverProcessor extends DriverProcessor {
     @Override
-    public String getPreparedCode(AttemptDTO attempt) {
+    public String getPreparedCode(AttemptForExecuteDTO attempt) {
         String genericDriver = readGenericDriver(attempt.getLanguage());
         return prepareDriver(genericDriver, attempt);
     }
 
-    private String prepareDriver(String genericDriver, AttemptDTO attempt) {
+    private String prepareDriver(String genericDriver, AttemptForExecuteDTO attempt) {
         TaskParams params = attempt.getParams();
         return genericDriver
                 .replace(PARAM_READ_SECTION, getParamReadSection(params))

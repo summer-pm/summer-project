@@ -4,13 +4,13 @@ export default {
 
     sendAttempt(data) {
         return axiosApi.post(
-            "/task/" + data.taskId + "/attempt",
+            "/tasks/" + data.taskId + "/attempt",
             data
         )
     },
     getAttemptById(taskId, id) {
         return axiosApi.get(
-            "/task/" + taskId + "/attempt/" + id,
+            "/attempts/" + id,
         )
     }
 }

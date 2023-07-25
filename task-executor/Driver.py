@@ -4,11 +4,27 @@ from typing import List
 
 ${solution}
 
+def READ_STRING():
+    return input()
+
 def READ_INTEGER():
     return int(input())
 
+def READ_STRING_ARR():
+    input_str = input()
+    if input_str == "[]":
+        return []
+    input_str = input_str.replace("[", "").replace("]", "").replace(" ", "")
+
+    elements = input_str.split(",")
+
+    arr = [str(element) for element in elements]
+    return arr
+
 def READ_INTEGER_ARR():
     input_str = input()
+    if input_str == "[]":
+        return []
 
     input_str = input_str.replace("[", "").replace("]", "").replace(" ", "")
 
@@ -19,6 +35,8 @@ def READ_INTEGER_ARR():
 
 if __name__ == '__main__':
 ${paramsInputSection}
+    print(param1)
+    print("just string")
     s = Solution()
     start_time = time.time()
     ret = Solution.${methodName}(s, ${paramList})

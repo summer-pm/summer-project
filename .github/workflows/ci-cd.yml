@@ -1,0 +1,212 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  TASK_EXECUTOR_NAME: task-executor
+  TASK_MICROSERVICE_NAME: task-microservice
+  CRUD_MICROSERVICE_NAME: crud-microservice
+  AUTH_MICROSERVICE_NAME: auth-microservice
+  EUREKA_SERVICE_NAME: eureka-server
+  API_GATEWAY_NAME: api-gateway
+  FRONTEND_NAME: frontend
+
+jobs:
+  build-task-executor:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+    - name: Setup Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+        driver-opts: |
+          image=moby/buildkit:v0.11.2
+    - name: Build Task-executor
+      uses: docker/build-push-action@v4
+      with:
+        context: ./
+        file: ./${{env.TASK_EXECUTOR_NAME}}/Dockerfile
+        push: true
+        tags: ghcr.io/${{ github.repository_owner }}/${{env.TASK_EXECUTOR_NAME}}:latest
+        cache-from: type=gha,scope=${{env.TASK_EXECUTOR_NAME}}
+        cache-to: type=gha,mode=max,scope=${{env.TASK_EXECUTOR_NAME}}
+    
+    
+  build-task-microservice:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+    - name: Setup Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+        driver-opts: |
+          image=moby/buildkit:v0.11.2
+    - name: Build Task-microservice
+      uses: docker/build-push-action@v4
+      with:
+        context: ./
+        file: ./${{env.TASK_MICROSERVICE_NAME}}/Dockerfile
+        push: true
+        tags: ghcr.io/${{ github.repository_owner }}/${{env.TASK_MICROSERVICE_NAME}}:latest
+        cache-from: type=gha,scope=${{env.TASK_MICROSERVICE_NAME}}
+        cache-to: type=gha,mode=max,scope=${{env.TASK_MICROSERVICE_NAME}}
+  
+  build-crud-microservice:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+    - name: Setup Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+        driver-opts: |
+          image=moby/buildkit:v0.11.2
+    - name: Build Crud-microservice
+      uses: docker/build-push-action@v4
+      with:
+        context: ./
+        file: ./${{env.CRUD_MICROSERVICE_NAME}}/Dockerfile
+        push: true
+        tags: ghcr.io/${{ github.repository_owner }}/${{env.CRUD_MICROSERVICE_NAME}}:latest
+        cache-from: type=gha,scope=${{env.CRUD_MICROSERVICE_NAME}}
+        cache-to: type=gha,mode=max,scope=${{env.CRUD_MICROSERVICE_NAME}}
+        
+  build-auth-microservice:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+    - name: Setup Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+        driver-opts: |
+          image=moby/buildkit:v0.11.2
+    - name: Build auth-microservice
+      uses: docker/build-push-action@v4
+      with:
+        context: ./
+        file: ./${{env.AUTH_MICROSERVICE_NAME}}/Dockerfile
+        push: true
+        tags: ghcr.io/${{ github.repository_owner }}/${{env.AUTH_MICROSERVICE_NAME}}:latest
+        cache-from: type=gha,scope=${{env.AUTH_MICROSERVICE_NAME}}
+        cache-to: type=gha,mode=max,scope=${{env.AUTH_MICROSERVICE_NAME}}
+        
+  build-eureka-service:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+          registry: ghcr.io
+          username: ${{github.actor}}
+          password: ${{secrets.GITHUB_TOKEN}}
+    - name: Setup Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+        driver-opts: |
+          image=moby/buildkit:v0.11.2
+    - name: Build eureka-service
+      uses: docker/build-push-action@v4
+      with:
+        context: ./
+        file: ./${{env.EUREKA_SERVICE_NAME}}/Dockerfile
+        push: true
+        tags: ghcr.io/${{ github.repository_owner }}/${{env.EUREKA_SERVICE_NAME}}:latest
+        cache-from: type=gha,scope=${{env.EUREKA_SERVICE_NAME}}
+        cache-to: type=gha,mode=max,scope=${{env.EUREKA_SERVICE_NAME}}
+        
+  build-api-gateway:
+      runs-on: ubuntu-latest
+      permissions:
+        packages: write
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+            registry: ghcr.io
+            username: ${{github.actor}}
+            password: ${{secrets.GITHUB_TOKEN}}
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+         driver-opts: |
+          image=moby/buildkit:v0.11.2
+      - name: Build api-gateway
+        uses: docker/build-push-action@v4
+        with:
+          context: ./
+          file: ./${{env.API_GATEWAY_NAME}}/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/${{env.API_GATEWAY_NAME}}:latest
+          cache-from: type=gha,scope=${{env.API_GATEWAY_NAME}}
+          cache-to: type=gha,mode=max,scope=${{env.API_GATEWAY_NAME}}
+          
+          
+  build-frontend:
+      runs-on: ubuntu-latest
+      permissions:
+        packages: write
+      steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+            registry: ghcr.io
+            username: ${{github.actor}}
+            password: ${{secrets.GITHUB_TOKEN}}
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+         driver-opts: |
+          image=moby/buildkit:v0.11.2
+      - name: Build frontend
+        uses: docker/build-push-action@v4
+        with:
+          context: ./${{env.FRONTEND_NAME}}
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/${{env.FRONTEND_NAME}}:latest
+          cache-from: type=gha,scope=${{env.FRONTEND_NAME}}
+          cache-to: type=gha,mode=max,scope=${{env.FRONTEND_NAME}}
