@@ -30,7 +30,7 @@
         <span>{{attempt.memoryUsageMb}} MB</span>
       </div>
     </div>
-        <span style="white-space: pre-line">{{ attempt }}</span>
+       
 
   </div>
 
