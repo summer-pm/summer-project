@@ -38,7 +38,7 @@ jobs:
         context: ./
         file: ./${{env.TASK_EXECUTOR_NAME}}/Dockerfile
         push: true
-        tags: ghcr.io/R3nnyWeb/${{env.TASK_EXECUTOR_NAME}}:${{ github.sha }}
+        tags: ghcr.io/${{ github.repository_owner }}/${{env.TASK_EXECUTOR_NAME}}:${{ github.sha }}
         cache-from: type=gha,scope=${{env.TASK_EXECUTOR_NAME}}
         cache-to: type=gha,mode=max,scope=${{env.TASK_EXECUTOR_NAME}}
     
@@ -67,7 +67,7 @@ jobs:
         context: ./
         file: ./${{env.TASK_MICROSERVICE_NAME}}/Dockerfile
         push: true
-        tags: ghcr.io/R3nnyWeb/${{env.TASK_MICROSERVICE_NAME}}:${{ github.sha }}
+        tags: ghcr.io/${{ github.repository_owner }}/${{env.TASK_MICROSERVICE_NAME}}:${{ github.sha }}
         cache-from: type=gha,scope=${{env.TASK_MICROSERVICE_NAME}}
         cache-to: type=gha,mode=max,scope=${{env.TASK_MICROSERVICE_NAME}}
   
@@ -95,7 +95,7 @@ jobs:
         context: ./
         file: ./${{env.CRUD_MICROSERVICE_NAME}}/Dockerfile
         push: true
-        tags: ghcr.io/R3nnyWeb/${{env.CRUD_MICROSERVICE_NAME}}:${{ github.sha }}
+        tags: ghcr.io/${{ github.repository_owner }}/${{env.CRUD_MICROSERVICE_NAME}}:${{ github.sha }}
         cache-from: type=gha,scope=${{env.CRUD_MICROSERVICE_NAME}}
         cache-to: type=gha,mode=max,scope=${{env.CRUD_MICROSERVICE_NAME}}
         
@@ -123,7 +123,7 @@ jobs:
         context: ./
         file: ./${{env.AUTH_MICROSERVICE_NAME}}/Dockerfile
         push: true
-        tags: ghcr.io/R3nnyWeb/${{env.AUTH_MICROSERVICE_NAME}}:${{ github.sha }}
+        tags: ghcr.io/${{ github.repository_owner }}/${{env.AUTH_MICROSERVICE_NAME}}:${{ github.sha }}
         cache-from: type=gha,scope=${{env.AUTH_MICROSERVICE_NAME}}
         cache-to: type=gha,mode=max,scope=${{env.AUTH_MICROSERVICE_NAME}}
         
@@ -151,7 +151,7 @@ jobs:
         context: ./
         file: ./${{env.EUREKA_SERVICE_NAME}}/Dockerfile
         push: true
-        tags: ghcr.io/R3nnyWeb/${{env.EUREKA_SERVICE_NAME}}:${{ github.sha }}
+        tags: ghcr.io/${{ github.repository_owner }}/${{env.EUREKA_SERVICE_NAME}}:${{ github.sha }}
         cache-from: type=gha,scope=${{env.EUREKA_SERVICE_NAME}}
         cache-to: type=gha,mode=max,scope=${{env.EUREKA_SERVICE_NAME}}
         
@@ -179,7 +179,7 @@ jobs:
           context: ./
           file: ./${{env.API_GATEWAY_NAME}}/Dockerfile
           push: true
-          tags: ghcr.io/R3nnyWeb/${{env.API_GATEWAY_NAME}}:${{ github.sha }}
+          tags: ghcr.io/${{ github.repository_owner }}/${{env.API_GATEWAY_NAME}}:${{ github.sha }}
           cache-from: type=gha,scope=${{env.API_GATEWAY_NAME}}
           cache-to: type=gha,mode=max,scope=${{env.API_GATEWAY_NAME}}
           
@@ -207,6 +207,6 @@ jobs:
         with:
           context: ./${{env.FRONTEND_NAME}}
           push: true
-          tags: ghcr.io/R3nnyWeb/${{env.FRONTEND_NAME}}:${{ github.sha }}
+          tags: ghcr.io/${{ github.repository_owner }}/${{env.FRONTEND_NAME}}:${{ github.sha }}
           cache-from: type=gha,scope=${{env.FRONTEND_NAME}}
           cache-to: type=gha,mode=max,scope=${{env.FRONTEND_NAME}}
