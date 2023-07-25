@@ -12,8 +12,14 @@
 
 <script setup>
 import {ref} from "vue";
-
-const input = ref("");
+const props = defineProps({
+  startValue : {
+    type : String,
+    required : false,
+    default : ''
+  }
+})
+const input = ref(props.startValue);
 </script>
 
 <style lang="scss" scoped>

@@ -1,7 +1,7 @@
 <template>
 
   <div style="margin-top: 40px;">
-    <task-sort @search="search" @find-level="findLevel"/>
+    <task-sort :title="searchParams.title" @search="search" @find-level="findLevel"/>
     <div v-if="loading" style="margin-top: 100px; display: flex; justify-content: center; width: 100%;">
       <app-loader/>
 
@@ -26,8 +26,9 @@ import taskApi from "@/api/taskApi";
 import TaskItem from "@/components/task/TaskItem.vue";
 import AppPagination from "@/components/ui/AppPagination.vue";
 import AppLoader from "@/components/ui/AppLoader.vue";
-import {useRoute} from "vue-router";
+import {onBeforeRouteUpdate, useRoute} from "vue-router";
 import TaskSort from "@/components/task/TaskSort.vue";
+import router from "@/router";
 
 const route = useRoute();
 const loading = ref(false);
@@ -46,8 +47,8 @@ const data = reactive({
 const loadData = () => {
   loading.value = true
 
-
-  taskApi.getAll(data.number,
+  setTimeout(() => {
+     taskApi.getAll(data.number,
       searchParams.title,
       searchParams.level)
       .then((r) => {
@@ -55,12 +56,14 @@ const loadData = () => {
       }).finally(() => {
     loading.value = false
   });
+  },300)
+
 
 
 }
 const search = (search) => {
   searchParams.title = search
-  loadData()
+  router.push({name: 'tasks', query: {title: search}})
 }
 const changePage = (page) => {
   data.number = page;
@@ -71,6 +74,12 @@ const findLevel = (level) => {
   loadData()
 }
 onMounted(loadData)
+
+onBeforeRouteUpdate(() => {
+  loadData()
+})
+
+
 </script>
 <style scoped>
 #pagination {
