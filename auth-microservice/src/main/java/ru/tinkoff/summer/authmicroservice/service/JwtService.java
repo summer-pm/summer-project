@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,11 +28,15 @@ public class JwtService {
     }
 
     public String createToken(Map<String, Object> claims, String email) {
+        LocalDateTime expirationDateTime = LocalDateTime.now().plusDays(20);
+
+// Convert LocalDateTime to Date
+Date expirationDate = Date.from(expirationDateTime.atZone(ZoneId.systemDefault()).toInstant());
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() * 1000 * 60 * 60 * 100))
+                .setExpiration(expirationDate)
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
     }
 
