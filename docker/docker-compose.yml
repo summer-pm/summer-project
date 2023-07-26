@@ -3,7 +3,8 @@ services:
   frontend:
     container_name: frontend
     build:
-      context: ../frontend
+      context: ../
+      dockerfile: frontend/Dockerfile
     ports:
       - 80:80
     links:

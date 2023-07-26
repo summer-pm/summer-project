@@ -14,27 +14,7 @@ const routes = [
         path: '/chat/room',
         component: ChatAreaMessages,
     },
-    // Mock routs
-    {
-        path: '/main',
-        component: Main,
-    },
-    {
-        path: '/',
-        component: About,
-    },
-    {
-        path: '/feed',
-        component: About
-    },
-    {
-        path: '/tasks',
-        component: About
-    },
-    {
-        path: '/messages',
-        component: About
-    },
+
 ]
 
 const router = createRouter({

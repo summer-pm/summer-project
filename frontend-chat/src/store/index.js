@@ -3,6 +3,7 @@ import { createStore } from 'vuex';
 import SockJs from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import * as API from '@/api/apiPaths';
+import {API_BASE_URL, HOST_NAME, ROOMS_ENDPOINT, WS_PATH} from "@/api/apiPaths";
 
 // Функции для получения данных из LocalStorage
 const getSavedDataFromLocalStorage = (key) => {
