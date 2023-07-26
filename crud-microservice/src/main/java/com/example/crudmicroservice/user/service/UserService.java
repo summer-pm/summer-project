@@ -1,6 +1,9 @@
 package com.example.crudmicroservice.user.service;
 
-import com.example.crudmicroservice.chat.exception.ChatRoomNotFoundException;
+import com.example.crudmicroservice.chat.dto.ChatUserCreateDTO;
+import com.example.crudmicroservice.chat.model.ChatUser;
+import com.example.crudmicroservice.chat.repository.ChatUserRepository;
+import com.example.crudmicroservice.chat.service.ChatUserService;
 import com.example.crudmicroservice.task.model.SolutionsAttempts;
 import com.example.crudmicroservice.task.service.SolutionsAttemptsService;
 import com.example.crudmicroservice.user.dto.RegisterRequest;
@@ -20,18 +23,19 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final UserPostsService userPostsService;
+    private final ChatUserRepository chatUserRepository;
 
     private final SolutionsAttemptsService solutionsAttemptsService;
 
-    public User getUserByEmail(String email) throws UserNotFoundException  {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UserNotFoundException("User with email " + email + " not found"));
+    public Optional<User> getUserByEmail(String email) throws UserNotFoundException  {
+        return userRepository.findByEmail(email);
+
     }
 
-    public UserService(UserRepository userRepository, UserPostsService userPostsService, SolutionsAttemptsService solutionsAttemptsService) {
+    public UserService(UserRepository userRepository, UserPostsService userPostsService, ChatUserRepository chatUserRepository, SolutionsAttemptsService solutionsAttemptsService) {
         this.userRepository = userRepository;
         this.userPostsService = userPostsService;
+        this.chatUserRepository = chatUserRepository;
         this.solutionsAttemptsService = solutionsAttemptsService;
     }
 
@@ -91,5 +95,25 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    public ChatUser getChatUserByPgIdOrCreateNew(String userId) {
+            ChatUser chatUser = chatUserRepository.findChatUserByUserPgId(userId);
+            if (chatUser != null) {
+                return chatUser;
+            }
+            else {
+                ChatUserCreateDTO chatUserCreateDTO = new ChatUserCreateDTO();
+                chatUserCreateDTO.setUserPgId(userId);
+                ChatUser user = convertDTOToEntity(chatUserCreateDTO);
+                return chatUserRepository.save(user);
+            }
+    }
+
+    private ChatUser convertDTOToEntity(ChatUserCreateDTO chatUserCreateDTO) {
+        ChatUser chatUser = new ChatUser();
+        chatUser.setUserPgId(chatUserCreateDTO.getUserPgId());
+        chatUser.setRooms(chatUserCreateDTO.getRooms());
+        return chatUser;
     }
 }

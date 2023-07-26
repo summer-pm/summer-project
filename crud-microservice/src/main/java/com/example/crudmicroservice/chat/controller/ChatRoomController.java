@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@CrossOrigin
 @RestController
 @RequestMapping("api/v1/rooms")
 public class ChatRoomController {
@@ -81,7 +80,7 @@ public class ChatRoomController {
         }
     }
 
-    @GetMapping("/test")
+    @GetMapping("/list")
     public ResponseEntity<List<ChatRoomTransferDTO>> getChatRoomsByUserId(@RequestParam("userId") String userId) {
         log.info("Requesting list of chats by userID: {}", userId);
         try {

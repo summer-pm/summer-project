@@ -80,4 +80,22 @@ public class ChatUserService {
     public void deleteRoomFromUser(String userId, String roomId) {
         chatUserDAL.deleteRoomFromUser(userId, roomId);
     }
+
+    public User getInterlocutorProfileByRoomId(String userId, String roomId) {
+        ChatRoom chatRoom = chatRoomRepository.findChatRoomById(roomId).get();
+        String interlocutorId = null;
+        for (String user : chatRoom.getUsers()) {
+            if (!user.equals(userId)) {
+                ChatUser chatUser = chatUserRepository.findChatUserById(user);
+                interlocutorId = chatUser.getUserPgId();
+                break;
+            }
+        }
+        if (interlocutorId != null) {
+            return userService.getUserById(Long.parseLong(interlocutorId));
+        } else {
+            return null;
+        }
+    }
+
 }

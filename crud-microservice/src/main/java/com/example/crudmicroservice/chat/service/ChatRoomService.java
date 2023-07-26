@@ -83,6 +83,7 @@ public class ChatRoomService {
         user.getRooms().forEach(roomId -> {
             ChatRoomTransferDTO transferDTO = new ChatRoomTransferDTO();
             transferDTO.setRoomId(roomId);
+            transferDTO.setInterlocutorProfile(chatUserService.getInterlocutorProfileByRoomId(userId, roomId));
             String interlocutorName = chatUserService.getInterlocutorNameByRoomIdAndUserId(roomId, userId);
             transferDTO.setInterlocutor(interlocutorName);
             ChatMessage lastMessage = chatMessageRepository.findTopByChatRoomIdOrderByTimestampDesc(roomId);

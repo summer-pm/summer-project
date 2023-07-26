@@ -2,7 +2,6 @@
     <div class="chat-header">
         <div class="interlocutor-name">
             <span>{{ activeInterlocutorName }}</span>
-            <span>Token: {{ token }}</span>
         </div>
     </div>
 </template>
@@ -16,7 +15,6 @@ import { mapState } from 'vuex';
         computed: {
             ...mapState([
                 'activeInterlocutorName',
-                'token'
             ]),
         }
         

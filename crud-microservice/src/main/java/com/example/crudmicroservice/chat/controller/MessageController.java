@@ -30,7 +30,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
-@CrossOrigin
 @Controller
 public class MessageController {
 

@@ -3,12 +3,12 @@
     <div class="chat-title-and-actions">
       <div class="chat-title">Чаты</div>
       <div class="chat-actions">
-        <button class="notification-button" @click="handleNotificationsClick">
-          <i class="fas fa-bell" v-if="notificationsEnabled"></i>
-          <i class="fas fa-bell-slash" v-else></i>
+        <button class="notification-button" >
+          <i class="fas fa-bell"></i>
+          <i class="fas fa-bell-slash"></i>
         </button>
-        <div class="add-chat" @click="handleAddChatClick">
-          <i class="fas fa-plus">P</i>
+        <div class="add-chat">
+          <button class="add-chat-btn" @click="addNewChat">Add</button>
         </div>
       </div>
     </div>
@@ -18,39 +18,29 @@
         v-model="searchQuery"
         placeholder="Чаты, сообщения и другое"
         class="search-input"
-        @input="performSearch"
-        @keyup.enter="performSearch"
+        @keyup.enter="addNewChat"
       />
     </div>
   </div>
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
+
   data() {
     return {
       searchQuery: "",
-      notificationsEnabled: true,
     };
   },
   methods: {
-    performSearch() {
-      // Метод для выполнения поиска чата по введенному запросу (searchQuery)
-      // Можете реализовать поиск чата или использовать его для фильтрации уже существующих чатов
-      this.search();
-    },
-    handleNotificationsClick() {
-      this.toggleNotifications();
-    },
-    handleAddChatClick() {
-      // Обработчик клика на иконку добавления чата (например, открыть модальное окно для создания нового чата)
-    },
-    search() {
-      // Метод для выполнения поиска чата по введенному запросу (searchQuery)
-      // Можете реализовать поиск чата или использовать его для фильтрации уже существующих чатов
-    },
-    toggleNotifications() {
-      this.notificationsEnabled = !this.notificationsEnabled;
+    ...mapActions([
+        'ADD_NEW_CHAT'
+    ]),
+    addNewChat() {
+      this.ADD_NEW_CHAT(this.searchQuery);
+      this.searchQuery = '';
     },
   },
 };
@@ -94,11 +84,11 @@ export default {
 }
 
 .notification-button:hover {
-  color: #ff0000; /* Измените цвет при наведении на ваше усмотрение */
+  color: #999; /* Измените цвет при наведении на ваше усмотрение */
 }
 
 .notification-button .fa-bell {
-  color: #ff0000; /* Измените цвет включенного состояния уведомлений */
+  color: #999; /* Измените цвет включенного состояния уведомлений */
 }
 
 .notification-button .fa-bell-slash {

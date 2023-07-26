@@ -2,11 +2,11 @@
     <div class="about-area">
         <h1>get token mock</h1>
         <input
-          type="text"
-          v-model="inputTextValue"
-          placeholder="Введите токен..."
-          @keyup.enter="sendMessage"
-          class="input-token"
+            type="text"
+            v-model="inputTextValue"
+            placeholder="Введите токен..."
+            @keyup.enter="sendMessage"
+            class="input-token"
         />
         <RouterLink to="/chat">Чат</RouterLink>
     </div>
@@ -16,7 +16,7 @@
 import { mapState, mapActions } from 'vuex';
 
     export default {
-        data() {
+      data() {
             return {
                 inputTextValue: '',
                 counter: 0,

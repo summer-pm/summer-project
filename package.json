@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "sockjs-client": "^1.6.1"
+    "sockjs-client": "^1.6.1",
+    "vuex": "^4.1.0"
   }
 }

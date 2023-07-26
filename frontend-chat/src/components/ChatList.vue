@@ -21,13 +21,16 @@ import {mapActions, mapState} from 'vuex';
     computed: {
       ...mapState([
         'chats',
-        'activeChatId'
+        'activeChatId',
+          'token',
+          'authUser'
       ])
     },
     methods: {
       ...mapActions([
       'FETCH_CHATS',
-      'SET_ACTIVE_USER'
+      'SET_ACTIVE_USER',
+          'USER_IS_EXIST_IN_CHAT'
     ]),
 
     updateActiveChat(chat) {
@@ -38,7 +41,9 @@ import {mapActions, mapState} from 'vuex';
     },
   },
   mounted() {
-      this.FETCH_CHATS();
+      // setTimeout(() => {
+      //   this.FETCH_CHATS(this.token, this.authUser);
+      // }, 100);
     }
 }
   

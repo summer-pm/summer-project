@@ -55,7 +55,9 @@ const stompSubscriptionPlugin = (store) => {
 // Определения геттеров, мутаций и действий
 const state = {
     isAuth: false,
-    token: 'localStorage.getItem("token") || null,',
+    authUser: null,
+    userPgId: -1,
+    token: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJhdEB5YW5kZXgucnUiLCJpYXQiOjE2OTAzNzczMzEsImV4cCI6MTY5MjEwNTMzMX0.xcm5bXbs71180Bubkax5PSyU0nje2SgZwVVerKUBVPw',
     chats: [],
     chatMessages: {},
     currentSubscriptions: new Map(),
@@ -64,12 +66,24 @@ const state = {
     activeInterlocutorName: getSavedDataFromLocalStorage('activeInterlocutorName'),
     stompClient: {},
     socket: {},
-    stompConnected: false
+    stompConnected: false,
+    headerConfig: {
+        headers: {
+            "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJhdEB5YW5kZXgucnUiLCJpYXQiOjE2OTAzNzczMzEsImV4cCI6MTY5MjEwNTMzMX0.xcm5bXbs71180Bubkax5PSyU0nje2SgZwVVerKUBVPw`
+        }
+    }
 };
 
 const getters = {};
 
 const mutations = {
+    SET_USER_TO_STORE(state, user) {
+        state.authUser = user;
+        state.userPgId = user.userId;
+    },
+    SET_MONGO_ID_TO_STORE(state, data) {
+        state.currentUserId = data.id;
+    },
     SET_TOKEN(state, token) {
       state.token = token;
     },
@@ -98,7 +112,7 @@ const mutations = {
   },
   CONNECT_STOMP_SOCK(state) {
     try {
-      state.socket = new SockJs(HOST_NAME + WS_PATH);
+      state.socket = new SockJs(API.HOST_NAME + API.WS_PATH);
       state.stompClient = Stomp.over(state.socket);
   
       console.log('WEBSOCKET CONNECTION: ', state.socket, state.stompClient);
@@ -110,41 +124,79 @@ const mutations = {
       console.error('WS CONNECTION ERROR >>', e);
       state.stompConnected = false; // Устанавливаем флаг неудачного подключения
     }
-  }
+  },
+    async START_INIT_CHAT(state) {
+        try {
+            const profileResponse = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.USERS_CRUD + '/profile', state.headerConfig);
+            console.log('Profile: ', profileResponse.data);
+            this.commit('SET_USER_TO_STORE', profileResponse.data);
+
+            const isExistsResponse = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.CHAT_USERS_CRUD + `/${state.userPgId}`, state.headerConfig);
+            console.log('Existing: ', isExistsResponse.data);
+            this.commit('SET_MONGO_ID_TO_STORE', isExistsResponse.data);
+
+            const chatsResponse = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.ROOMS_ENDPOINT + `/list?userId=${isExistsResponse.data.id}`, state.headerConfig);
+            console.log('Chats: ', chatsResponse.data);
+            this.commit('SET_CHATS_TO_STORE', chatsResponse.data);
+        } catch (error) {
+            // Обработка ошибок, если необходимо
+            console.error('Ошибка запроса:', error);
+        }
+    },
+    async ADD_NEW_CHAT_ROOM(state, userEmail) {
+        let contain = false;
+        state.chats.forEach(chat => {
+            if (chat.interlocutorProfile.email === userEmail) {
+                contain = true;
+            }
+        })
+        if (contain) {
+            alert(`Chat with ${userEmail} already exists`);
+        }
+        else {
+            try {
+                console.log(userEmail);
+                const interlocutor = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.USERS_CRUD + `/info?userEmail=${userEmail}`, state.headerConfig);
+                console.log('Requesting chat with: ', interlocutor.data);
+                const interlocutorProfile = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.USERS_CRUD + `/${interlocutor.data.userPgId}`, state.headerConfig);
+                console.log('Requesting chat with(PG): ', interlocutorProfile.data)
+                const body = {
+                    users: [state.currentUserId, interlocutor.data.id]
+                }
+                const newRoom = await axios.post(API.GATEWAY_PATH + API.API_VERSION + API.ROOMS_ENDPOINT, body, state.headerConfig);
+                console.log('Room created: ', newRoom.data);
+                const room = {
+                    roomId: newRoom.data.id,
+                    interlocutor: interlocutorProfile.data.username,
+                    interlocutorProfile: interlocutorProfile.data,
+                    lastMessage: null
+                }
+                this.commit('ADD_NEW_CHAT_ROOM_TO_STATE', room);
+            }
+            catch (error) {
+                console.error('Ошибка запроса: ', error);
+            }
+        }
+    },
+    ADD_NEW_CHAT_ROOM_TO_STATE(state, newRoom) {
+        state.chats.push(newRoom);
+    }
 };
 
+
 const actions = {
-  async FETCH_USER_DATA({ commit }) {
-    try {
-      const user = await axios.get(API.GATEWAY_PATH
-                                  +API.API_VERSION
-                                  +API.USERS_CRUD
-                                  +'/profile');
-      console.log('GET response >>', user.data);
-      setTimeout(() => {
-        commit('SET_USER_TO_STORE')
-      })
-    }
-    catch(error) {
-      console.error('GET request error >> ', error);
-    }
-  },
+    ADD_NEW_CHAT({ commit }, userEmail) {
+        commit('ADD_NEW_CHAT_ROOM', userEmail);
+    },
+    INIT_CHAT({ commit }) {
+        commit('START_INIT_CHAT');
+    },
+
+
   SET_TOKEN({ commit }, t) {
     commit('SET_TOKEN', t);
   },
-  async FETCH_CHATS({ commit }) {
-    try {
-        const chats = await axios
-            .get(API_BASE_URL +
-                ROOMS_ENDPOINT + '/test?userId=64b8e14a631df963c898ae4a');
-        console.log('GET response >> ', chats)
-        setTimeout(() => {
-            commit('SET_CHATS_TO_STORE', chats.data);
-        }, 350);
-    } catch (error) {
-      console.error('GET request error >> ', error);
-    }
-  },
+
   ESCAPE_FROM_CHAT({ commit }) {
     commit('CLEAR_INTERLOCUTOR_FROM_HEAD');
   },
@@ -153,7 +205,7 @@ const actions = {
   },
   async SAVE_MESSAGE_TO_DB({commit}, message) {
     try {
-      const response = await axios.post(API_BASE_URL + MESSAGES_ENDPOINT, message);
+      const response = await axios.post(API.API_BASE_URL + API.MESSAGES_ENDPOINT, message);
       console.log('POST response >> ', response.data);
       return response.data; // Возвращаем данные ответа
     } 

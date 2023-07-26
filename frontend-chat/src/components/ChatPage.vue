@@ -18,11 +18,17 @@ export default  {
   components: {
     ChatNavbar, ChatSlidebar, ChatArea
   },
-
+  computed: {
+    ...mapState([
+        'token',
+        'authUser'
+    ])
+  },
   methods: {
     ...mapActions([
-      'ESCAPE_FROM_CHAT',
-      'CONNECT_TO_WEBSOCKET'
+        'ESCAPE_FROM_CHAT',
+        'CONNECT_TO_WEBSOCKET',
+        'INIT_CHAT'
     ]),
 
     goBack(event) {
@@ -31,8 +37,11 @@ export default  {
     }
   },
   mounted() {
+    this.INIT_CHAT();
     this.CONNECT_TO_WEBSOCKET();
-    console.log(this.$route.meta.loggedInUser);
+  },
+  created() {
+
   }
 
 }

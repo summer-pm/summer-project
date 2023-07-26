@@ -1,12 +1,13 @@
 <template>
   <div class="app">
+
     <RouterView></RouterView>
   </div>
 </template>
 
 <script>
   export default {
-    
+
   }
 </script>
 
