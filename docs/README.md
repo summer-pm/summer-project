@@ -3,9 +3,9 @@
 # Навигация
 [1. О проекте](#description)    
 [2. Стек технологий](#techstack)  
-[3. Документация](#docs)
-[4. Развёртывание](#deploy)
-[5. Команда](#team) 
+[3. Документация](#docs)  
+[4. Развёртывание](#deploy)   
+[5. Команда](#team)   
 
 
 <a name="description"/>
@@ -25,10 +25,10 @@
 
 ![Apache Kafka](https://img.shields.io/badge/Apache_Kafka-white?style=for-the-badge&logo=apachekafka&logoColor=black)
 
-![Java](https://img.shields.io/badge/Java-white?style=for-the-badge)
+![Java](https://img.shields.io/badge/Java-orangered?style=for-the-badge)
 ![Spring](https://img.shields.io/badge/Spring-white?style=for-the-badge&logo=spring&logoColor=green)
 ![Gradle](https://img.shields.io/badge/Gradle-midnightblue?style=for-the-badge&logo=gradle&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-white?style=for-the-badge)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge)
 ![OAuth 2.0](https://img.shields.io/badge/OAuth_2.0-white?style=for-the-badge)
 
 ![Vue.js](https://img.shields.io/badge/Vue.js-grey?style=for-the-badge&logo=vuedotjs&logoColor=teal)
@@ -40,9 +40,9 @@
 
 ![Elasticsearch](https://img.shields.io/badge/Elasticsearch-white?style=for-the-badge&logo=elasticsearch&logoColor=yellow)
 ![Docker](https://img.shields.io/badge/Docker-darkblue?style=for-the-badge&logo=docker&logoColor=white)
-![NGINX](https://img.shields.io/badge/NGINX-white?style=for-the-badge&logo=nginx&logoColor=green)
-![Logstash](https://img.shields.io/badge/Logstash-white?style=for-the-badge&logo=logstash&logoColor=yellow)
-![Kibana](https://img.shields.io/badge/Kibana-white?style=for-the-badge&logo=kibana&logoColor=hotpink)
+![NGINX](https://img.shields.io/badge/NGINX-whites?style=for-the-badge&logo=nginx&logoColor=green)
+![Logstash](https://img.shields.io/badge/Logstash-lemonchiffon?style=for-the-badge&logo=logstash&logoColor=yellow)
+![Kibana](https://img.shields.io/badge/Kibana-teal?style=for-the-badge&logo=kibana&logoColor=hotpink)
 
 <a name="docs"/>
 
