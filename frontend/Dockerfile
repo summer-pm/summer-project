@@ -15,6 +15,7 @@ COPY install-serts.sh /
 RUN apk add --update python3 py3-pip
 RUN apk add --no-cache --upgrade bash
 RUN apk add certbot
+RUN apk add sudo
 RUN pip install certbot-nginx
 EXPOSE 80
-CMD ["su","./install-serts.sh"]
+CMD ["sudo","./install-serts.sh"]
