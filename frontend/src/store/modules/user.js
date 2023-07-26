@@ -62,6 +62,7 @@ export const userModule = {
         },
         loginSuccess(state, token) {
             state.errors.login = false;
+            state.loginMessage = ''
             state.token = token;
             setItem('token', token)
             state.loading = false;

@@ -54,8 +54,6 @@ services:
       - EUREKA_URL=EUREKA_URL=eureka-service:8081/eureka
     restart:
       always
-    ports:
-      - 8081:8081
     volumes:
       - gradle-cache:/home/gradle/.gradle
     networks:
@@ -71,8 +69,6 @@ services:
         condition: service_healthy
     restart:
       always
-    ports:
-      - 60000:60000
     links:
       - eureka-service
     volumes:
@@ -132,8 +128,6 @@ services:
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
-    ports:
-      - "5432:5432"
     networks:
         - app
   mongo_database:
@@ -142,8 +136,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-    ports:
-      - 27017:27017
     volumes:
       - mongodb_data:/data/db
     restart:
@@ -159,9 +151,6 @@ services:
     environment:
         ES_JAVA_OPTS: "-Xmx256m -Xms256m"
         discovery.type: single-node
-    ports:
-        - '9200:9200'
-        - '9300:9300'
     networks:
         - app
   kibana:
@@ -188,15 +177,11 @@ services:
       - ./config:/etc/logstash/conf.d
     depends_on:
       - elasticsearch
-    ports:
-      - 5000:5000
     networks:
       - app
   zookeeper:
       image: confluentinc/cp-zookeeper:latest
       hostname: zookeeper
-      ports:
-        - "2181:2181"
       environment:
         ZOOKEEPER_CLIENT_PORT: 2181
         ZOOKEEPER_TICK_TIME: 2000
@@ -212,9 +197,6 @@ services:
   kafka:
       image: confluentinc/cp-kafka:latest
       hostname: kafka
-      ports:
-        - "9092:9092"
-
       depends_on:
         zookeeper:
           condition: service_healthy
