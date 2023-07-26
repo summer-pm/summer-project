@@ -13,5 +13,5 @@ eureka:
 # for @Value
 link:
   database:
-    save: http://crud-microservice/users
-    getCred: http://crud-microservice/users/user
+    save: http://crud-microservice/api/v1/users
+    getCred: http://crud-microservice/api/v1/users/user

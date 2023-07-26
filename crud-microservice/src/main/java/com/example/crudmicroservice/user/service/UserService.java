@@ -1,5 +1,6 @@
 package com.example.crudmicroservice.user.service;
 
+import com.example.crudmicroservice.chat.exception.ChatRoomNotFoundException;
 import com.example.crudmicroservice.task.model.SolutionsAttempts;
 import com.example.crudmicroservice.task.service.SolutionsAttemptsService;
 import com.example.crudmicroservice.user.dto.RegisterRequest;
@@ -21,6 +22,12 @@ public class UserService {
     private final UserPostsService userPostsService;
 
     private final SolutionsAttemptsService solutionsAttemptsService;
+
+    public User getUserByEmail(String email) throws UserNotFoundException  {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new UserNotFoundException("User with email " + email + " not found"));
+    }
 
     public UserService(UserRepository userRepository, UserPostsService userPostsService, SolutionsAttemptsService solutionsAttemptsService) {
         this.userRepository = userRepository;

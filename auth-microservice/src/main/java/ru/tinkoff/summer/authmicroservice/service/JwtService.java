@@ -1,5 +1,6 @@
 package ru.tinkoff.summer.authmicroservice.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -38,6 +39,20 @@ Date expirationDate = Date.from(expirationDateTime.atZone(ZoneId.systemDefault()
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expirationDate)
                 .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+    }
+
+    public static String parseToken(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(SECRET)
+                    .parseClaimsJws(token)
+                    .getBody();
+
+            return claims.getSubject();
+        } catch (Exception e) {
+            // Обработка ошибки при парсинге токена
+            return null;
+        }
     }
 
     public Key getSignKey() {

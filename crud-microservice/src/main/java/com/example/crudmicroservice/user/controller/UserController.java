@@ -16,7 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/v1/users")
 @Slf4j
 public class UserController {
 
@@ -76,5 +76,21 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getUserByToken(@RequestHeader("loggedInUser") String email) {
+        try {
+            User user = userService.getUserByEmail(email);
+            return ResponseEntity.ok(user);
+        }
+        catch (UserNotFoundException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+        catch (Exception ex) {
+            log.error(ex.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
     }
 }
