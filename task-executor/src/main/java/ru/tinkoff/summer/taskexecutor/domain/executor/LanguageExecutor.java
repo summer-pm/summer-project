@@ -1,7 +1,7 @@
 package ru.tinkoff.summer.taskexecutor.domain.executor;
 
 
-import ru.tinkoff.summer.taskshareddomain.AttemptDTO;
+import ru.tinkoff.summer.taskshareddomain.AttemptForExecuteDTO;
 import ru.tinkoff.summer.taskshareddomain.ExecutionResult;
 import ru.tinkoff.summer.taskshareddomain.Language;
 
@@ -12,5 +12,5 @@ public interface LanguageExecutor {
 
     Language getLanguage();
 
-    List<ExecutionResult> execute(AttemptDTO attempt);
+    List<ExecutionResult> execute(AttemptForExecuteDTO attempt);
 }

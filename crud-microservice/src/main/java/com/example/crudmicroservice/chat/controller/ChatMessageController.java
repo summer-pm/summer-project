@@ -15,8 +15,9 @@ import java.util.List;
 
 
 @Slf4j
+@CrossOrigin
 @RestController
-@RequestMapping("/messages")
+@RequestMapping("api/v1/messages")
 public class ChatMessageController {
 
     private final ChatMessageService chatMessageService;
@@ -28,7 +29,7 @@ public class ChatMessageController {
 
     @PostMapping()
     public ResponseEntity<ChatMessage> createMessage(@RequestBody ChatMessageCreateDTO message) {
-        log.info("Save new message: {}", message);
+        log.info("Save message: {}", message);
         try {
             ChatMessage chatMessage = chatMessageService.save(message);
             return ResponseEntity.ok(chatMessage);

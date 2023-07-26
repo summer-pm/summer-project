@@ -1,6 +1,10 @@
 package ru.tinkoff.summer.taskshareddomain;
 
-import lombok.Getter;
+
+
+
+
+
 
 public enum Language {
     JAVA("java"),
@@ -19,6 +23,9 @@ public enum Language {
                 return switch (type) {
                     case INTEGER -> "int";
                     case INTEGER_ARR -> "int[]";
+                    case STRING -> "String";
+                    case STRING_ARR -> "String[]";
+                    case BOOLEAN -> "boolean";
                     default -> throw new IllegalArgumentException("Unsupported ParamType: " + type);
                 };
             }
@@ -26,6 +33,9 @@ public enum Language {
                 return switch (type) {
                     case INTEGER -> "int";
                     case INTEGER_ARR -> "List[int]";
+                    case STRING -> "str";
+                    case STRING_ARR -> "List[str]";
+                    case BOOLEAN -> "bool";
                     default -> throw new IllegalArgumentException("Unsupported ParamType: " + type);
                 };
             }

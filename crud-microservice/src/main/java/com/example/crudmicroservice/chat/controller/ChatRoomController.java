@@ -2,21 +2,30 @@ package com.example.crudmicroservice.chat.controller;
 
 
 import com.example.crudmicroservice.chat.dto.ChatRoomCreateDTO;
+import com.example.crudmicroservice.chat.dto.ChatRoomTransferDTO;
 import com.example.crudmicroservice.chat.exception.ChatRoomCreateException;
 import com.example.crudmicroservice.chat.exception.ChatRoomNotFoundException;
 import com.example.crudmicroservice.chat.model.ChatRoom;
+import com.example.crudmicroservice.chat.model.ChatUser;
+import com.example.crudmicroservice.chat.repository.ChatUserRepository;
+import com.example.crudmicroservice.chat.repository.mongotemplate.ChatUserDALImpl;
 import com.example.crudmicroservice.chat.service.ChatRoomService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Slf4j
+@CrossOrigin
 @RestController
 @RequestMapping("api/v1/rooms")
 public class ChatRoomController {
+
+    @Autowired
+    private ChatUserDALImpl chatUserDALImpl;
 
     private final ChatRoomService chatRoomService;
 
@@ -27,15 +36,17 @@ public class ChatRoomController {
 
     @PostMapping()
     public ResponseEntity<ChatRoom> createNewRoom(@RequestBody ChatRoomCreateDTO chatRoomCreateDTO) {
-        log.info("Creating new Chat Room...");
         try {
             ChatRoom chatRoom = chatRoomService.save(chatRoomCreateDTO);
+            log.info("Created new room: {}", chatRoom.toString());
             return ResponseEntity.ok(chatRoom);
         }
         catch (ChatRoomCreateException e) {
+            log.error("Error saving chat room: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         }
         catch (Exception ex) {
+            log.error("Error saving chat room: {}", ex.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
@@ -70,6 +81,32 @@ public class ChatRoomController {
         }
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<List<ChatRoomTransferDTO>> getChatRoomsByUserId(@RequestParam("userId") String userId) {
+        log.info("Requesting list of chats by userID: {}", userId);
+        try {
+            List<ChatRoomTransferDTO> chatRooms = chatRoomService.getChatRoomsByUserId(userId);
+            return ResponseEntity.ok(chatRooms);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+
+    }
+
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteChatRoom(@RequestParam("roomId") String roomId) {
+        try {
+            chatRoomService.deleteRoom(roomId);
+            log.info("Room with roomId: {}, deleted.", roomId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
 
 
@@ -84,21 +121,4 @@ public class ChatRoomController {
 
 
 
-
-
-
-
-    // TODO метод отправки сообщения в топик (версия с минимальной веб мордой). Пока не удалять - удалю сам.
-//    @Autowired
-//    private SimpMessagingTemplate simpMessagingTemplate;
-//
-//    @MessageMapping("/chat/{to}")
-//    public void sendMessage(@DestinationVariable String  to, ChatMessage message) {
-//        log.info("Handling send message: " + message + "to: " + to);
-//        boolean isExist = UserStorage.getInstance().getUsers().contains(to);
-//
-//        if (isExist) {
-//            simpMessagingTemplate.convertAndSend("/topic/messages/" + to, message);
-//        }
-//    }
 }

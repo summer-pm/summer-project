@@ -1,5 +1,168 @@
 version: '3.8'
 services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ../frontend
+    ports:
+      - 81:80
+    links:
+      - api-gateway
+    depends_on:
+      - api-gateway
+    volumes:
+      - node:/app/node_modules
+    restart:
+      always
+    networks:
+      - app
+  auth-microservice:
+    build:
+      context: ../
+      dockerfile: auth-microservice/Dockerfile
+    container_name: auth-microservice
+    environment:
+      - EUREKA_URL=${EUREKA_URL}
+    restart:
+      always
+    links:
+      - eureka-service
+    depends_on:
+      - eureka-service
+      - crud-microservice
+      - api-gateway
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
+    networks:
+      - app
+
+  api-gateway:
+    build:
+      context: ../
+      dockerfile: api-gateway/Dockerfile
+    container_name: api-gateway
+    environment:
+      - EUREKA_URL=${EUREKA_URL}
+    restart:
+      always
+    ports:
+      - 8082:8082
+    links:
+      - eureka-service
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
+    networks:
+      - app
+  eureka-service:
+    build:
+      context: ../
+      dockerfile: eureka-server/Dockerfile
+    container_name: eureka-service
+    environment:
+      - EUREKA_URL=${EUREKA_URL}
+    restart:
+      always
+    ports:
+      - 8081:8081
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
+    networks:
+      - app
+  task-microservice:
+    build:
+      context: ../
+      dockerfile: task-microservice/Dockerfile
+    container_name: task-microservice
+    environment:
+      - BOOTSTRAP_SERVERS=${BOOTSTRAP_SERVERS}
+      - EUREKA_URL=${EUREKA_URL}
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart:
+      always
+    ports:
+      - 60000:60000
+    links:
+      - eureka-service
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
+    networks:
+      - app
+  task-executor:
+    build:
+      context: ../
+      dockerfile: task-executor/Dockerfile
+    container_name: task-executor
+    environment:
+      - BOOTSTRAP_SERVERS=${BOOTSTRAP_SERVERS}
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart:
+      always
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
+    networks:
+      - app
+  crud-microservice:
+    build:
+      context: ../
+      dockerfile: crud-microservice/Dockerfile
+    container_name: crud-microservice
+    environment:
+      - EUREKA_URL=${EUREKA_URL}
+      - POSTGRES_URL=${POSTGRES_URL}
+      - POSTGRES_USERNAME=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - MONGO_HOST=${MONGO_HOST}
+      - MONGO_PORT=${MONGO_PORT}
+      - MONGO_USERNAME=${MONGO_USERNAME}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
+      - MONGO_DATABASE=${MONGO_DATABASE}
+      - MONGO_AUTH_DB=${MONGO_AUTH_DB}
+    depends_on:
+      - mongo_database
+      - pg_database
+    links:
+      - mongo_database
+      - pg_database
+      - eureka-service
+    restart:
+      always
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
+    networks:
+      - app
+  pg_database:
+    image: postgres
+    container_name: pg_database
+    restart:
+      always
+    environment:
+      POSTGRES_USER : ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+        - app
+  mongo_database:
+    image: mongo:latest
+    container_name: mongo_database
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+    restart:
+      always
+    networks:
+      - app
   elasticsearch:
     image: elasticsearch:7.7.0
     container_name: elasticsearch
@@ -13,7 +176,7 @@ services:
         - '9200:9200'
         - '9300:9300'
     networks:
-        - elk
+        - app
   kibana:
     image: kibana:7.7.0
     container_name: kibana
@@ -23,11 +186,15 @@ services:
       - 5601:5601
     depends_on:
       - elasticsearch
+    restart:
+      always
     networks:
-        - elk
+        - app
   logstash:
     image: logstash:7.7.0
     container_name: logstash
+    restart:
+      always
     command:
       logstash -f /etc/logstash/conf.d/logstash.conf
     volumes:
@@ -37,7 +204,7 @@ services:
     ports:
       - 5000:5000
     networks:
-      - elk
+      - app
   zookeeper:
       image: confluentinc/cp-zookeeper:latest
       hostname: zookeeper
@@ -46,22 +213,47 @@ services:
       environment:
         ZOOKEEPER_CLIENT_PORT: 2181
         ZOOKEEPER_TICK_TIME: 2000
+      restart:
+        always
+      healthcheck:
+        test: [ "CMD", "nc", "-z", "localhost", "2181" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+      networks:
+        - app
   kafka:
       image: confluentinc/cp-kafka:latest
       hostname: kafka
       ports:
         - "9092:9092"
+
       depends_on:
-        - zookeeper
+        zookeeper:
+          condition: service_healthy
       environment:
         KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
         KAFKA_LISTENERS: PLAINTEXT://:9092
-        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${KAFKA_LISTENERS}
         KAFKA_KRAFT_BROKER_ID: 1
         KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
         KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      healthcheck:
+        test: [ "CMD", "nc", "-z", "localhost", "9092" ]
+        interval: 10s
+        timeout: 10s
+        retries: 50
+      restart:
+        always
+      networks:
+        - app
 volumes:
   elastic1: {}
-
+  postgres:
+  mongodb_data:
+  node:
+  gradle-cache:
 networks:
-  elk:
+  app:
+    driver: bridge
+

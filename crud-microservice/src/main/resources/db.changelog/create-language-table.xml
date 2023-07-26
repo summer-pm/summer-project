@@ -1,0 +1,22 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet id="create-languages-table" author="kharitonov">
+        <createTable tableName="languages">
+            <column name="language_id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="language" type="nvarchar">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="solutions_attempts"
+                                 baseColumnNames="language_id"
+                                 constraintName="fk_solutions_attempts_language"
+                                 referencedTableName="languages"
+                                 referencedColumnNames="language_id"/>
+    </changeSet>
+</databaseChangeLog>

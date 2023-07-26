@@ -1,8 +1,11 @@
 package com.example.crudmicroservice.chat.repository;
 
 
+import com.example.crudmicroservice.chat.dto.ChatRoomCreateDTO;
 import com.example.crudmicroservice.chat.model.ChatRoom;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,4 +16,7 @@ public interface ChatRoomRepository extends MongoRepository<ChatRoom, String> {
     Optional<ChatRoom> findChatRoomById(String roomId);
     List<ChatRoom> findAll();
     ChatRoom save(ChatRoom chatRoom);
+    Optional<ChatRoom> findChatRoomByUsersContains(List<String> users);
+//    Optional<ChatRoom> getChatRoomByUsersContaining
+
 }
