@@ -5,7 +5,7 @@ services:
     build:
       context: ../frontend
     ports:
-      - 80:80
+      - 81:80
     links:
       - api-gateway
     depends_on:

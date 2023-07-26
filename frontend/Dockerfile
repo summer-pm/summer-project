@@ -11,10 +11,5 @@ RUN npm run build
 FROM nginx:stable-alpine as production-stage
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build-stage /app/dist /usr/share/nginx/html
-COPY install-serts.sh /
-RUN apk add --update python3 py3-pip
-RUN apk add --no-cache --upgrade bash
-RUN apk add certbot
-RUN pip install certbot-nginx
-EXPOSE 80
-CMD ["./install-serts.sh"]
+EXPOSE 81
+CMD ["nginx", "-g", "daemon off;"]
