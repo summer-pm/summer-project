@@ -1,7 +1,10 @@
-export const HOST_NAME = 'http://localhost:8086';
+export const API_BASE_URL = process.env.VUE_APP_API_BASE_URL;
+ export const HOST_NAME = process.env.VUE_APP_HOST_NAME;
+export const MESSAGES_ENDPOINT = '/messages';
 export const ROOMS_ENDPOINT = '/rooms';
+export const USERS_ENDPOINT = '/user';
 export const WS_PATH = '/chat-websocket';
-export const GATEWAY_PATH = 'http://localhost:8082'
+export const GATEWAY_PATH = process.env.VUE_APP_GATEWAY_PATH;
 export const API_VERSION = '/api/v1';
 export const USERS_CRUD = '/users';
-export const CHAT_USERS_CRUD = '/chat/users';
+export const MAIN_FRONT_URL =  process.env.VUE_APP_MAIN_FRONT_URL;
