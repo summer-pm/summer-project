@@ -90,6 +90,21 @@ services:
       - gradle-cache:/home/gradle/.gradle
     networks:
       - app
+   task-executor-2:
+    image: ghcr.io/summer-pm/task-executor:latest
+
+    container_name: task-executor-2
+    environment:
+      - BOOTSTRAP_SERVERS=kafka:9092
+    depends_on:
+      kafka:
+        condition: service_healthy
+    restart:
+      always
+    volumes:
+      - gradle-cache:/home/gradle/.gradle
+    networks:
+      - app
   crud-microservice:
     image: ghcr.io/summer-pm/crud-microservice:latest
     container_name: crud-microservice
