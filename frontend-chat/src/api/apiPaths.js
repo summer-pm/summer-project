@@ -1,3 +1,4 @@
+export let CHAT_USERS_CRUD = '/chat/users';
 export const API_BASE_URL = process.env.VUE_APP_API_BASE_URL;
  export const HOST_NAME = process.env.VUE_APP_HOST_NAME;
 export const MESSAGES_ENDPOINT = '/messages';

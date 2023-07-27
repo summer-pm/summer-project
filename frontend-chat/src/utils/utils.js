@@ -31,9 +31,10 @@ export const initializeApp = () => {
 };
 
 export function getHeadersConfig() {
+    const token = store.state.token.replace(/"/g, '');
     return {
         headers: {
-            'Authorization': `Bearer ${store.state.token}`
+            'Authorization': `Bearer ${token}`
         }
     }
 }
