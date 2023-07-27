@@ -90,7 +90,7 @@ services:
       - gradle-cache:/home/gradle/.gradle
     networks:
       - app
-   task-executor-2:
+  task-executor-2:
     image: ghcr.io/summer-pm/task-executor:latest
 
     container_name: task-executor-2
