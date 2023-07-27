@@ -5,7 +5,7 @@
       <h5>Находите задачи и придумывайте решения</h5>
       <div id="search">
         <input v-model="query" :placeholder="'Введите название задачи'">
-        <button  @click="search">Поиск</button>
+        <button @click="search">Поиск</button>
       </div>
     </div>
 
@@ -14,11 +14,22 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
-import {useRouter} from "vue-router";
+import {onMounted, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {useStore} from "vuex";
 
 const query = ref();
 const router = useRouter();
+const route = useRoute();
+const store = useStore();
+onMounted(() => {
+  if (route.query.login) {
+    if (!store.getters['user/isAuth']) {
+      store.dispatch('user/showLogin', '')
+
+    }
+  }
+})
 const search = () => {
   router.push({name: 'tasks', query: {title: query.value}})
 }
