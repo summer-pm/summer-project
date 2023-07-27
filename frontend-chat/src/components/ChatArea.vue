@@ -53,8 +53,7 @@ export default {
     flex-direction: column;
     height: 92vh;
     background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border-left: 1px solid #ccc;
     overflow: hidden;
     width: 70vw;
     margin-left: auto;

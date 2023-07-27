@@ -7,8 +7,8 @@
           <i class="fas fa-bell"></i>
           <i class="fas fa-bell-slash"></i>
         </button>
-        <div class="add-chat">
-          <button class="add-chat-btn" @click="addNewChat">Add</button>
+        <div class="add-chat" @click="addNewChat">
+<!--          <button class="add-chat-btn" @click="addNewChat">Add</button>-->
         </div>
       </div>
     </div>
@@ -47,6 +47,50 @@ export default {
 </script>
 
 <style>
+.add-chat {
+  position: absolute;
+  width: 35px;
+  height: 35px;
+  background: #fff;
+  cursor: pointer;
+
+  /* Mittig */
+  /*top: 50%;*/
+  /*left: 50%;*/
+}
+
+.add-chat:after {
+  content: '';
+  position: absolute;
+  transform: translate(-50%, -50%);
+  height: 4px;
+  width: 50%;
+  background: #fcdd2d;
+  top: 50%;
+  left: 50%;
+}
+
+.add-chat:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: transparent;
+  height: 50%;
+  width: 4px;
+}
+
+.add-chat:hover:before,
+.add-chat:hover:after {
+  background: #fcdd2d;
+  transition: 0.2s;
+}
+
+.add-chat:hover {
+  background-color: #095776;
+  transition: 0.2s;
+}
 /* Общие стили для компонента chat-search-bar */
 .chat-search-bar {
   padding: 16px;

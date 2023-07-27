@@ -1,7 +1,7 @@
 <template>
     <div class="chat-header">
       <div class="logo">
-        <router-link to="/about" class="nav-item">BeerForces</router-link>
+        <router-link to="/about" class="nav-item">BeerChat</router-link>
       </div>
       <div class="header-right">
         <div class="navigation">
