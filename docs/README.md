@@ -76,7 +76,7 @@ OpenAPI спецификация и SwaggerHub
 
 ER диаграмма в нотации Мартина и диаграмма базы данных
 
-[Архитектура](https://github.com/summer-pm/summer-project/blob/feature/docs/docs/arhitecture.svg) 
+[Архитектура](https://github.com/summer-pm/summer-project/blob/feature/docs/docs/arhitecture%20(1).svg) 
 
 <a name="deploy"/>
 
