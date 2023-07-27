@@ -26,6 +26,7 @@ axiosApi.interceptors.response.use(function (response) {
   }, function (error) {
     if(error.response.status === 401){
         if(store.getters['user/isAuth']){
+            store.dispatch('user/logout')
             store.dispatch('user/showLogin', {message: 'Ваша сессия устарела. Войдите'})
         }
     }

@@ -2,11 +2,11 @@
   <header :class="{transparent : isMainPage}">
     <div id="logo" @click="$router.push({name: 'main'})">
       <app-bear-logo :is-main-page="isMainPage"/>
-      <h1 :class="{'white' : isMainPage}"><span :class="{'white' : isMainPage}" >Beer</span>code</h1>
+      <h1 :class="{'white' : isMainPage}"><span :class="{'white' : isMainPage}">Beer</span>code</h1>
     </div>
     <nav id="menu">
       <ul :class="{'white' : isMainPage}">
-<!--        <li @click="toFeed"><a>Лента</a></li>-->
+        <li><a href="/chat">Чат</a></li>
         <li @click="$router.push({name: 'tasks'})"><a>Задачи</a></li>
         <li v-if="!isLoggedIn" id="auth" @click="showLogin"><a>Авторизация</a></li>
         <li v-else @click="logout"><a>Выйти</a></li>
@@ -14,13 +14,13 @@
     </nav>
 
     <div id="burger-button" class="opened" @click="isMenuOpened = !isMenuOpened">
-     {{isMenuOpened ?  '✕' : '☰'}}
+      {{ isMenuOpened ? '✕' : '☰' }}
     </div>
 
   </header>
   <menu id="burger" :class="{active : isMenuOpened}">
     <ul>
-<!--      <li @click="toFeed"><a>Лента</a></li>-->
+      <li><a href="/chat">Чат</a></li>
       <li @click="isMenuOpened = false;$router.push({name: 'tasks'})"><a>Задачи</a></li>
       <li v-if="!isLoggedIn" @click="showLogin"><a>Авторизация</a></li>
       <li v-else @click="logout"><a>Выйти</a></li>
@@ -65,7 +65,6 @@ const toFeed = () => {
 <style lang="scss" scoped>
 
 
-
 header {
   background-color: var(--color-background);
   position: sticky;
@@ -91,13 +90,28 @@ ul {
   padding-left: 0;
 }
 
+a {
+  text-decoration: none;
+
+  &:active {
+    color: var(--color-text)
+  }
+}
+
 #menu {
   & ul {
     display: flex;
     align-items: center;
-    &.white{
+
+    &.white {
       color: white;
+
+      & a {
+        color: white;
+
+      }
     }
+
     & li {
 
       margin-left: 30px;
@@ -128,6 +142,7 @@ ul {
 
   & h1 {
     margin-left: 20px;
+
     &.white {
       color: white;
     }
@@ -136,8 +151,9 @@ ul {
   & span {
     font-weight: 700;
     color: var(--color-bear);
+
     &.white {
-      color:  var(--vt-c-bear-light);;
+      color: var(--vt-c-bear-light);;
     }
   }
 }
