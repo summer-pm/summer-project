@@ -5,8 +5,7 @@
       </div>
       <div class="header-right">
         <div class="navigation">
-            <router-link to="/feed" class="nav-item">Лента</router-link>
-            <router-link to="/tasks" class="nav-item">Задачи</router-link>
+            <router-link to="/task" class="nav-item">Задачи</router-link>
             <router-link to="/messages" class="nav-item">Сообщения</router-link>
         </div>
         <div class="profile">

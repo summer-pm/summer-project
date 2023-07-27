@@ -1,5 +1,6 @@
 import store from '@/store/index';
 import router from '@/router/router';
+import {MAIN_FRONT_URL} from "@/api/apiPaths";
 
 export function getCurrentTime() {
     const now = new Date();
@@ -25,7 +26,7 @@ export const initializeApp = () => {
         store.commit('SET_TOKEN', tokenFromLocalStorage);
     } else {
         // Перенаправление на другой маршрут
-        router.push({ name: 'About' }); // Замените 'login' на путь, куда нужно перенаправить
+        window.location.href = MAIN_FRONT_URL + '?login=true' // Замените 'login' на путь, куда нужно перенаправить
     }
 };
 
