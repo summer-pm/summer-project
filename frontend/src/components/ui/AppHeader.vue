@@ -6,21 +6,21 @@
     </div>
     <nav id="menu">
       <ul :class="{'white' : isMainPage}">
-        <li><a href="/chat">Чат</a></li>
+<!--        <li><a href="/chat">Чат</a></li>-->
         <li @click="$router.push({name: 'tasks'})"><a>Задачи</a></li>
         <li v-if="!isLoggedIn" id="auth" @click="showLogin"><a>Авторизация</a></li>
         <li v-else @click="logout"><a>Выйти</a></li>
       </ul>
     </nav>
 
-    <div id="burger-button" class="opened" @click="isMenuOpened = !isMenuOpened">
+    <div id="burger-button" :class="{'white' : isMainPage, 'active' : isMenuOpened}" class="opened" @click="isMenuOpened = !isMenuOpened">
       {{ isMenuOpened ? '✕' : '☰' }}
     </div>
 
   </header>
   <menu id="burger" :class="{active : isMenuOpened}">
     <ul>
-      <li><a href="/chat">Чат</a></li>
+<!--      <li><a href="/chat">Чат</a></li>-->
       <li @click="isMenuOpened = false;$router.push({name: 'tasks'})"><a>Задачи</a></li>
       <li v-if="!isLoggedIn" @click="showLogin"><a>Авторизация</a></li>
       <li v-else @click="logout"><a>Выйти</a></li>
@@ -160,6 +160,13 @@ a {
 
 #burger-button {
   display: none;
+  &.white{
+    color: white;
+&.active{
+      color: var(--color-text);
+    }
+  }
+
 }
 
 @media (max-width: 800px) {
