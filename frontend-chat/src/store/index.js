@@ -3,6 +3,7 @@ import { createStore } from 'vuex';
 import SockJs from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import * as API from '@/api/apiPaths';
+import { getHeadersConfig} from "@/utils/utils";
 
 // Функции для получения данных из LocalStorage
 const getSavedDataFromLocalStorage = (key) => {
@@ -39,6 +40,7 @@ const stompSubscriptionPlugin = (store) => {
             }
             state.chatMessages[roomId].push(json.body);
             console.log(`Received message from ${json.body.chatRoomId}: ${json.body.content}`);
+            console.log('Object: ', json.body);
           });
           console.log(subscription);
           state.currentSubscriptions.set(chat.roomId, subscription);
@@ -57,7 +59,7 @@ const state = {
     isAuth: false,
     authUser: null,
     userPgId: -1,
-    token: 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJhdEB5YW5kZXgucnUiLCJpYXQiOjE2OTAzNzczMzEsImV4cCI6MTY5MjEwNTMzMX0.xcm5bXbs71180Bubkax5PSyU0nje2SgZwVVerKUBVPw',
+    token: null,
     chats: [],
     chatMessages: {},
     currentSubscriptions: new Map(),
@@ -67,11 +69,6 @@ const state = {
     stompClient: {},
     socket: {},
     stompConnected: false,
-    headerConfig: {
-        headers: {
-            "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJhdEB5YW5kZXgucnUiLCJpYXQiOjE2OTAzNzczMzEsImV4cCI6MTY5MjEwNTMzMX0.xcm5bXbs71180Bubkax5PSyU0nje2SgZwVVerKUBVPw`
-        }
-    }
 };
 
 const getters = {};
@@ -127,15 +124,15 @@ const mutations = {
   },
     async START_INIT_CHAT(state) {
         try {
-            const profileResponse = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.USERS_CRUD + '/profile', state.headerConfig);
+            const profileResponse = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.USERS_CRUD + '/profile', getHeadersConfig());
             console.log('Profile: ', profileResponse.data);
             this.commit('SET_USER_TO_STORE', profileResponse.data);
 
-            const isExistsResponse = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.CHAT_USERS_CRUD + `/${state.userPgId}`, state.headerConfig);
+            const isExistsResponse = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.CHAT_USERS_CRUD + `/${state.userPgId}`, getHeadersConfig());
             console.log('Existing: ', isExistsResponse.data);
             this.commit('SET_MONGO_ID_TO_STORE', isExistsResponse.data);
 
-            const chatsResponse = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.ROOMS_ENDPOINT + `/list?userId=${isExistsResponse.data.id}`, state.headerConfig);
+            const chatsResponse = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.ROOMS_ENDPOINT + `/list?userId=${isExistsResponse.data.id}`, getHeadersConfig());
             console.log('Chats: ', chatsResponse.data);
             this.commit('SET_CHATS_TO_STORE', chatsResponse.data);
         } catch (error) {
@@ -156,14 +153,15 @@ const mutations = {
         else {
             try {
                 console.log(userEmail);
-                const interlocutor = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.USERS_CRUD + `/info?userEmail=${userEmail}`, state.headerConfig);
+                console.log(getHeadersConfig);
+                const interlocutor = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.USERS_CRUD + `/info?userEmail=${userEmail}`, getHeadersConfig());
                 console.log('Requesting chat with: ', interlocutor.data);
-                const interlocutorProfile = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.USERS_CRUD + `/${interlocutor.data.userPgId}`, state.headerConfig);
+                const interlocutorProfile = await axios.get(API.GATEWAY_PATH + API.API_VERSION + API.USERS_CRUD + `/${interlocutor.data.userPgId}`, getHeadersConfig());
                 console.log('Requesting chat with(PG): ', interlocutorProfile.data)
                 const body = {
                     users: [state.currentUserId, interlocutor.data.id]
                 }
-                const newRoom = await axios.post(API.GATEWAY_PATH + API.API_VERSION + API.ROOMS_ENDPOINT, body, state.headerConfig);
+                const newRoom = await axios.post(API.GATEWAY_PATH + API.API_VERSION + API.ROOMS_ENDPOINT, body, getHeadersConfig());
                 console.log('Room created: ', newRoom.data);
                 const room = {
                     roomId: newRoom.data.id,
@@ -202,17 +200,6 @@ const actions = {
   },
   UPDATE_ACTIVE_CHAT({ commit }, chat) {
     commit('SET_ACTIVE_CHAT', chat);
-  },
-  async SAVE_MESSAGE_TO_DB({commit}, message) {
-    try {
-      const response = await axios.post(API.API_BASE_URL + API.MESSAGES_ENDPOINT, message);
-      console.log('POST response >> ', response.data);
-      return response.data; // Возвращаем данные ответа
-    } 
-    catch (error) {
-      console.error('POST request error >> ', error);
-      throw error; // Прокидываем ошибку дальше для обработки в компонентах, если необходимо
-    }
   },
   CONNECT_TO_WEBSOCKET({ commit }) {
     commit('CONNECT_STOMP_SOCK');

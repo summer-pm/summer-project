@@ -1,5 +1,5 @@
 <template>
-    <div class="message">
+    <div class="message" :class="!isMyMessage ? 'my' : 'interlocutor'">
       <div class="text-area">
         <span>{{ message.content }}</span>
       </div>
@@ -13,12 +13,17 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   import {extractTime} from '@/utils/utils';
   export default {
     data() {
-      return {};
+      return {
+        isMyMessage: {
+          type: Boolean,
+          default: true
+        }
+      };
     },
     methods: {
       editTimestamp(timestamp) {
@@ -34,7 +39,7 @@
   };
   </script>
   
-  <style scoped>
+  <style >
  .message {
   background-color: #fff;
   color: #000;
@@ -44,8 +49,14 @@
   display: flex;
   align-items: center; /* Изменение display на inline-block */
   position: relative;
-  max-width: 80%; /* Максимальная ширина блока, чтобы не занимал всю ширину экрана */
+  max-width: 70%; /* Максимальная ширина блока, чтобы не занимал всю ширину экрана */
 }
+ .message.my {
+   background-color: teal;
+ }
+ .message.interlocutor {
+   background-color: coral;
+ }
 
 .info-area {
   margin-left: auto;

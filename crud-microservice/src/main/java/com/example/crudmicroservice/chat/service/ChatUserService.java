@@ -12,6 +12,7 @@ import com.example.crudmicroservice.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,7 +33,16 @@ public class ChatUserService {
 
     public ChatUser getChatUserByPgId(String id) {
         // TODO: дописать проверки
-        return chatUserRepository.findChatUserByUserPgId(id);
+        ChatUser chatUser = chatUserRepository.findChatUserByUserPgId(id);
+        if (chatUser == null) {
+            ChatUserCreateDTO newUser = new ChatUserCreateDTO();
+            newUser.setUserPgId(id);
+            newUser.setRooms(new ArrayList<>());
+            return saveChatUser(newUser);
+        }
+        else {
+            return chatUser;
+        }
     }
 
 

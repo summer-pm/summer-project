@@ -13,6 +13,7 @@ import ChatNavbar from '@/components/ChatNavbar.vue';
 import ChatSlidebar from '@/components/ChatSlidebar.vue';
 import ChatArea from '@/components/ChatArea.vue';
 import {mapActions, mapState} from 'vuex';
+import {initializeApp} from "@/utils/utils";
 
 export default  {
   components: {
@@ -32,9 +33,12 @@ export default  {
     ]),
 
     goBack(event) {
-      this.$router.push('chat');
+      this.$router.push({ name: 'MainChatView'});
       this.ESCAPE_FROM_CHAT();
     }
+  },
+  beforeCreate() {
+    initializeApp();
   },
   mounted() {
     this.INIT_CHAT();

@@ -35,7 +35,7 @@ import {mapActions, mapState} from 'vuex';
 
     updateActiveChat(chat) {
       this.$router.push({
-        path: 'chat',
+        path: '/',
         query: {'roomId': chat.roomId},
       })
     },

@@ -78,6 +78,7 @@ public class ChatRoomService {
 
     public List<ChatRoomTransferDTO> getChatRoomsByUserId(String userId) {
         ChatUser user = chatUserRepository.findChatUserById(userId);
+        if (user.getRooms() == null) user.setRooms(new ArrayList<>());
         List<ChatRoomTransferDTO> transferDTOs = new ArrayList<>();
 
         user.getRooms().forEach(roomId -> {

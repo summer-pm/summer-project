@@ -1,8 +1,5 @@
-export const API_BASE_URL = 'http://localhost:8086/api/v1';
 export const HOST_NAME = 'http://localhost:8086';
-export const MESSAGES_ENDPOINT = '/messages';
 export const ROOMS_ENDPOINT = '/rooms';
-export const USERS_ENDPOINT = '/user';
 export const WS_PATH = '/chat-websocket';
 export const GATEWAY_PATH = 'http://localhost:8082'
 export const API_VERSION = '/api/v1';

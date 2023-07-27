@@ -1,3 +1,6 @@
+import store from '@/store/index';
+import router from '@/router/router';
+
 export function getCurrentTime() {
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, '0'); // Добавляем ведущий ноль, если часы меньше 10
@@ -15,4 +18,21 @@ export function extractTime(timeString) {
 export function getRandomIndex() {
     const totalAvatars = 11;
     return Math.floor(Math.random() * totalAvatars) + 1;
+}
+export const initializeApp = () => {
+    const tokenFromLocalStorage = localStorage.getItem('token');
+    if (tokenFromLocalStorage) {
+        store.commit('SET_TOKEN', tokenFromLocalStorage);
+    } else {
+        // Перенаправление на другой маршрут
+        router.push({ name: 'About' }); // Замените 'login' на путь, куда нужно перенаправить
+    }
+};
+
+export function getHeadersConfig() {
+    return {
+        headers: {
+            'Authorization': `Bearer ${store.state.token}`
+        }
+    }
 }

@@ -8,7 +8,7 @@
             @keyup.enter="sendMessage"
             class="input-token"
         />
-        <RouterLink to="/chat">Чат</RouterLink>
+        <RouterLink to="/">Чат</RouterLink>
     </div>
 </template>
 
@@ -33,9 +33,7 @@ import { mapState, mapActions } from 'vuex';
             ]),
             sendMessage() {
                 console.log(this.token);
-                const t = JSON.stringify(this.inputTextValue);
-                console.log(t);
-                this.SET_TOKEN(t);
+                localStorage.setItem('token', this.inputTextValue);
                 this.inputTextValue = '';
             }
         },

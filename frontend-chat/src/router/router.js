@@ -6,13 +6,15 @@ import ChatAreaMessages from '@/components/ChatAreaMessages.vue';
 
 const routes = [
     {
-        path: '/chat',
+        path: '/',
         component: ChatPage,
+        name: 'MainChatView'
         
     },
     {
-        path: '/chat/room',
+        path: '/room',
         component: ChatAreaMessages,
+        name: 'ActiveChatRoom'
     },
     // Mock routs
     {
@@ -20,8 +22,9 @@ const routes = [
         component: Main,
     },
     {
-        path: '/',
+        path: '/mock-login',
         component: About,
+        name: 'About',
     },
     {
         path: '/feed',

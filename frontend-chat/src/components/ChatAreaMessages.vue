@@ -21,12 +21,6 @@ import {mapState} from 'vuex';
                 'chatMessages',
                 'activeChatId'
         ])
-        }, 
-        data() {
-            return {
-                stompClient: null,
-                roomId: '64b8e1ce631df963c898ae4f',
-            }
         },
     }
 </script>

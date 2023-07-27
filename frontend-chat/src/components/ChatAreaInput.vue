@@ -37,8 +37,6 @@ export default {
     },
     methods: {
         ...mapActions([
-        'SAVE_MESSAGE_TO_DB',
-        'STORE_NEW_MESSAGE'
         ]),
         sendMessage() {
             let trimedInput = this.inputTextValue.trim();
