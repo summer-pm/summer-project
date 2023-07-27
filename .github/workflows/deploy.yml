@@ -3,9 +3,9 @@ name: Build
 on: workflow_dispatch
 
 
-jops: 
+jobs: 
   deploy:
-     runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
       steps:
         - name: Deploy
           uses: appleboy/ssh-action@v1.0.0
